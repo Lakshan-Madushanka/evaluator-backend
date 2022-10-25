@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\Question;
 use App\Models\Questionnaire;
 use Exception;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Database\QueryException;
@@ -38,6 +39,8 @@ class AppServiceProvider extends ServiceProvider
         if ($this->app->environment('local')) {
             $this->registerTelescope();
             $this->handleExceedingCumulativeQueryDuration();
+
+            Model::shouldBeStrict();
         }
     }
 
