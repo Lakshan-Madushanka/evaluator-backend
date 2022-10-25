@@ -10,6 +10,7 @@
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
+        "timacdonald/json-api": "^0.2.1",
         "vinkla/hashids": "^10.0"
     },
     "require-dev": {
@@ -26,7 +27,8 @@
         "phpunit/phpunit": "^9.5.10",
         "roave/security-advisories": "dev-latest",
         "spatie/laravel-ignition": "^1.0",
-        "spatie/laravel-web-tinker": "^1.8"
+        "spatie/laravel-web-tinker": "^1.8",
+        "worksome/request-factories": "^2.5"
     },
     "autoload": {
         "psr-4": {
