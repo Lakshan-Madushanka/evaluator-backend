@@ -7,6 +7,10 @@ use function Pest\Laravel\assertDatabaseCount;
 use function Pest\Laravel\postJson;
 use Tests\RequestFactories\UserRequest;
 
+beforeEach(function () {
+    $this->seeder = \Database\Seeders\UserSeeder::class;
+});
+
 it('return 401 unauthorized response for non-login users', function () {
     $response = postJson(route('api.v1.super-admin.users.store'));
     $response->assertUnauthorized();

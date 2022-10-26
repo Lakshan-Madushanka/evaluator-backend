@@ -2,6 +2,7 @@
 
 use App\Enums\Role;
 use App\Models\User;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Sanctum\Sanctum;
 
@@ -28,7 +29,7 @@ test('super-admin gate throws 404 response for unauthorized access', function ()
     Sanctum::actingAs(User::whereRole(Role::REGULAR)->first());
     try {
         $exception = Gate::authorize('super-admin');
-    } catch (\Illuminate\Auth\Access\AuthorizationException $exception) {
+    } catch (AuthorizationException $exception) {
         expect($exception->status())->toBe(404);
     }
 
@@ -36,7 +37,7 @@ test('super-admin gate throws 404 response for unauthorized access', function ()
     Sanctum::actingAs(User::whereRole(Role::ADMIN)->first());
     try {
         $exception = Gate::authorize('super-admin');
-    } catch (\Illuminate\Auth\Access\AuthorizationException $exception) {
+    } catch (AuthorizationException $exception) {
         expect($exception->status())->toBe(404);
     }
 });
@@ -64,7 +65,7 @@ test('admin gate throws 404 response for unauthorized access', function () {
     Sanctum::actingAs(User::whereRole(Role::REGULAR)->first());
     try {
         $exception = Gate::authorize('admin');
-    } catch (\Illuminate\Auth\Access\AuthorizationException $exception) {
+    } catch (AuthorizationException $exception) {
         expect($exception->status())->toBe(404);
     }
 
@@ -72,7 +73,7 @@ test('admin gate throws 404 response for unauthorized access', function () {
     Sanctum::actingAs(User::whereRole(Role::SUPER_ADMIN)->first());
     try {
         $exception = Gate::authorize('super-admin');
-    } catch (\Illuminate\Auth\Access\AuthorizationException $exception) {
+    } catch (AuthorizationException $exception) {
         expect($exception->status())->toBe(404);
     }
 });
@@ -98,7 +99,7 @@ test('administrative gate throws 404 response for unauthorized access', function
     Sanctum::actingAs(User::whereRole(Role::REGULAR)->first());
     try {
         $exception = Gate::authorize('administrative');
-    } catch (\Illuminate\Auth\Access\AuthorizationException $exception) {
+    } catch (AuthorizationException $exception) {
         expect($exception->status())->toBe(404);
     }
 });

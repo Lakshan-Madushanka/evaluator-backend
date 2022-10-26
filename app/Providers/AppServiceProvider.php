@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Question;
 use App\Models\Questionnaire;
+use App\Models\User;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -14,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
 use TiMacDonald\JsonApi\JsonApiResource;
+use Vinkla\Hashids\Facades\Hashids;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -36,7 +38,8 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->customizePolymorphicTypes();
         $this->setupPasswordRules();
-        $this->customizesonApiId();
+        $this->customizeJsonApiId();
+        $this->implicitRouteModelBinding();
     }
 
     public function registerLocally(): void
@@ -66,7 +69,7 @@ class AppServiceProvider extends ServiceProvider
                 throw new QueryException(
                     $event->sql,
                     $event->bindings,
-                    new Exception('Individual database query exceeded 100ms.')
+                    new Exception('Individual database query exceeded 500ms.')
                 );
             }
         });
@@ -96,10 +99,19 @@ class AppServiceProvider extends ServiceProvider
         });
     }
 
-    public function customizesonApiId(): void
+    public function customizeJsonApiId(): void
     {
         JsonApiResource::resolveIdUsing(function (mixed $resource, Request $request): string {
             return $resource->hash_id;
+        });
+    }
+
+    public function implicitRouteModelBinding(): void
+    {
+        \Route::bind('user', function ($value) {
+            $id = Hashids::decode($value)[0] ?? PHP_INT_MIN;
+
+            return User::findOrFail($id);
         });
     }
 }

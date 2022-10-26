@@ -10,6 +10,8 @@
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
+        "spatie/laravel-json-api-paginate": "^1.12",
+        "spatie/laravel-query-builder": "^5.0",
         "timacdonald/json-api": "^0.2.1",
         "vinkla/hashids": "^10.0"
     },
