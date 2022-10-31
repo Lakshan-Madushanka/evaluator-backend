@@ -2,15 +2,14 @@
 
 namespace App\Http\Requests\User;
 
-use App\Enums\Role;
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
 /**
- * @property string|int $role
+ * @property User $user
  */
-class UserStoreRequest extends FormRequest
+class UserUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,18 +23,17 @@ class UserStoreRequest extends FormRequest
 
     /**
      * Get the validation rules that apply to the request.
+     *
      * @return array<string, mixed>
      */
-    public function rules(): array
+    public function rules()
     {
         $rules = UserRequestValidationRules::getRules();
-        $rules['email'][] = Rule::unique('users', 'email'); // @phpstan-ignore-line
+
+        $rules['password'][] = 'sometimes'; // @phpstan-ignore-line
+        $rules['email'][] = Rule::unique('users', 'email') // @phpstan-ignore-line
+            ->ignore($this->user->id);
 
         return $rules;
-    }
-
-    protected function prepareForValidation(): void
-    {
-        UserRequestValidationRules::prepareData($this);
     }
 }

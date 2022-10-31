@@ -67,7 +67,7 @@
             "./vendor/bin/phpstan analyse"
         ],
         "pest": [
-          "./vendor/bin/pest"
+          "./vendor/bin/pest --stop-on-failure"
         ]
     },
     "extra": {

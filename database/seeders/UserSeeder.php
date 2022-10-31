@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Enums\Role;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
@@ -28,7 +29,7 @@ class UserSeeder extends Seeder
         User::whereEmail($adminEmail)->existsOr(function () {
             User::factory()->create([
                 'role' => Role::ADMIN,
-                'password' => 'admin123',
+                'password' => Hash::make('admin123'),
                 'email' => 'admin@company.com',
             ]);
         });
@@ -41,7 +42,7 @@ class UserSeeder extends Seeder
         User::whereEmail($superAdminEmail)->existsOr(function () {
             User::factory()->create([
                 'role' => Role::SUPER_ADMIN,
-                'password' => 'superAdmin123',
+                'password' => Hash::make('superAdmin123'),
                 'email' => 'super-admin@company.com',
             ]);
         });

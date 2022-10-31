@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1\Administrative;
+namespace App\Http\Controllers\Api\V1\Administrative\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 use TiMacDonald\JsonApi\JsonApiResourceCollection;
@@ -16,8 +15,7 @@ class IndexUserController extends Controller
     /**
      * Handle the incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     *
+     * @param  Request  $request
      * @return JsonApiResourceCollection
      */
     public function __invoke(Request $request): JsonApiResourceCollection
