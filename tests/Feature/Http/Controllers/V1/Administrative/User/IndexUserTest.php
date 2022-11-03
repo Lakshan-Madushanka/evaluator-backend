@@ -79,8 +79,6 @@ test('can sort user records by id', function () {
 
     config(['json-api-paginate.max_results' => PHP_INT_MAX]);
 
-    //dd(config('json-api-paginate.max_results'));
-
     $query = http_build_query([
         'sort' => 'created_at',
         'page' => ['size' => PHP_INT_MAX],

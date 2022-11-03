@@ -2,6 +2,7 @@
 
 use App\Enums\Role;
 use App\Models\User;
+use Illuminate\Queue\Middleware\ThrottlesExceptions;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Illuminate\Testing\TestResponse;
 use Laravel\Sanctum\Sanctum;
@@ -137,6 +138,27 @@ it('can show login user info', function () {
         ->where('data.attributes.email', $user->email)
         ->etc()
     );
+})->group('administrative/users/login');
+
+it('can throttle failed login attempts', function () {
+    $payload = [
+        'email' => Str::random().'@mail.com',
+        'password' => Str::random(),
+    ];
+
+    $i = 1;
+    while ($i !== 6) {
+        sendLoginRequest($payload);
+        $i++;
+    }
+
+    // sending 6th response which receive throttle exception
+    try {
+        $response = sendLoginRequest($payload);
+    } catch (Exception $exception) {
+        expect($exception)->toBeInstanceOf(ThrottlesExceptions::class);
+    }
+    $response->assertStatus(\Symfony\Component\HttpFoundation\Response::HTTP_TOO_MANY_REQUESTS);
 })->group('administrative/users/login');
 
 function sendLoginRequest(array $data): TestResponse

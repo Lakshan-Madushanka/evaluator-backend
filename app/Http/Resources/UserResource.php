@@ -13,7 +13,6 @@ class UserResource extends JsonApiResource
 {
     /**
      * @param  Request  $request
-     *
      * @return array|mixed[]
      */
     public function toAttributes(Request $request): array

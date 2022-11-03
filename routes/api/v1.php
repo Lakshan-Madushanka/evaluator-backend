@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\V1\Administrative\Auth\LogInController;
 use App\Http\Controllers\Api\V1\Administrative\Auth\LogOutController;
 use App\Http\Controllers\Api\V1\Administrative\Auth\ShowAuthUserController;
+use App\Http\Controllers\Api\V1\Administrative\Profile\UpdateProfileController;
 use App\Http\Controllers\Api\V1\Administrative\User\IndexUserController;
 use App\Http\Controllers\Api\V1\Administrative\User\ShowUserController;
 use App\Http\Controllers\Api\V1\SuperAdmin\User\CreateUserController;
@@ -10,7 +11,6 @@ use App\Http\Controllers\Api\V1\SuperAdmin\User\DeleteUserController;
 use App\Http\Controllers\Api\V1\SuperAdmin\User\MassDeleteUserController;
 use App\Http\Controllers\Api\V1\SuperAdmin\User\UpdateUserController;
 use App\Http\Requests\User\UserRequestValidationRules;
-use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Validation\Rule;
@@ -52,13 +52,17 @@ Route::prefix('super-admin')->name('super-admin.')->group(function () {
 });
 
 Route::prefix('administrative')->name('administrative.')->group(function () {
-    Route::middleware(['guest'])
+    Route::middleware(['guest', 'throttle:5,1'])
         ->post('/login', LogInController::class)
         ->name('login');
 
-    Route::middleware('auth:sanctum')
+    Route::middleware(['auth:sanctum'])
         ->get('/user', ShowAuthUserController::class)
         ->name('user');
+
+    Route::middleware(['auth:sanctum', 'can:administrative'])
+        ->put('/profile/{user}', UpdateProfileController::class)
+        ->name('profile');
 
     Route::middleware(['auth:sanctum'])
         ->post('/logout', LogOutController::class)

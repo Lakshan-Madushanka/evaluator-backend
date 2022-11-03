@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api\V1\SuperAdmin\User;
 use App\Actions\User\UpdateUserAction;
 use App\Enums\Role;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\User\UserStoreRequest;
 use App\Http\Requests\User\UserUpdateRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
@@ -18,7 +17,6 @@ class UpdateUserController extends Controller
      *
      * @param  UserUpdateRequest  $request
      * @param  User  $user
-     *
      * @return UserResource
      *
      * @throws \Throwable
@@ -30,7 +28,7 @@ class UpdateUserController extends Controller
             new  AuthorizationException('Super admin cannot be updated here, Please use profile section !')
         );
 
-        UpdateUserAction::execute($request, $user);
+        UpdateUserAction::execute((array) $request->validated(), $user);
 
         return new UserResource($user);
     }

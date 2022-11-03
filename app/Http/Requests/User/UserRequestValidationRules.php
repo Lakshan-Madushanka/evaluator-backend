@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
-use JetBrains\PhpStorm\ArrayShape;
 
 class UserRequestValidationRules
 {

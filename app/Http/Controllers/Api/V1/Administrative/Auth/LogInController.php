@@ -51,7 +51,7 @@ class LogInController extends Controller
     /**
      * @throws ValidationException
      */
-    public function errorResponse():never
+    public function errorResponse(): never
     {
         throw ValidationException::withMessages([
             'email' => 'The provided credentials do not match our records.',
