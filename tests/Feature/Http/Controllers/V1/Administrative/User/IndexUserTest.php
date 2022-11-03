@@ -97,3 +97,87 @@ test('can sort user records by id', function () {
 
     expect($resultsCreatedAtTimestamps->toArray() === $sortedTimeStamps)->toBeTrue();
 })->group('administrative/users/index');
+
+test('can filter user by exact name', function () {
+    Sanctum::actingAs(UserRepository::getRandomUser(Role::SUPER_ADMIN));
+
+    config(['json-api-paginate.max_results' => PHP_INT_MAX]);
+
+    $userName = UserRepository::getRandomUser()->name;
+
+    $query = http_build_query([
+        'filter' => ['name' => $userName],
+        'page' => ['size' => PHP_INT_MAX],
+    ]);
+
+    $response = \Pest\Laravel\json('GET', $this->route.'?'.$query);
+    $response->assertOk();
+
+    $results = $response->decodeResponseJson()['data'];
+    collect($results)->each(fn (array $user) => expect($user['attributes']['name'])->toBe($userName));
+})->group('administrative/users/index');
+
+test('can filter user by partial name', function () {
+    Sanctum::actingAs(UserRepository::getRandomUser(Role::SUPER_ADMIN));
+
+    config(['json-api-paginate.max_results' => PHP_INT_MAX]);
+
+    $userName = 'test user';
+
+    \App\Models\User::factory()->create(['name' => $userName]);
+
+    $query = http_build_query([
+        'filter' => ['name' => 'use'],
+        'page' => ['size' => PHP_INT_MAX],
+    ]);
+
+    $response = \Pest\Laravel\json('GET', $this->route.'?'.$query);
+    $response->assertOk();
+
+    $results = $response->decodeResponseJson()['data'];
+
+    collect($results)->each(fn (array $user) => expect(\Illuminate\Support\Str::contains($user['attributes']['name'], 'use'))->toBeTrue());
+})->group('administrative/users/index');
+
+test('can filter user by exact email', function () {
+    Sanctum::actingAs(UserRepository::getRandomUser(Role::SUPER_ADMIN));
+
+    config(['json-api-paginate.max_results' => PHP_INT_MAX]);
+
+    $email = UserRepository::getRandomUser()->email;
+
+    $query = http_build_query([
+        'filter' => ['email' => $email],
+        'page' => ['size' => PHP_INT_MAX],
+    ]);
+
+    $response = \Pest\Laravel\json('GET', $this->route.'?'.$query);
+    $response->assertOk();
+
+    $results = $response->decodeResponseJson()['data'];
+    collect($results)->each(fn (array $user) => expect($user['attributes']['email'])->toBe($email));
+})->group('administrative/users/index');
+
+test('can filter user by partial email', function () {
+    Sanctum::actingAs(UserRepository::getRandomUser(Role::SUPER_ADMIN));
+
+    config(['json-api-paginate.max_results' => PHP_INT_MAX]);
+
+    $email = Str::random().'@mail.com';
+
+    \App\Models\User::factory()->create(['email' => $email]);
+
+    $partialEmail = \Illuminate\Support\Str::substr($email, 2, 8);
+
+    $query = http_build_query([
+        'filter' => ['email' => $partialEmail],
+        'page' => ['size' => PHP_INT_MAX],
+    ]);
+
+    $response = \Pest\Laravel\json('GET', $this->route.'?'.$query);
+    $response->assertOk();
+
+    $results = $response->decodeResponseJson()['data'];
+
+    collect($results)->each(fn (array $user) => expect(\Illuminate\Support\Str::contains($user['attributes']['email'], $partialEmail))->toBeTrue());
+})->group('administrative/users/index');

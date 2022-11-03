@@ -22,7 +22,7 @@ class IndexUserController extends Controller
     {
         $users = QueryBuilder::for(User::class)
             ->select(['id', 'email', 'name', 'role', 'created_at'])
-            ->allowedFilters(AllowedFilter::exact('role'))
+            ->allowedFilters(['name', 'email', AllowedFilter::exact('role')])
             ->defaultSort('-id')
             ->allowedSorts('created_at', 'role')
             ->jsonPaginate();

@@ -170,7 +170,6 @@ function sendLoginRequest(array $data): TestResponse
             'withCredentials' => true,
             'accept' => 'application/json',
             'origin' => 'mcq.io',
-
         ]
     );
 }
