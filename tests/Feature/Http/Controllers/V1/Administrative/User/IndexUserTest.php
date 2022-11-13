@@ -57,11 +57,11 @@ test('can paginate user records', function () {
     $response->assertJsonPath('meta.per_page', 1);
 })->group('administrative/users/index');
 
-test('can filter user records by role', function () {
+test('can filter user records by role name', function () {
     Sanctum::actingAs(UserRepository::getRandomUser(Role::SUPER_ADMIN));
 
     $query = http_build_query([
-        'filter' => ['role' => Role::SUPER_ADMIN->value],
+        'filter' => ['role' => Role::SUPER_ADMIN->name],
     ]);
 
     $response = \Pest\Laravel\json('GET', $this->route.'?'.$query);
