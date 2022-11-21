@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Category;
 use App\Models\Question;
 use App\Models\Questionnaire;
 use App\Models\User;
@@ -112,6 +113,12 @@ class AppServiceProvider extends ServiceProvider
             $id = Hashids::decode($value)[0] ?? PHP_INT_MIN;
 
             return User::findOrFail($id);
+        });
+
+        \Route::bind('category', function ($value) {
+            $id = Hashids::decode($value)[0] ?? PHP_INT_MIN;
+
+            return Category::findOrFail($id);
         });
     }
 }

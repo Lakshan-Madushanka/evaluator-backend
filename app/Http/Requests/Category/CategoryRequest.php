@@ -1,15 +1,11 @@
 <?php
 
-namespace App\Http\Requests\User;
+namespace App\Http\Requests\Category;
 
-use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-/**
- * @property User $user
- */
-class UserUpdateRequest extends FormRequest
+class CategoryRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,11 +24,8 @@ class UserUpdateRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = UserRequestValidationRules::getRules();
-
-        $rules['password'][] = 'sometimes'; // @phpstan-ignore-line
-        $rules['email'][] = Rule::unique('users', 'email')->ignore($this->user->id); // @phpstan-ignore-line
-
-        return $rules;
+        return [
+            'name' => ['string', 'required', 'max:50', Rule::unique('categories', 'name')],
+        ];
     }
 }

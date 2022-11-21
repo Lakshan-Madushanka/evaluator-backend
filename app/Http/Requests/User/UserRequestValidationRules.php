@@ -58,7 +58,6 @@ class UserRequestValidationRules
             $request->merge([
                 'password' => $password,
                 'password_confirmation' => $password,
-
             ]);
         }
     }

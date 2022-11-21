@@ -25,7 +25,10 @@ return new class extends Migration
 
             $table->timestamps();
 
-            $table->foreign('questionnaire_id')->on('questionnaires')->references('id');
+            $table->foreign('questionnaire_id')
+                ->on('questionnaires')
+                ->references('id')
+                ->cascadeOnDelete();
         });
     }
 

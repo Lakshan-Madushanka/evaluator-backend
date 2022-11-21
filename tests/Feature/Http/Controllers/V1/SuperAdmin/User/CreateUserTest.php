@@ -113,7 +113,6 @@ test('password confirmation should match to create an admin user', function () {
     'role' => Role::ADMIN->value,
     'password' => '1234567',
     'password_confirmation' => '0000000',
-
 ]));
 
 it('can create a regular user without a password', function () {

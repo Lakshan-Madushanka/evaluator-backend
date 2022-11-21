@@ -19,7 +19,10 @@ return new class extends Migration
             $table->unsignedSmallInteger('questionnaire_id');
             $table->foreignId('question_id')->constrained()->cascadeOnDelete();
 
-            $table->foreign('questionnaire_id')->on('questionnaires')->references('id');
+            $table->foreign('questionnaire_id')
+                ->on('questionnaires')
+                ->references('id')
+                ->cascadeOnDelete();
         });
     }
 

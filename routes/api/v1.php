@@ -3,6 +3,11 @@
 use App\Http\Controllers\Api\V1\Administrative\Auth\LogInController;
 use App\Http\Controllers\Api\V1\Administrative\Auth\LogOutController;
 use App\Http\Controllers\Api\V1\Administrative\Auth\ShowAuthUserController;
+use App\Http\Controllers\Api\V1\Administrative\Category\CreateCategoryController;
+use App\Http\Controllers\Api\V1\Administrative\Category\DeleteCategoryController;
+use App\Http\Controllers\Api\V1\Administrative\Category\IndexCategoryController;
+use App\Http\Controllers\Api\V1\Administrative\Category\ShowCategoryController;
+use App\Http\Controllers\Api\V1\Administrative\Category\UpdateCategoryController;
 use App\Http\Controllers\Api\V1\Administrative\Profile\UpdateProfileController;
 use App\Http\Controllers\Api\V1\Administrative\User\IndexUserController;
 use App\Http\Controllers\Api\V1\Administrative\User\ShowUserController;
@@ -52,27 +57,43 @@ Route::prefix('super-admin')->name('super-admin.')->group(function () {
 });
 
 Route::prefix('administrative')->name('administrative.')->group(function () {
+    /*
+     * Authentication
+     */
     Route::middleware(['guest', 'throttle:5,1'])
         ->post('/login', LogInController::class)
         ->name('login');
-
     Route::middleware(['auth:sanctum'])
         ->get('/user', ShowAuthUserController::class)
         ->name('user');
-
     Route::middleware(['auth:sanctum', 'can:administrative'])
         ->put('/profile/{user}', UpdateProfileController::class)
         ->name('profile');
-
     Route::middleware(['auth:sanctum'])
         ->post('/logout', LogOutController::class)
         ->name('logout');
 
+    /*
+     *Users
+     */
     Route::middleware(['auth:sanctum', 'can:administrative'])
         ->get('/users', IndexUserController::class)
         ->name('users.index');
-
     Route::middleware(['auth:sanctum', 'can:administrative'])
         ->get('/users/{user}', ShowUserController::class)
         ->name('users.show');
+
+    /*
+     *Categories
+     */
+    Route::middleware(['auth:sanctum', 'can:administrative'])
+        ->name('categories.')
+        ->prefix('categories')
+        ->group(function () {
+            Route::get('/', IndexCategoryController::class)->name('index');
+            Route::get('/{category}', ShowCategoryController::class)->name('show');
+            Route::post('/create', CreateCategoryController::class)->name('create');
+            Route::put('/{category}', UpdateCategoryController::class)->name('update');
+            Route::middleware(['can:super-admin'])->delete('/{category}', DeleteCategoryController::class)->name('delete');
+        });
 });
