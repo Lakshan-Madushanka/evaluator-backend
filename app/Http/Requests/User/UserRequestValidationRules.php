@@ -3,12 +3,13 @@
 namespace App\Http\Requests\User;
 
 use App\Enums\Role;
+use App\Http\Requests\Contracts\RequestValidationRulesContract;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 
-class UserRequestValidationRules
+class UserRequestValidationRules implements RequestValidationRulesContract
 {
     /**
      * @return array<string, mixed>

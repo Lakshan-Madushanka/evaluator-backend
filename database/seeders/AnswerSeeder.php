@@ -17,11 +17,12 @@ class AnswerSeeder extends Seeder
      */
     public function run()
     {
-        Question::all(['id'])
+        Question::all()
             ->each(function (Question $question) {
                 $answers = Answer::factory()
                     ->count($question->no_of_answers)
-                    ->make();
+                    ->make()
+                    ->toArray();
 
                 $question->answers()->createMany($answers);
             });

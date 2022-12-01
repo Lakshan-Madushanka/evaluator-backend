@@ -7,7 +7,7 @@ use App\Http\Requests\Category\CategoryRequest;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 
-class CreateCategoryController extends Controller
+class StoreCategoryController extends Controller
 {
     public function __invoke(CategoryRequest $request): CategoryResource
     {

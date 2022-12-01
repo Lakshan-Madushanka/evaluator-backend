@@ -15,6 +15,7 @@ class CategoryResource extends JsonApiResource
     {
         return [
             'name' => $this->name,
+            'created_at' => $this->created_at->toFormattedDayDateString(),
         ];
     }
 }

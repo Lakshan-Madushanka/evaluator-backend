@@ -3,22 +3,27 @@
 use App\Http\Controllers\Api\V1\Administrative\Auth\LogInController;
 use App\Http\Controllers\Api\V1\Administrative\Auth\LogOutController;
 use App\Http\Controllers\Api\V1\Administrative\Auth\ShowAuthUserController;
-use App\Http\Controllers\Api\V1\Administrative\Category\CreateCategoryController;
 use App\Http\Controllers\Api\V1\Administrative\Category\DeleteCategoryController;
 use App\Http\Controllers\Api\V1\Administrative\Category\IndexCategoryController;
 use App\Http\Controllers\Api\V1\Administrative\Category\ShowCategoryController;
+use App\Http\Controllers\Api\V1\Administrative\Category\StoreCategoryController;
 use App\Http\Controllers\Api\V1\Administrative\Category\UpdateCategoryController;
 use App\Http\Controllers\Api\V1\Administrative\Profile\UpdateProfileController;
+use App\Http\Controllers\Api\V1\Administrative\Question\DeleteQuestionController;
+use App\Http\Controllers\Api\V1\Administrative\Question\IndexQuestionController;
+use App\Http\Controllers\Api\V1\Administrative\Question\MassDeleteQuestionController;
+use App\Http\Controllers\Api\V1\Administrative\Question\ShowQuestionController;
+use App\Http\Controllers\Api\V1\Administrative\Question\StoreQuestionController;
+use App\Http\Controllers\Api\V1\Administrative\Question\UpdateQuestionController;
 use App\Http\Controllers\Api\V1\Administrative\User\IndexUserController;
 use App\Http\Controllers\Api\V1\Administrative\User\ShowUserController;
+use App\Http\Controllers\Api\V1\FileUploadController;
 use App\Http\Controllers\Api\V1\SuperAdmin\User\CreateUserController;
 use App\Http\Controllers\Api\V1\SuperAdmin\User\DeleteUserController;
 use App\Http\Controllers\Api\V1\SuperAdmin\User\MassDeleteUserController;
 use App\Http\Controllers\Api\V1\SuperAdmin\User\UpdateUserController;
-use App\Http\Requests\User\UserRequestValidationRules;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Validation\Rule;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,13 +37,12 @@ use Illuminate\Validation\Rule;
 */
 //\Illuminate\Support\Facades\Auth::loginUsingId(2);
 Route::get('/test', function (Request $request) {
-    $rules = UserRequestValidationRules::getRules();
-    $rules['email'][] = Rule::unique('users', 'email');
-
-    dd($rules);
 });
 
 Route::prefix('super-admin')->name('super-admin.')->group(function () {
+    /**
+     * Users
+     */
     Route::middleware(['auth:sanctum', 'can:super-admin'])
         ->post('/users', CreateUserController::class)
         ->name('users.store');
@@ -92,8 +96,40 @@ Route::prefix('administrative')->name('administrative.')->group(function () {
         ->group(function () {
             Route::get('/', IndexCategoryController::class)->name('index');
             Route::get('/{category}', ShowCategoryController::class)->name('show');
-            Route::post('/create', CreateCategoryController::class)->name('create');
+            Route::post('/', StoreCategoryController::class)->name('store');
             Route::put('/{category}', UpdateCategoryController::class)->name('update');
-            Route::middleware(['can:super-admin'])->delete('/{category}', DeleteCategoryController::class)->name('delete');
+            Route::middleware(['can:super-admin'])->delete('/{category}',
+                DeleteCategoryController::class)->name('delete');
         });
+
+    /*
+    *Questions
+    */
+
+    Route::middleware(['auth:sanctum', 'can:administrative'])
+        ->name('questions.')
+        ->prefix('questions')
+        ->group(function () {
+            Route::get('/', IndexQuestionController::class)->name('index');
+            Route::get('/{question}', ShowQuestionController::class)->name('show');
+            Route::middleware(['xss-protect'])->post('/', StoreQuestionController::class)->name('store');
+            Route::middleware(['xss-protect'])->put('/{question}', UpdateQuestionController::class)->name('update');
+            Route::delete('/{question}', DeleteQuestionController::class)->name('delete');
+            Route::post('/mass-delete', MassDeleteQuestionController::class)->name('mass-delete');
+        });
+});
+
+/*
+ * File Uploads
+ */
+
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('uploads/{type}/{modelId}', [FileUploadController::class, 'index'])
+        ->name('uploads.index');
+    Route::post('uploads/{type}/{id}', [FileUploadController::class, 'store'])
+        ->name('uploads.store');
+    Route::post('uploads-change-order/{type}', [FileUploadController::class, 'changeOrder'])
+        ->name('uploads.changeOrder');
+    Route::post('uploads-mass-delete/{type}', [FileUploadController::class, 'massDelete'])
+        ->name('uploads.massDelete');
 });

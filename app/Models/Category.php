@@ -43,6 +43,10 @@ class Category extends Model
         'name',
     ];
 
+    protected $hidden = [
+        'pivot',
+    ];
+
     //--------------------------Relationships----------------------------
 
     /**

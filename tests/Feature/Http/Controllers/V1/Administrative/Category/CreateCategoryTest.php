@@ -10,7 +10,7 @@ use Tests\Repositories\UserRepository;
 use Tests\RequestFactories\CategoryRequest;
 
 beforeEach(function () {
-    $this->route = route('api.v1.administrative.categories.create');
+    $this->route = route('api.v1.administrative.categories.store');
 });
 
 it('return 401 unauthorized response for non-login users', function () {

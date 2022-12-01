@@ -74,7 +74,7 @@ test('can filter user records by role name', function () {
     });
 })->group('administrative/users/index');
 
-test('can sort user records by created data', function () {
+test('can sort user records by created at column', function () {
     Sanctum::actingAs(UserRepository::getRandomUser(Role::SUPER_ADMIN));
 
     config(['json-api-paginate.max_results' => PHP_INT_MAX]);

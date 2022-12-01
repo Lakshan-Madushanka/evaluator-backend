@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
 
             $table->tinyInteger('difficulty')->index();
-            $table->text('text');
+            $table->text('text')->fulltext();
             $table->tinyInteger('no_of_answers');
 
             $table->timestamps();
