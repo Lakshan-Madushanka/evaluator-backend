@@ -1,5 +1,11 @@
 <?php
 
+use App\Http\Controllers\Api\V1\Administrative\Answer\DeleteAnswerController;
+use App\Http\Controllers\Api\V1\Administrative\Answer\IndexAnswerController;
+use App\Http\Controllers\Api\V1\Administrative\Answer\MassDeleteAnswerController;
+use App\Http\Controllers\Api\V1\Administrative\Answer\ShowAnswerController;
+use App\Http\Controllers\Api\V1\Administrative\Answer\StoreAnswerController;
+use App\Http\Controllers\Api\V1\Administrative\Answer\UpdateAnswerController;
 use App\Http\Controllers\Api\V1\Administrative\Auth\LogInController;
 use App\Http\Controllers\Api\V1\Administrative\Auth\LogOutController;
 use App\Http\Controllers\Api\V1\Administrative\Auth\ShowAuthUserController;
@@ -116,6 +122,21 @@ Route::prefix('administrative')->name('administrative.')->group(function () {
             Route::middleware(['xss-protect'])->put('/{question}', UpdateQuestionController::class)->name('update');
             Route::delete('/{question}', DeleteQuestionController::class)->name('delete');
             Route::post('/mass-delete', MassDeleteQuestionController::class)->name('mass-delete');
+        });
+
+    /**
+     * Answers
+     */
+    Route::middleware(['auth:sanctum', 'can:administrative'])
+        ->name('answers.')
+        ->prefix('answers')
+        ->group(function () {
+            Route::get('/', IndexAnswerController::class)->name('index');
+            Route::get('/{answer}', ShowAnswerController::class)->name('show');
+            Route::middleware(['xss-protect'])->post('/', StoreAnswerController::class)->name('store');
+            Route::middleware(['xss-protect'])->put('/{answer}', UpdateAnswerController::class)->name('update');
+            Route::delete('/{answer}', DeleteAnswerController::class)->name('delete');
+            Route::post('/mass-delete', MassDeleteAnswerController::class)->name('mass-delete');
         });
 });
 

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Answer;
 use App\Models\Category;
 use App\Models\Question;
 use App\Models\Questionnaire;
@@ -81,6 +82,7 @@ class AppServiceProvider extends ServiceProvider
         Relation::enforceMorphMap([
             1 => Questionnaire::class,
             2 => Question::class,
+            3 => Answer::class,
         ]);
     }
 
@@ -125,6 +127,12 @@ class AppServiceProvider extends ServiceProvider
             $id = Hashids::decode($value)[0] ?? PHP_INT_MIN;
 
             return Question::findOrFail($id);
+        });
+
+        \Route::bind('answer', function ($value) {
+            $id = Hashids::decode($value)[0] ?? PHP_INT_MIN;
+
+            return Answer::findOrFail($id);
         });
     }
 }

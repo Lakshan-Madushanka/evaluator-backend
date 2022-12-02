@@ -12,7 +12,7 @@ it('return 401 unauthorized response for non-login users', function () {
     $response->assertUnauthorized();
 })->group('api/v1/administrative/question/show');
 
-it('allows administrative users to retrieve all questions by hash id', function () {
+it('allows administrative users to retrieve a question by hash id', function () {
     Sanctum::actingAs(UserRepository::getRandomUser(Role::ADMIN));
 
     $questionHashId = \Tests\Repositories\QuestionRepository::getRandomQuestion()->hash_id;

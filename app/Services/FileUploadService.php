@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Services;
+namespace App\Services;
 
+use App\Models\Answer;
 use App\Models\Question;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -17,6 +18,7 @@ class FileUploadService
 {
     public const ALLOWED_END_PONTS = [
         'questions',
+        'answers',
     ];
 
     /**
@@ -39,6 +41,7 @@ class FileUploadService
     {
         switch ($type) {
             case 'questions':
+            case 'answers':
                 Gate::authorize('administrative');
         }
     }
@@ -52,6 +55,7 @@ class FileUploadService
     {
         switch ($type) {
             case 'questions':
+            case 'answers':
                 return $request->validate([
                     'images' => ['array', 'required'],
                     'images.*' => ['required', File::image()->max(5 * 1024)],
@@ -73,6 +77,7 @@ class FileUploadService
 
         switch ($modelName) {
             case 'Question':
+            case 'Answer':
                 return $this->multipleFileUpload($files, $model, $collecton);
         }
 
@@ -163,7 +168,8 @@ class FileUploadService
     public function getModelInstance(string $type, string $id): Model
     {
         return match ($type) {
-            'questions' => app(Question::class)::findOrFail(Hashids::decode($id)[0])
+            'questions' => app(Question::class)::findOrFail(Hashids::decode($id)[0]),
+            'answers' => app(Answer::class)::findOrFail(Hashids::decode($id)[0]),
         };
     }
 }

@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Models\Concerns\HasHashids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
  * App\Models\Answer
@@ -25,11 +29,25 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Answer whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class Answer extends Model
+class Answer extends Model implements HasMedia
 {
     use HasFactory;
+    use HasHashids;
+    use InteractsWithMedia;
 
     protected $fillable = [
         'text',
     ];
+
+    //--------------------------Relationships----------------------------
+
+    /**
+     * @return MorphMany<Answer>
+     */
+    public function images(): MorphMany
+    {
+        return $this->media()->orderBy('order_column');
+    }
+
+    //------------------------End Of Relationships----------------------------
 }
