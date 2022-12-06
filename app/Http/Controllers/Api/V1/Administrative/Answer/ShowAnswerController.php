@@ -14,10 +14,10 @@ class ShowAnswerController extends Controller
      * @param  Answer  $question
      * @return AnswerResource
      */
-    public function __invoke(Answer $question)
+    public function __invoke(Answer $answer)
     {
-        $question->load(['images']);
+        $answer->loadCount(['images']);
 
-        return new AnswerResource($question);
+        return new AnswerResource($answer);
     }
 }

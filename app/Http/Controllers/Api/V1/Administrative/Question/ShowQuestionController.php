@@ -17,7 +17,7 @@ class ShowQuestionController extends Controller
      */
     public function __invoke(Question $question)
     {
-        $question->load(['categories', 'images'])->loadCount('answers');
+        $question->load(['categories'])->loadCount(['answers', 'images']);
 
         return new QuestionResource($question);
     }

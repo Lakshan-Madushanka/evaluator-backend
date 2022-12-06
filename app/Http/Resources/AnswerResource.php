@@ -15,8 +15,8 @@ class AnswerResource extends JsonApiResource
     {
         $attributes = [
             'text' => $this->text,
-            'images' => $this->relationLoaded('categories') ?
-                MediaResource::collection($this->images) : null,
+            'created_at' => $this->created_at->toFormattedDayDateString(),
+            'images_count' => $this->images_count ?? 0,
         ];
 
         return $attributes;

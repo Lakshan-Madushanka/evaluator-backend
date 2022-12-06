@@ -14,7 +14,7 @@ class IndexAnswerController extends Controller
     public function __invoke(): \TiMacDonald\JsonApi\JsonApiResourceCollection
     {
         $answers = QueryBuilder::for(Answer::class)
-            ->with(['images'])
+            ->withCount(['images'])
             ->allowedFilters([
                 AllowedFilter::callback('text', function (Builder $query, $value) {
                     $query->whereFullText('text', $value);

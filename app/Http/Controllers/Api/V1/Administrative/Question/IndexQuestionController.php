@@ -3,21 +3,25 @@
 namespace App\Http\Controllers\Api\V1\Administrative\Question;
 
 use App\Enums\Difficulty;
+use App\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\QuestionResource;
 use App\Models\Question;
 use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
 use ReflectionEnumBackedCase;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
+use TiMacDonald\JsonApi\JsonApiResourceCollection;
 
 class IndexQuestionController extends Controller
 {
-    public function __invoke(): \TiMacDonald\JsonApi\JsonApiResourceCollection
+    public function __invoke(Request $request): JsonApiResourceCollection
     {
         $questions = QueryBuilder::for(Question::class)
-            ->with(['categories', 'images'])
-            ->withCount('answers')
+            //->with(['categories'])
+            ->withCount(['answers', 'images'])
+            ->allowedIncludes(['categories'])
             ->allowedFilters([
                 AllowedFilter::callback('content', function (Builder $query, $value) {
                     $query->whereFullText('text', $value);
@@ -28,6 +32,13 @@ class IndexQuestionController extends Controller
                         // This will return enum value by its name ex: SUPER_ADMIN return 1
                         (new ReflectionEnumBackedCase(Difficulty::class, $value))->getBackingValue()
                     );
+                }),
+                AllowedFilter::callback('completed', function (Builder $query, $value) {
+                    if (Helpers::checkValueIsTrue($value)) {
+                        $query->havingRaw('no_of_answers = answers_count');
+                    } else {
+                        $query->havingRaw('no_of_answers <> answers_count');
+                    }
                 }),
                 'categories.name',
             ])

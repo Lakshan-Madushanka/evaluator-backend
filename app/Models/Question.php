@@ -104,4 +104,28 @@ class Question extends Model implements HasMedia
     }
 
     //-------------------------End of Relationships----------------------------
+
+    //--------------------------------Query scopes-----------------------------
+
+    public function scopeCompleted(Builder $query): Builder
+    {
+        return $query->withCount('answers')
+            ->havingRaw('no_of_answers = answers_count');
+    }
+
+    //--------------------------------End of scopes-----------------------------
+
+    public function checkQuestionIsComplete(Question $question): bool
+    {
+        if (! $this->hasAttribute('answers_count')) {
+            $question->loadCount('answers');
+        }
+
+        return $question->no_of_answers === $question->answers_count;
+    }
+
+    public function hasAttribute(string $attribute): bool
+    {
+        return array_key_exists($attribute, $this->attributes);
+    }
 }

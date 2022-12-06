@@ -48,7 +48,7 @@ class AppServiceProvider extends ServiceProvider
     {
         if ($this->app->environment('local')) {
             $this->registerTelescope();
-            $this->handleExceedingCumulativeQueryDuration();
+            //$this->handleExceedingCumulativeQueryDuration();
 
             Model::shouldBeStrict();
         }

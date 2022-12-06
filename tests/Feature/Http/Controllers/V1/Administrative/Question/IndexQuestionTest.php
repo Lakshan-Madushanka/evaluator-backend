@@ -145,3 +145,60 @@ it('can filter all questions by its content', function () {
         ->each(fn (string $content) => expect(str_contains($content, 'test'))->toBeTrue());
 })->fakeRequest(CategoryRequest::class)
     ->group('api/v1/administrative/question/index');
+
+it('can filter all questions by its completeness', function (mixed $completeness) {
+    Sanctum::actingAs(UserRepository::getRandomUser(Role::ADMIN));
+
+    $text = \Illuminate\Support\Str::random().'test'.\Illuminate\Support\Str::random();
+
+    config(['json-api-paginate.max_results' => PHP_INT_MAX]);
+
+    $filteredDifficulty = Difficulty::EASY->name;
+
+    $query = '?'.http_build_query([
+        'filter' => ['completed' => $completeness],
+        'page' => ['size' => PHP_INT_MAX],
+    ]);
+
+    $response = getJson($this->route.$query);
+    $response->assertOk();
+
+    $data = $response->decodeResponseJson()['data'];
+
+    collect($data)->each(function (array $data) {
+        $question = Question::findOrFail(\Vinkla\Hashids\Facades\Hashids::decode($data['id'])[0]);
+
+        $question->loadCount('answers');
+
+        expect($question->no_of_answers)->toBe($question->answers_count);
+    });
+})->with([1, '1', true, 'on', 'yes'])
+    ->group('api/v1/administrative/question/index');
+
+it('can filter all questions by its incompleteness', function () {
+    Sanctum::actingAs(UserRepository::getRandomUser(Role::ADMIN));
+
+    $text = \Illuminate\Support\Str::random().'test'.\Illuminate\Support\Str::random();
+
+    config(['json-api-paginate.max_results' => PHP_INT_MAX]);
+
+    $filteredDifficulty = Difficulty::EASY->name;
+
+    $query = '?'.http_build_query([
+        'filter' => ['completed' => false],
+        'page' => ['size' => PHP_INT_MAX],
+    ]);
+
+    $response = getJson($this->route.$query);
+    $response->assertOk();
+
+    $data = $response->decodeResponseJson()['data'];
+
+    collect($data)->each(function (array $data) {
+        $question = Question::findOrFail(\Vinkla\Hashids\Facades\Hashids::decode($data['id'])[0]);
+
+        $question->loadCount('answers');
+
+        expect($question->no_of_answers !== $question->answers_count)->toBeTrue();
+    });
+})->group('api/v1/administrative/question/index');

@@ -35,4 +35,9 @@ class Helpers
 
         return $hashIds;
     }
+
+    public static function checkValueIsTrue(mixed $value): mixed
+    {
+        return filter_var($value, FILTER_VALIDATE_BOOLEAN);
+    }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\V1\Administrative\Answer\CheckAnswerExistsController;
 use App\Http\Controllers\Api\V1\Administrative\Answer\DeleteAnswerController;
 use App\Http\Controllers\Api\V1\Administrative\Answer\IndexAnswerController;
 use App\Http\Controllers\Api\V1\Administrative\Answer\MassDeleteAnswerController;
@@ -15,6 +16,7 @@ use App\Http\Controllers\Api\V1\Administrative\Category\ShowCategoryController;
 use App\Http\Controllers\Api\V1\Administrative\Category\StoreCategoryController;
 use App\Http\Controllers\Api\V1\Administrative\Category\UpdateCategoryController;
 use App\Http\Controllers\Api\V1\Administrative\Profile\UpdateProfileController;
+use App\Http\Controllers\Api\V1\Administrative\Question\Answer\AsyncAnswerController;
 use App\Http\Controllers\Api\V1\Administrative\Question\DeleteQuestionController;
 use App\Http\Controllers\Api\V1\Administrative\Question\IndexQuestionController;
 use App\Http\Controllers\Api\V1\Administrative\Question\MassDeleteQuestionController;
@@ -41,7 +43,8 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-//\Illuminate\Support\Facades\Auth::loginUsingId(2);
+
+//Illuminate\Support\Facades\Auth::loginUsingId(2);
 Route::get('/test', function (Request $request) {
 });
 
@@ -122,6 +125,11 @@ Route::prefix('administrative')->name('administrative.')->group(function () {
             Route::middleware(['xss-protect'])->put('/{question}', UpdateQuestionController::class)->name('update');
             Route::delete('/{question}', DeleteQuestionController::class)->name('delete');
             Route::post('/mass-delete', MassDeleteQuestionController::class)->name('mass-delete');
+
+            // Answers
+            Route::name('answers.index')->get('{question}/answers',
+                \App\Http\Controllers\Api\V1\Administrative\Question\Answer\IndexAnswerController::class);
+            Route::name('answers.async')->post('{question}/answers', AsyncAnswerController::class);
         });
 
     /**
@@ -131,6 +139,7 @@ Route::prefix('administrative')->name('administrative.')->group(function () {
         ->name('answers.')
         ->prefix('answers')
         ->group(function () {
+            Route::get('/{id}/exists', CheckAnswerExistsController::class)->name('checkExists');
             Route::get('/', IndexAnswerController::class)->name('index');
             Route::get('/{answer}', ShowAnswerController::class)->name('show');
             Route::middleware(['xss-protect'])->post('/', StoreAnswerController::class)->name('store');

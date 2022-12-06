@@ -18,11 +18,11 @@ class QuestionResource extends JsonApiResource
             'content' => $this->text,
             'created_at' => $this->created_at->toFormattedDayDateString(),
             'no_of_answers' => $this->no_of_answers,
+            'completed' => $this->no_of_answers === $this->whenCounted('answers'),
             'no_of_assigned_answers' => $this->whenCounted('answers'),
-            'categories' => $this->relationLoaded('categories') ?
-                BasicCategoryResource::collection($this->categories) : null,
-            'images' => $this->relationLoaded('categories') ?
-                MediaResource::collection($this->images) : null,
+            'images_count' => $this->whenCounted('images'),
+            /*'categories' => $this->relationLoaded('categories') ?
+                BasicCategoryResource::collection($this->categories) : null,*/
         ];
 
         return $attributes;
@@ -30,6 +30,8 @@ class QuestionResource extends JsonApiResource
 
     protected function toRelationships(Request $request): array
     {
-        return [];
+        return [
+            'categories' => fn () => CategoryResource::collection($this->categories),
+        ];
     }
 }
