@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Models\Concerns\HasHashids;
+use App\Services\PrettyIdGenerator;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
@@ -28,6 +29,14 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @method static \Illuminate\Database\Eloquent\Builder|Answer whereText($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Answer whereUpdatedAt($value)
  * @mixin \Eloquent
+ *
+ * @property string $pretty_id
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $images
+ * @property-read int|null $images_count
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
+ * @property-read int|null $media_count
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder|Answer wherePrettyId($value)
  */
 class Answer extends Model implements HasMedia
 {
@@ -37,8 +46,17 @@ class Answer extends Model implements HasMedia
 
     protected $fillable = [
         'text',
+        'pretty_id',
     ];
 
+    public static function boot(): void
+    {
+        parent::boot();
+
+        static::creating(function (Answer $answer) {
+            $answer->pretty_id = PrettyIdGenerator::generate('answers', 'ans_', 12);
+        });
+    }
     //--------------------------Relationships----------------------------
 
     /**

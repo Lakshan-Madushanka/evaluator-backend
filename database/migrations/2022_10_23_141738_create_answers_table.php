@@ -16,6 +16,8 @@ return new class extends Migration
         Schema::create('answers', function (Blueprint $table) {
             $table->id();
 
+            $table->string('pretty_id', 25)->unique();
+
             $table->text('text')->fulltext();
 
             $table->timestamps();

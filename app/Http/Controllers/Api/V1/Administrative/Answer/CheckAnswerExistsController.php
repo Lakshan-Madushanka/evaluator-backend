@@ -7,7 +7,6 @@ use App\Http\Requests\User\UserStoreRequest;
 use App\Models\Answer;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Vinkla\Hashids\Facades\Hashids;
 
 class CheckAnswerExistsController extends Controller
 {
@@ -19,18 +18,11 @@ class CheckAnswerExistsController extends Controller
      */
     public function __invoke(string $id): JsonResponse
     {
-        $decodedModelId = Hashids::decode($id);
-        $modelId = $decodedModelId ?: null;
-
-        $question = null;
-
-        if (! is_null($modelId)) {
-            $question = Answer::find($modelId);
-        }
+        $answer = Answer::wherePrettyId($id)->first();
 
         return new JsonResponse(
             [
-                'exists' => ! is_null($question),
+                'exists' => ! is_null($answer),
             ],
             status: Response::HTTP_OK);
     }

@@ -19,7 +19,7 @@ it('return true if answer is exists', function () {
     $answer = AnswerRepository::getRandomAnswer();
 
     $response = \Pest\Laravel\getJson(route('api.v1.administrative.answers.checkExists', [
-        'id' => $answer->hash_id,
+        'id' => $answer->pretty_id,
     ]));
     $response->assertJsonPath('exists', true);
 })->fakeRequest(AnswerRequest::class)

@@ -14,6 +14,7 @@ class AnswerResource extends JsonApiResource
     public function toAttributes(Request $request): array
     {
         $attributes = [
+            'pretty_id' => $this->pretty_id,
             'text' => $this->text,
             'created_at' => $this->created_at->toFormattedDayDateString(),
             'images_count' => $this->images_count ?? 0,

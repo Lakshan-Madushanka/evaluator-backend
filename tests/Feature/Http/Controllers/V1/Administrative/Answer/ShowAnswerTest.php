@@ -21,7 +21,12 @@ it('allows administrative users to retrieve a answer by hash id', function () {
     $response->assertOk();
 
     $response->assertJson(fn (AssertableJson $json) => $json->hasAll('data.id', 'data.type', 'data.attributes')
-        ->hasAll('data.attributes.images_count', 'data.attributes.text')
+        ->hasAll(
+            'data.attributes.images_count',
+            'data.attributes.text',
+            'data.attributes.pretty_id',
+            'data.attributes.created_at'
+        )
         ->where('data.id', $answerHashId)
         ->etc()
     );

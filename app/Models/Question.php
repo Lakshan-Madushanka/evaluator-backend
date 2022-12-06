@@ -44,6 +44,13 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @method static Builder|Question whereText($value)
  * @method static Builder|Question whereUpdatedAt($value)
  * @mixin Eloquent
+ *
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $images
+ * @property-read int|null $images_count
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
+ * @property-read int|null $media_count
+ *
+ * @method static Builder|Question completed()
  */
 class Question extends Model implements HasMedia
 {
