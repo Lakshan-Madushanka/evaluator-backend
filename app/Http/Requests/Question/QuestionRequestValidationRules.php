@@ -4,6 +4,7 @@ namespace App\Http\Requests\Question;
 
 use App\Enums\Difficulty;
 use App\Http\Requests\Contracts\RequestValidationRulesContract;
+use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\Enum;
 
 class QuestionRequestValidationRules implements RequestValidationRulesContract
@@ -11,7 +12,7 @@ class QuestionRequestValidationRules implements RequestValidationRulesContract
     /**
      * @return array<string, mixed>
      */
-    public static function getRules(): array
+    public static function getRules(Request $request): array
     {
         return [
             'difficulty' => ['required', new Enum(Difficulty::class)],

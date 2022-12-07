@@ -24,7 +24,7 @@ class QuestionStoreRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = QuestionRequestValidationRules::getRules();
+        $rules = QuestionRequestValidationRules::getRules($this);
         $rules['text'][] = Rule::unique('questions');
 
         return $rules;

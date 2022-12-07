@@ -25,7 +25,7 @@ class QuestionUpdateRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = QuestionRequestValidationRules::getRules();
+        $rules = QuestionRequestValidationRules::getRules($this);
         $rules['text'][] = Rule::unique('questions')->ignore($this->question->id);
 
         $rules['deletable_image_id'][] = 'integer';

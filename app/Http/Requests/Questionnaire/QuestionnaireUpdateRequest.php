@@ -1,15 +1,12 @@
 <?php
 
-namespace App\Http\Requests\User;
+namespace App\Http\Requests\Questionnaire;
 
-use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\File;
 
-/**
- * @property User $user
- */
-class UserUpdateRequest extends FormRequest
+class QuestionnaireUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,10 +25,8 @@ class UserUpdateRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = UserRequestValidationRules::getRules($this);
-
-        $rules['password'][] = 'sometimes'; // @phpstan-ignore-line
-        $rules['email'][] = Rule::unique('users', 'email')->ignore($this->user->id); // @phpstan-ignore-line
+        $rules = QuestionnaireRequestValidationRules::getRules($this);
+       $rules['name'][] = Rule::unique('questionnaires')->ignore($this->questionnaire->id);
 
         return $rules;
     }

@@ -23,6 +23,12 @@ use App\Http\Controllers\Api\V1\Administrative\Question\MassDeleteQuestionContro
 use App\Http\Controllers\Api\V1\Administrative\Question\ShowQuestionController;
 use App\Http\Controllers\Api\V1\Administrative\Question\StoreQuestionController;
 use App\Http\Controllers\Api\V1\Administrative\Question\UpdateQuestionController;
+use App\Http\Controllers\Api\V1\Administrative\Questionnaire\DeleteQuestionnaireController;
+use App\Http\Controllers\Api\V1\Administrative\Questionnaire\IndexQuestionnaireController;
+use App\Http\Controllers\Api\V1\Administrative\Questionnaire\MassDeleteQuestionnaireController;
+use App\Http\Controllers\Api\V1\Administrative\Questionnaire\ShowQuestionnaireController;
+use App\Http\Controllers\Api\V1\Administrative\Questionnaire\StoreQuestionnaireController;
+use App\Http\Controllers\Api\V1\Administrative\Questionnaire\UpdateQuestionnaireController;
 use App\Http\Controllers\Api\V1\Administrative\User\IndexUserController;
 use App\Http\Controllers\Api\V1\Administrative\User\ShowUserController;
 use App\Http\Controllers\Api\V1\FileUploadController;
@@ -44,7 +50,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Illuminate\Support\Facades\Auth::loginUsingId(2);
+Illuminate\Support\Facades\Auth::loginUsingId(2);
 Route::get('/test', function (Request $request) {
 });
 
@@ -146,6 +152,22 @@ Route::prefix('administrative')->name('administrative.')->group(function () {
             Route::middleware(['xss-protect'])->put('/{answer}', UpdateAnswerController::class)->name('update');
             Route::delete('/{answer}', DeleteAnswerController::class)->name('delete');
             Route::post('/mass-delete', MassDeleteAnswerController::class)->name('mass-delete');
+        });
+
+    /**
+     * Questionnaire
+     */
+    Route::middleware(['auth:sanctum', 'can:administrative'])
+        ->name('questionnaires.')
+        ->prefix('questionnaires')
+        ->group(function () {
+            Route::get('/', IndexQuestionnaireController::class)->name('index');
+            Route::get('/{questionnaire}', ShowQuestionnaireController::class)->name('show');
+            Route::middleware(['xss-protect'])->post('/', StoreQuestionnaireController::class)->name('store');
+            Route::middleware(['xss-protect'])->put('/{questionnaire}',
+                UpdateQuestionnaireController::class)->name('update');
+            Route::delete('/{questionnaire}', DeleteQuestionnaireController::class)->name('delete');
+            Route::post('/mass-delete', MassDeleteQuestionnaireController::class)->name('mass-delete');
         });
 });
 

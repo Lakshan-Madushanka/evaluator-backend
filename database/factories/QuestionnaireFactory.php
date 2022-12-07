@@ -6,6 +6,7 @@ namespace Database\Factories;
 
 use App\Enums\Difficulty;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends Factory
@@ -20,7 +21,7 @@ class QuestionnaireFactory extends Factory
     public function definition()
     {
         return [
-            'content' => $this->faker->paragraph(random_int(3, 6), true),
+            'name' => $this->faker->unique()->word() . Str::random(8),
             'difficulty' => $this->faker->randomElement(Difficulty::cases()),
             'no_of_questions' => $this->faker->numberBetween(25, 50),
 

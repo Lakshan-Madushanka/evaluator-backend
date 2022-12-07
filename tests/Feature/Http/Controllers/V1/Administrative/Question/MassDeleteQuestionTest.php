@@ -9,7 +9,7 @@ use function Pest\Laravel\postJson;
 use Tests\Repositories\UserRepository;
 
 beforeEach(function () {
-    $this->seeder = UserSeeder::class;
+    $this->seeder = \Database\Seeders\QuestionSeeder::class;
 });
 
 it('return 401 unauthorized response for non-login questions', function () {

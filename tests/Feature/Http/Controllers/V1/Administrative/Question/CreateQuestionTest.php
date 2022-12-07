@@ -21,12 +21,12 @@ it('return 401 unauthorized response for non-login users', function () {
 it('allows administrative users to create question', function () {
     Sanctum::actingAs(UserRepository::getRandomUser(Role::ADMIN));
 
-    $categoriesCount = QuestionRepository::getTotalQuestionsCount();
+    $questionnairesCount = QuestionRepository::getTotalQuestionsCount();
 
     $response = postJson($this->route);
     $response->assertCreated();
 
-    assertDatabaseCount('questions', $categoriesCount + 1);
+    assertDatabaseCount('questions', $questionnairesCount + 1);
 
     $response->assertJson(fn (AssertableJson $json) => $json->hasAll('data.id', 'data.type',
         'data.attributes')
@@ -41,12 +41,12 @@ it('can attach categories to question', function () {
     $payload = QuestionRequest::new()->create();
     $categories = $payload['categories'];
 
-    $categoriesCount = QuestionRepository::getTotalQuestionsCount();
+    $questionnairesCount = QuestionRepository::getTotalQuestionsCount();
 
     $response = postJson($this->route, $payload);
     $response->assertCreated();
 
-    assertDatabaseCount('questions', $categoriesCount + 1);
+    assertDatabaseCount('questions', $questionnairesCount + 1);
 
     $lastInsertedQuestion = QuestionRepository::getLastInsertedRecord();
     $lastInsertedQuestionCategoryHashIds = $lastInsertedQuestion->categories()->pluck('categories.id')->all();

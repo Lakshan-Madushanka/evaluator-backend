@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\Difficulty;
+use App\Models\Concerns\HasHashids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -51,17 +52,19 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 class Questionnaire extends Model
 {
     use HasFactory;
+    use HasHashids;
 
     /**
      * @var string[]
      */
     protected $fillable = [
-        'content',
+        'name',
         'difficulty',
         'no_of_questions',
         'no_of_easy_questions',
         'no_of_medium_questions',
-        'no_of_hard_questions  ',
+        'no_of_hard_questions',
+        'allocated_time',
     ];
 
     /**

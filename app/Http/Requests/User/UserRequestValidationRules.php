@@ -14,7 +14,7 @@ class UserRequestValidationRules implements RequestValidationRulesContract
     /**
      * @return array<string, mixed>
      */
-    public static function getRules(): array
+    public static function getRules(Request $request): array
     {
         return [
             'name' => [

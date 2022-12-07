@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('questionnaires', function (Blueprint $table) {
             $table->smallIncrements('id');
 
-            $table->text('content');
+            $table->string('name', 50)->unique();
             $table->tinyInteger('difficulty');
 
             $table->smallInteger('no_of_questions');

@@ -134,5 +134,11 @@ class AppServiceProvider extends ServiceProvider
 
             return Answer::findOrFail($id);
         });
+
+        \Route::bind('questionnaire', function ($value) {
+            $id = Hashids::decode($value)[0] ?? PHP_INT_MIN;
+
+            return Questionnaire::findOrFail($id);
+        });
     }
 }

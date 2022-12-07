@@ -27,7 +27,7 @@ class UserStoreRequest extends FormRequest
      */
     public function rules(): array
     {
-        $rules = UserRequestValidationRules::getRules();
+        $rules = UserRequestValidationRules::getRules($this);
         $rules['email'][] = Rule::unique('users', 'email'); // @phpstan-ignore-line
 
         return $rules;
