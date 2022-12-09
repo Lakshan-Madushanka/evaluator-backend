@@ -4,7 +4,6 @@ namespace App\Http\Requests\Questionnaire;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use Illuminate\Validation\Rules\File;
 
 class QuestionnaireUpdateRequest extends FormRequest
 {
@@ -26,7 +25,7 @@ class QuestionnaireUpdateRequest extends FormRequest
     public function rules()
     {
         $rules = QuestionnaireRequestValidationRules::getRules($this);
-       $rules['name'][] = Rule::unique('questionnaires')->ignore($this->questionnaire->id);
+        $rules['name'][] = Rule::unique('questionnaires')->ignore($this->questionnaire->id);
 
         return $rules;
     }

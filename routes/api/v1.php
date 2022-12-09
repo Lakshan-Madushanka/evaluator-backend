@@ -15,6 +15,8 @@ use App\Http\Controllers\Api\V1\Administrative\Category\IndexCategoryController;
 use App\Http\Controllers\Api\V1\Administrative\Category\ShowCategoryController;
 use App\Http\Controllers\Api\V1\Administrative\Category\StoreCategoryController;
 use App\Http\Controllers\Api\V1\Administrative\Category\UpdateCategoryController;
+use App\Http\Controllers\Api\V1\Administrative\Dashboard\QuestionController;
+use App\Http\Controllers\Api\V1\Administrative\Dashboard\QuestionnaireController;
 use App\Http\Controllers\Api\V1\Administrative\Profile\UpdateProfileController;
 use App\Http\Controllers\Api\V1\Administrative\Question\Answer\AsyncAnswerController;
 use App\Http\Controllers\Api\V1\Administrative\Question\DeleteQuestionController;
@@ -50,7 +52,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Illuminate\Support\Facades\Auth::loginUsingId(2);
+//Illuminate\Support\Facades\Auth::loginUsingId(2);
 Route::get('/test', function (Request $request) {
 });
 
@@ -76,6 +78,17 @@ Route::prefix('super-admin')->name('super-admin.')->group(function () {
 });
 
 Route::prefix('administrative')->name('administrative.')->group(function () {
+    /**
+     * DashBoard
+     */
+    Route::middleware(['auth:sanctum', 'can:administrative'])
+        ->prefix('dashboard')
+        ->name('dashboard')
+        ->group(function () {
+            Route::get('questionnaires', QuestionnaireController::class);
+            Route::get('question', QuestionController::class);
+        });
+
     /*
      * Authentication
      */

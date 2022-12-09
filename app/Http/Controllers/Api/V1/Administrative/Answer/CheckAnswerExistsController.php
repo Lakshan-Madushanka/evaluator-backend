@@ -23,7 +23,7 @@ class CheckAnswerExistsController extends Controller
         return new JsonResponse(
             [
                 'exists' => ! is_null($answer),
-				'id' => $answer ? $answer->hash_id : null,
+                'id' => $answer ? $answer->hash_id : null,
             ],
             status: Response::HTTP_OK);
     }

@@ -24,11 +24,11 @@ class AnswerRepository
             ->first();
     }
 
-    public static function getRandomAnswers(): Collection
+    public static function getRandomAnswers(int $limit = 10): Collection
     {
         return Answer::query()
             ->inRandomOrder()
-            ->limit(1)
+            ->limit($limit)
             ->get();
     }
 }

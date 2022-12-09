@@ -52,7 +52,7 @@ it('allow super admin to update record', function (Role $role) {
 
     $user = UserRepository::getRandomUser($role)->setVisible(['password']);
 
-    $data = UserRequest::new()->getFactoryData()->getRequestedData();
+    $data = UserRequest::new(['email' => $user->email])->getFactoryData()->getRequestedData();
 
     $route = route('api.v1.super-admin.users.update', ['user' => $user->hash_id]);
     $response = putJson($route, $data);

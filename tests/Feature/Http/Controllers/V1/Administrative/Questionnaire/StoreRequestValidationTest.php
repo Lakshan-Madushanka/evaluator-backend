@@ -2,9 +2,9 @@
 
 use App\Enums\Role;
 use Laravel\Sanctum\Sanctum;
+use function Pest\Laravel\postJson;
 use Tests\Repositories\UserRepository;
 use Tests\RequestFactories\QuestionRequest;
-use function Pest\Laravel\postJson;
 
 beforeEach(function () {
     $this->route = route('api.v1.administrative.questionnaires.store');
@@ -16,7 +16,7 @@ it('required name', function () {
     $response = postJson($this->route);
     $response->assertStatus(422);
     $response->assertInvalid(['name']);
-})->fakeRequest(fn() => \Tests\RequestFactories\QuestionnaireRequest::new()->without('name'))
+})->fakeRequest(fn () => \Tests\RequestFactories\QuestionnaireRequest::new()->without('name'))
     ->group('api/v1/administrative/questionnaire/validation');
 
 it('required name to be minimum 3 characters', function () {
@@ -25,7 +25,7 @@ it('required name to be minimum 3 characters', function () {
     $response = postJson($this->route);
     $response->assertStatus(422);
     $response->assertInvalid(['name']);
-})->fakeRequest(fn() => \Tests\RequestFactories\QuestionnaireRequest::new(['name' => '#1']))
+})->fakeRequest(fn () => \Tests\RequestFactories\QuestionnaireRequest::new(['name' => '#1']))
     ->group('api/v1/administrative/questionnaire/validation');
 
 it('required name to be maximum 50 characters', function () {
@@ -34,7 +34,7 @@ it('required name to be maximum 50 characters', function () {
     $response = postJson($this->route);
     $response->assertStatus(422);
     $response->assertInvalid(['name']);
-})->fakeRequest(fn() => \Tests\RequestFactories\QuestionnaireRequest::new([
+})->fakeRequest(fn () => \Tests\RequestFactories\QuestionnaireRequest::new([
     'name' => \Illuminate\Support\Str::random().str_repeat('0', 50),
 ]))->group('api/v1/administrative/questionnaire/validation');
 
@@ -44,7 +44,7 @@ it('required difficulty', function () {
     $response = postJson(route('api.v1.administrative.questionnaires.store'));
     $response->assertStatus(422);
     $response->assertInvalid(['difficulty']);
-})->fakeRequest(fn() => QuestionRequest::new()->without('difficulty'))
+})->fakeRequest(fn () => QuestionRequest::new()->without('difficulty'))
     ->group('api/v1/administrative/questionnaire/validation');
 
 it('required valid difficulty', function () {
@@ -53,7 +53,7 @@ it('required valid difficulty', function () {
     $response = postJson(route('api.v1.administrative.questionnaires.store'));
     $response->assertStatus(422);
     $response->assertInvalid(['difficulty']);
-})->fakeRequest(fn() => QuestionRequest::new(['difficulty' => -10000]))
+})->fakeRequest(fn () => QuestionRequest::new(['difficulty' => -10000]))
     ->group('api/v1/administrative/questionnaire/validation');
 
 it('required no of easy questions', function () {
@@ -62,7 +62,7 @@ it('required no of easy questions', function () {
     $response = postJson(route('api.v1.administrative.questionnaires.store'));
     $response->assertStatus(422);
     $response->assertInvalid(['no_of_easy_questions']);
-})->fakeRequest(fn() => QuestionRequest::new()->without('no_of_easy_questions'))
+})->fakeRequest(fn () => QuestionRequest::new()->without('no_of_easy_questions'))
     ->group('api/v1/administrative/questionnaire/validation');
 
 it('required no of medium questions', function () {
@@ -71,7 +71,7 @@ it('required no of medium questions', function () {
     $response = postJson(route('api.v1.administrative.questionnaires.store'));
     $response->assertStatus(422);
     $response->assertInvalid(['no_of_medium_questions']);
-})->fakeRequest(fn() => QuestionRequest::new()->without('no_of_medium_questions'))
+})->fakeRequest(fn () => QuestionRequest::new()->without('no_of_medium_questions'))
     ->group('api/v1/administrative/questionnaire/validation');
 
 it('required no of hard questions', function () {
@@ -80,7 +80,7 @@ it('required no of hard questions', function () {
     $response = postJson(route('api.v1.administrative.questionnaires.store'));
     $response->assertStatus(422);
     $response->assertInvalid(['no_of_hard_questions']);
-})->fakeRequest(fn() => QuestionRequest::new()->without('no_of_hard_questions'))
+})->fakeRequest(fn () => QuestionRequest::new()->without('no_of_hard_questions'))
     ->group('api/v1/administrative/questionnaire/validation');
 
 it('required no of total questions', function () {
@@ -89,7 +89,7 @@ it('required no of total questions', function () {
     $response = postJson(route('api.v1.administrative.questionnaires.store'));
     $response->assertStatus(422);
     $response->assertInvalid(['no_of_questions']);
-})->fakeRequest(fn() => QuestionRequest::new()->without('no_of_questions'))
+})->fakeRequest(fn () => QuestionRequest::new()->without('no_of_questions'))
     ->group('api/v1/administrative/questionnaire/validation');
 
 it('can validate no of total questions', function () {
@@ -98,7 +98,7 @@ it('can validate no of total questions', function () {
     $response = postJson(route('api.v1.administrative.questionnaires.store'));
     $response->assertStatus(422);
     $response->assertInvalid(['no_of_questions']);
-})->fakeRequest(fn() => QuestionRequest::new([
+})->fakeRequest(fn () => QuestionRequest::new([
     'no_of_easy_questions' => 5,
     'no_of_medium_questions' => 5,
     'no_of_hard_questions' => 5,
@@ -111,5 +111,5 @@ it('required categories field', function () {
     $response = postJson(route('api.v1.administrative.questionnaires.store'));
     $response->assertStatus(422);
     $response->assertInvalid(['categories']);
-})->fakeRequest(fn() => QuestionRequest::new()->without('categories'))
+})->fakeRequest(fn () => QuestionRequest::new()->without('categories'))
     ->group('api/v1/administrative/questionnaire/validation');

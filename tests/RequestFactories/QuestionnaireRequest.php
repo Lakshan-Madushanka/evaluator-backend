@@ -3,9 +3,7 @@
 namespace Tests\RequestFactories;
 
 use App\Models\Category;
-use App\Models\Question;
 use App\Models\Questionnaire;
-use Illuminate\Http\UploadedFile;
 use Tests\Repositories\CategoryRepository;
 use Worksome\RequestFactories\RequestFactory;
 

@@ -5,9 +5,7 @@ use Illuminate\Testing\Fluent\AssertableJson;
 use Laravel\Sanctum\Sanctum;
 use function Pest\Laravel\assertDatabaseCount;
 use function Pest\Laravel\postJson;
-use Tests\Repositories\QuestionRepository;
 use Tests\Repositories\UserRepository;
-use Tests\RequestFactories\QuestionRequest;
 
 beforeEach(function () {
     $this->route = route('api.v1.administrative.questionnaires.store');
@@ -60,4 +58,3 @@ it('can attach categories to questionnaire', function () {
         ->etc()
     );
 })->group('api/v1/administrative/questionnaire/create');
-

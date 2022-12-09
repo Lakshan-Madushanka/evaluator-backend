@@ -2,7 +2,6 @@
 
 namespace Tests\Repositories;
 
-use App\Models\Question;
 use App\Models\Questionnaire;
 use Illuminate\Database\Eloquent\Collection;
 

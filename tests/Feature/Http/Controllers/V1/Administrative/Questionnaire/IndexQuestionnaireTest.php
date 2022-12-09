@@ -7,11 +7,11 @@ use App\Models\Questionnaire;
 use Carbon\Carbon;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Laravel\Sanctum\Sanctum;
+use function Pest\Laravel\getJson;
 use Tests\Repositories\QuestionnaireRepository;
 use Tests\Repositories\UserRepository;
 use Tests\RequestFactories\CategoryRequest;
 use Tests\RequestFactories\QuestionnaireRequest;
-use function Pest\Laravel\getJson;
 
 beforeEach(function () {
     $this->route = route('api.v1.administrative.questionnaires.index');
@@ -30,13 +30,13 @@ it('allows administrative users to retrieve all questionnaires', function () {
     config(['json-api-paginate.max_results' => PHP_INT_MAX]);
 
     $query = '?'.http_build_query([
-            'page' => ['size' => PHP_INT_MAX],
-        ]);
+        'page' => ['size' => PHP_INT_MAX],
+    ]);
 
     $response = getJson($this->route.$query);
     $response->assertOk();
 
-    $response->assertJson(fn(AssertableJson $json) => $json->has('data', $questionnairesCount)->etc());
+    $response->assertJson(fn (AssertableJson $json) => $json->has('data', $questionnairesCount)->etc());
 })->fakeRequest(CategoryRequest::class)
     ->group('api/v1/administrative/questionnaire/index');
 
@@ -48,14 +48,14 @@ it('can sorts all questionnaires by created at column', function () {
     config(['json-api-paginate.max_results' => PHP_INT_MAX]);
 
     $query = '?'.http_build_query([
-            'sort' => '-created_at',
-            'page' => ['size' => PHP_INT_MAX],
-        ]);
+        'sort' => '-created_at',
+        'page' => ['size' => PHP_INT_MAX],
+    ]);
 
     $response = getJson($this->route.$query);
     $response->assertOk();
 
-    $response->assertJson(fn(AssertableJson $json) => $json->has('data', $questionnairesCount)->etc());
+    $response->assertJson(fn (AssertableJson $json) => $json->has('data', $questionnairesCount)->etc());
 
     $data = $response->decodeResponseJson()['data'];
     $data = collect($data)->pluck('attributes.created_at')->map(function ($created_at) {
@@ -76,9 +76,9 @@ it('can filter all questionnaires by categories name', function () {
     $questionName = Category::whereHas('questionnaires')->first()->name;
 
     $query = '?'.http_build_query([
-            'filter' => ['categories.name' => $questionName],
-            'page' => ['size' => PHP_INT_MAX],
-        ]);
+        'filter' => ['categories.name' => $questionName],
+        'page' => ['size' => PHP_INT_MAX],
+    ]);
 
     $response = getJson($this->route.$query);
     $response->assertOk();
@@ -105,9 +105,9 @@ it('can filter all questionnaires by difficulty', function () {
     $filteredDifficulty = Difficulty::EASY->name;
 
     $query = '?'.http_build_query([
-            'filter' => ['difficulty' => $filteredDifficulty],
-            'page' => ['size' => PHP_INT_MAX],
-        ]);
+        'filter' => ['difficulty' => $filteredDifficulty],
+        'page' => ['size' => PHP_INT_MAX],
+    ]);
 
     $response = getJson($this->route.$query);
     $response->assertOk();
@@ -116,7 +116,7 @@ it('can filter all questionnaires by difficulty', function () {
 
     collect($data)->pluck('attributes.difficulty')
         ->filter()
-        ->each(fn(string $difficulty) => expect($filteredDifficulty)->toBe($difficulty));
+        ->each(fn (string $difficulty) => expect($filteredDifficulty)->toBe($difficulty));
 })->fakeRequest(CategoryRequest::class)
     ->group('api/v1/administrative/questionnaire/index');
 
@@ -132,9 +132,9 @@ it('can filter all questionnaires by its name', function () {
     $filteredDifficulty = Difficulty::EASY->name;
 
     $query = '?'.http_build_query([
-            'filter' => ['name' => 'test'],
-            'page' => ['size' => PHP_INT_MAX],
-        ]);
+        'filter' => ['name' => 'test'],
+        'page' => ['size' => PHP_INT_MAX],
+    ]);
 
     $response = getJson($this->route.$query);
     $response->assertOk();
@@ -142,7 +142,7 @@ it('can filter all questionnaires by its name', function () {
     $data = $response->decodeResponseJson()['data'];
 
     collect($data)->pluck('attributes.name')
-        ->each(fn(string $content) => expect(str_contains($content, 'test'))->toBeTrue());
+        ->each(fn (string $content) => expect(str_contains($content, 'test'))->toBeTrue());
 })->fakeRequest(CategoryRequest::class)
     ->group('api/v1/administrative/questionnaire/index');
 
@@ -166,7 +166,7 @@ it('can filter all questionnaires by its questions range', function () {
 
     $data = $response->decodeResponseJson()['data'];
 
-    collect($data)->each(function (array $data) use($min, $max) {
+    collect($data)->each(function (array $data) use ($min, $max) {
         $noOfQuestions = $data['attributes']['no_of_questions'];
 
         expect($noOfQuestions >= $min && $noOfQuestions <= $max)->toBeTrue();
@@ -184,16 +184,16 @@ it('can filter all questionnaires by its hard questions range', function () {
     $max = 100;
 
     $query = '?'.http_build_query([
-            'filter' => ['no_of_hard_questions' => ['min' => $min, 'max' => $max]],
-            'page' => ['size' => PHP_INT_MAX],
-        ]);
+        'filter' => ['no_of_hard_questions' => ['min' => $min, 'max' => $max]],
+        'page' => ['size' => PHP_INT_MAX],
+    ]);
 
     $response = getJson($this->route.$query);
     $response->assertOk();
 
     $data = $response->decodeResponseJson()['data'];
 
-    collect($data)->each(function (array $data) use($min, $max) {
+    collect($data)->each(function (array $data) use ($min, $max) {
         $noOfQuestions = $data['attributes']['no_of_hard_questions'];
 
         expect($noOfQuestions >= $min && $noOfQuestions <= $max)->toBeTrue();
@@ -211,16 +211,16 @@ it('can filter all questionnaires by its easy questions range', function () {
     $max = 100;
 
     $query = '?'.http_build_query([
-            'filter' => ['no_of_easy_questions' => ['min' => $min, 'max' => $max]],
-            'page' => ['size' => PHP_INT_MAX],
-        ]);
+        'filter' => ['no_of_easy_questions' => ['min' => $min, 'max' => $max]],
+        'page' => ['size' => PHP_INT_MAX],
+    ]);
 
     $response = getJson($this->route.$query);
     $response->assertOk();
 
     $data = $response->decodeResponseJson()['data'];
 
-    collect($data)->each(function (array $data) use($min, $max) {
+    collect($data)->each(function (array $data) use ($min, $max) {
         $noOfQuestions = $data['attributes']['no_of_easy_questions'];
 
         expect($noOfQuestions >= $min && $noOfQuestions <= $max)->toBeTrue();
@@ -238,16 +238,16 @@ it('can filter all questionnaires by its medium questions range', function () {
     $max = 100;
 
     $query = '?'.http_build_query([
-            'filter' => ['no_of_medium_questions' => ['min' => $min, 'max' => $max]],
-            'page' => ['size' => PHP_INT_MAX],
-        ]);
+        'filter' => ['no_of_medium_questions' => ['min' => $min, 'max' => $max]],
+        'page' => ['size' => PHP_INT_MAX],
+    ]);
 
     $response = getJson($this->route.$query);
     $response->assertOk();
 
     $data = $response->decodeResponseJson()['data'];
 
-    collect($data)->each(function (array $data) use($min, $max) {
+    collect($data)->each(function (array $data) use ($min, $max) {
         $noOfQuestions = $data['attributes']['no_of_medium_questions'];
 
         expect($noOfQuestions >= $min && $noOfQuestions <= $max)->toBeTrue();
@@ -265,19 +265,18 @@ it('can filter all questionnaires by its allocated time range', function () {
     $max = 100;
 
     $query = '?'.http_build_query([
-            'filter' => ['allocated_time' => ['min' => $min, 'max' => $max]],
-            'page' => ['size' => PHP_INT_MAX],
-        ]);
+        'filter' => ['allocated_time' => ['min' => $min, 'max' => $max]],
+        'page' => ['size' => PHP_INT_MAX],
+    ]);
 
     $response = getJson($this->route.$query);
     $response->assertOk();
 
     $data = $response->decodeResponseJson()['data'];
 
-    collect($data)->each(function (array $data) use($min, $max) {
+    collect($data)->each(function (array $data) use ($min, $max) {
         $allocatedTime = $data['attributes']['allocated_time'];
 
         expect($allocatedTime >= $min && $allocatedTime <= $max)->toBeTrue();
     });
 })->group('api/v1/administrative/questionnaire/index');
-

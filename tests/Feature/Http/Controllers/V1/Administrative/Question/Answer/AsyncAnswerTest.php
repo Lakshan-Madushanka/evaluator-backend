@@ -1,18 +1,16 @@
 <?php
 
 use App\Enums\Role;
-use App\Helpers;
+use JetBrains\PhpStorm\ArrayShape;
 use Laravel\Sanctum\Sanctum;
 use function Pest\Laravel\postJson;
-use Tests\Repositories\CategoryRepository;
 use Tests\Repositories\QuestionRepository;
 use Tests\Repositories\UserRepository;
-use Tests\RequestFactories\QuestionRequest;
 
 it('return 401 unauthorized response for non-login users', function () {
     $response = postJson(
         route('api.v1.administrative.questions.answers.async', ['question' => 'abcd']),
-        ['ids' => []]
+        ['answers' => []]
     );
     $response->assertUnauthorized();
 })->group('api/v1/administrative/question/answer/async');
@@ -22,35 +20,81 @@ it('throws validation exception when try to sync no of answers greater than allo
 
     $question = QuestionRepository::getRandomQuestion();
 
-    $categoriesIds = CategoryRepository::getRandomCategories($question->no_of_answers + 1)->pluck('id')->all();
-    $categoriesHashIds = Helpers::getHashIdsFromModelIds($categoriesIds);
+    $payload = getPayload($question->no_of_answers + 1);
 
     $response = postJson(
         route('api.v1.administrative.questions.answers.async', ['question' => $question->hash_id]),
-        ['ids' => $categoriesHashIds]
+        $payload
     );
 
     $response->assertUnprocessable();
-    $response->assertInvalid(['ids']);
-})->fakeRequest(QuestionRequest::class)
-    ->group('api/v1/administrative/question/answer/async');
+    $response->assertInvalid(['answers']);
+})->group('api/v1/administrative/question/answer/async');
+
+it('throws validation exception when it doesnt have at least one correct answer', function () {
+    Sanctum::actingAs(UserRepository::getRandomUser(Role::ADMIN));
+
+    $question = QuestionRepository::getRandomQuestion();
+
+    $payload = getPayload($question->no_of_answers);
+
+    $response = postJson(
+        route('api.v1.administrative.questions.answers.async', ['question' => $question->hash_id]),
+        $payload
+    );
+
+    $response->assertUnprocessable();
+    $response->assertInvalid(['answers']);
+})->group('api/v1/administrative/question/answer/async');
 
 it('allows administrative users to async answers to question', function () {
     Sanctum::actingAs(UserRepository::getRandomUser(Role::ADMIN));
 
     $question = QuestionRepository::getRandomQuestion();
 
-    $categoriesIds = CategoryRepository::getRandomCategories($question->no_of_answers)->pluck('id')->all();
-    $categoriesHashIds = Helpers::getHashIdsFromModelIds($categoriesIds);
+    $payload = getPayload($question->no_of_answers, true);
 
     $response = postJson(
         route('api.v1.administrative.questions.answers.async', ['question' => $question->hash_id]),
-        ['ids' => $categoriesHashIds]
+        $payload
     );
     $response->assertOk();
 
-    $newCategoriesIds = $question->answers->pluck('id')->all();
+    $newAnswersIds = $question->answers->pluck('id')->all();
 
-    expect($categoriesIds)->toBe($newCategoriesIds);
-})->fakeRequest(QuestionRequest::class)
-    ->group('api/v1/administrative/question/answer/async');
+    expect($newAnswersIds)->toBe($newAnswersIds);
+})->group('api/v1/administrative/question/answer/async');
+
+it('allows administrative users to remove all answers of a question', function () {
+    Sanctum::actingAs(UserRepository::getRandomUser(Role::ADMIN));
+
+    $question = QuestionRepository::getRandomQuestion();
+
+    $payload = ['answers' => []];
+
+    $response = postJson(
+        route('api.v1.administrative.questions.answers.async', ['question' => $question->hash_id]),
+        $payload
+    );
+    $response->assertOk();
+
+    $newAnswersCount = $question->answers->pluck('id')->count();
+
+    expect($newAnswersCount)->toBe(0);
+})->group('api/v1/administrative/question/answer/async');
+
+#[ArrayShape(['answers' => 'array'])] function getPayload(int $limit, bool $correctAnswer = false): array
+{
+    $payload = [];
+
+    $answersIds = \Tests\Repositories\AnswerRepository::getRandomAnswers($limit)
+        ->pluck('id')
+        ->transform(fn ($id) => \Vinkla\Hashids\Facades\Hashids::encode($id))
+        ->all();
+
+    foreach ($answersIds as $answerId) {
+        $payload[] = ['id' => $answerId, 'correct' => $correctAnswer];
+    }
+
+    return ['answers' => $payload];
+}

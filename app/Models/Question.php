@@ -99,7 +99,7 @@ class Question extends Model implements HasMedia
             'question_answer',
             foreignPivotKey: 'question_id',
             relatedPivotKey: 'answer_id'
-        );
+        )->withPivot(['correct_answer']);
     }
 
     /**

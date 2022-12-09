@@ -1,7 +1,6 @@
 <?php
 
 use App\Enums\Role;
-use Database\Seeders\UserSeeder;
 use Laravel\Sanctum\Sanctum;
 use function Pest\Laravel\assertDatabaseMissing;
 use function Pest\Laravel\deleteJson;

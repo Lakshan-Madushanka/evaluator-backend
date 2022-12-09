@@ -21,7 +21,7 @@ class QuestionnaireResource extends JsonApiResource
             'no_of_hard_questions' => $this->no_of_hard_questions,
             'no_of_questions' => $this->no_of_questions,
             'allocated_time' => $this->allocated_time,
-			'created_at' => $this->created_at,
+            'created_at' => $this->created_at,
         ];
 
         return $attributes;
@@ -30,7 +30,7 @@ class QuestionnaireResource extends JsonApiResource
     protected function toRelationships(Request $request): array
     {
         return [
-            'categories' => fn() => CategoryResource::collection($this->categories),
+            'categories' => fn () => CategoryResource::collection($this->categories),
         ];
     }
 }

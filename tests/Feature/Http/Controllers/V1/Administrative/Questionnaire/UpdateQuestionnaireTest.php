@@ -3,7 +3,6 @@
 use App\Enums\Role;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Laravel\Sanctum\Sanctum;
-use function Pest\Laravel\assertDatabaseCount;
 use function Pest\Laravel\putJson;
 use Tests\Repositories\QuestionnaireRepository;
 use Tests\Repositories\UserRepository;

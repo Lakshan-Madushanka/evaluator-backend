@@ -21,7 +21,7 @@ class QuestionnaireFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->unique()->word() . Str::random(8),
+            'name' => $this->faker->unique()->word().Str::random(8),
             'difficulty' => $this->faker->randomElement(Difficulty::cases()),
             'no_of_questions' => $this->faker->numberBetween(25, 50),
 
