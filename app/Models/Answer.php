@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Events\SetModelPrettyId;
 use App\Models\Concerns\HasHashids;
-use App\Services\PrettyIdGenerator;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
@@ -49,14 +49,10 @@ class Answer extends Model implements HasMedia
         'pretty_id',
     ];
 
-    public static function boot(): void
-    {
-        parent::boot();
+    protected $dispatchesEvents = [
+        'creating' => SetModelPrettyId::class,
+    ];
 
-        static::creating(function (Answer $answer) {
-            $answer->pretty_id = PrettyIdGenerator::generate('answers', 'ans_', 12);
-        });
-    }
     //--------------------------Relationships----------------------------
 
     /**

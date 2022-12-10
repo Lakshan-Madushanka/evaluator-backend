@@ -52,7 +52,8 @@ class QuestionSeeder extends Seeder
     public function assignCategories(array $questions, Collection $categories)
     {
         foreach ($questions as $question) {
-            $question->categories()->saveMany($categories);
+            /** @var Question $question */
+            $question->categories()->sync($categories->pluck('id'));
         }
     }
 }

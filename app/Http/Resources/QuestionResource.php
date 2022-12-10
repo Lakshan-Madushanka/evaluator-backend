@@ -14,6 +14,7 @@ class QuestionResource extends JsonApiResource
     public function toAttributes(Request $request): array
     {
         $attributes = [
+            'pretty_id' => $this->pretty_id,
             'hardness' => $this->difficulty->name,
             'content' => $this->text,
             'created_at' => $this->created_at->toFormattedDayDateString(),

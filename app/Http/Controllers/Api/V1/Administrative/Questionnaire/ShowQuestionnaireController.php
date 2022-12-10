@@ -16,7 +16,7 @@ class ShowQuestionnaireController extends Controller
      */
     public function __invoke(Questionnaire $questionnaire): QuestionnaireResource
     {
-        $questionnaire->load(['categories']);
+        $questionnaire->load(['categories'])->loadCount(['questions']);
 
         return new QuestionnaireResource($questionnaire);
     }

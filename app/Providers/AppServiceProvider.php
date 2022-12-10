@@ -29,6 +29,7 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $this->registerLocally();
+        $this->registerLocallyAndTesting();
     }
 
     /**
@@ -49,7 +50,12 @@ class AppServiceProvider extends ServiceProvider
         if ($this->app->environment('local')) {
             $this->registerTelescope();
             //$this->handleExceedingCumulativeQueryDuration();
+        }
+    }
 
+    public function registerLocallyAndTesting(): void
+    {
+        if ($this->app->environment(['local', 'testing'])) {
             Model::shouldBeStrict();
         }
     }

@@ -51,7 +51,7 @@ class PrettyIdGenerator
         return  $prefix.$suffix;
     }
 
-    public static function checkPrettyIdExists(string $id, string $table): bool
+    private static function checkPrettyIdExists(string $id, string $table): bool
     {
         return  self::$prettyIds->contains(fn (string $prettyId) => $id === $prettyId);
     }

@@ -22,7 +22,17 @@ it('can get pretty ids of a model', function () {
 it('can check if pretty id exists', function () {
     $answer = AnswerRepository::getRandomAnswer();
 
-    $exists = PrettyIdGenerator::checkPrettyIdExists($answer->pretty_id, 'answers');
+    $initMethod = new ReflectionMethod(PrettyIdGenerator::class, 'init');
+    $checkPrettyIdExistsMethod = new ReflectionMethod(PrettyIdGenerator::class, 'checkPrettyIdExists');
+
+    $initMethod->setAccessible(true);
+    $checkPrettyIdExistsMethod->setAccessible(true);
+
+    $idGenerator = new PrettyIdGenerator();
+
+    $initMethod->invoke($idGenerator, 'answers');
+
+    $exists = $checkPrettyIdExistsMethod->invoke($idGenerator, $answer->pretty_id, 'answers');
 
     expect($exists)->toBeTrue();
 })->group('pretty-id-generator');

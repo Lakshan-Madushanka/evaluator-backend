@@ -48,6 +48,10 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire whereNoOfQuestions($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire whereUpdatedAt($value)
  * @mixin \Eloquent
+ *
+ * @property string $name
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire whereName($value)
  */
 class Questionnaire extends Model
 {

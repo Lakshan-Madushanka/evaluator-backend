@@ -125,7 +125,9 @@ it('can filter all questions by its content', function () {
 
     $text = \Illuminate\Support\Str::random().'test'.\Illuminate\Support\Str::random();
 
-    Question::create(QuestionRequest::new(['text' => $text])->create());
+    $data = QuestionRequest::new(['text' => $text])->getFactoryData()->getRequestedData();
+
+    Question::create(Arr::except($data, 'categories'));
 
     config(['json-api-paginate.max_results' => PHP_INT_MAX]);
 

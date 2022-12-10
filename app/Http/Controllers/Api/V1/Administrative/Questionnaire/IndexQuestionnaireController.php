@@ -19,6 +19,7 @@ class IndexQuestionnaireController extends Controller
     {
         $questions = QueryBuilder::for(Questionnaire::class)
             ->allowedIncludes(['categories'])
+            ->withCount(['questions'])
             ->allowedFilters([
                 'name',
                 AllowedFilter::callback('difficulty', function (Builder $query, $value) {

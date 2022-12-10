@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\Difficulty;
+use App\Events\SetModelPrettyId;
 use App\Models\Concerns\HasHashids;
 use Database\Factories\QuestionFactory;
 use Eloquent;
@@ -74,6 +75,10 @@ class Question extends Model implements HasMedia
         'difficulty' => Difficulty::class,
     ];
 
+    protected $dispatchesEvents = [
+        'creating' => SetModelPrettyId::class,
+    ];
+
     //--------------------------Relationships----------------------------
 
     /**
@@ -118,6 +123,16 @@ class Question extends Model implements HasMedia
     {
         return $query->withCount('answers')
             ->havingRaw('no_of_answers = answers_count');
+    }
+
+    // Eligible question to assign for a questionnaire
+    public function scopeEligible(Builder $query, Questionnaire $questionnaire): Builder
+    {
+        $questionnaireCategoriesIds = $questionnaire->categories()->pluck('categories.id');
+
+        return $query->completed()
+            ->whereHas('categories',
+                fn (Builder $query) => $query->whereIn('categories.id', $questionnaireCategoriesIds));
     }
 
     //--------------------------------End of scopes-----------------------------

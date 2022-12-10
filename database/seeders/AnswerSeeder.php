@@ -23,11 +23,8 @@ class AnswerSeeder extends Seeder
                 $answers = Answer::factory()
                     ->count($question->no_of_answers)
                     ->create();
-                // ->toArray();
 
                 $this->attachAnswersIds($question, $answers);
-
-                // $question->answers()->createMany($answers);
             });
     }
 

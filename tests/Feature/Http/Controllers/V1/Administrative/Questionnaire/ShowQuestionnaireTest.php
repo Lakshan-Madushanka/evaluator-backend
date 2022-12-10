@@ -29,6 +29,7 @@ it('allows administrative users to retrieve a question by hash id', function () 
                 'data.attributes.no_of_medium_questions',
                 'data.attributes.no_of_hard_questions',
                 'data.attributes.no_of_questions',
+                'data.attributes.no_of_assigned_questions',
                 'data.attributes.allocated_time',
             ])
         ->where('data.id', $questionHashId)

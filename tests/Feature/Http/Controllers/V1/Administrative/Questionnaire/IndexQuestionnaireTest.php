@@ -125,7 +125,9 @@ it('can filter all questionnaires by its name', function () {
 
     $text = \Illuminate\Support\Str::random().'test'.\Illuminate\Support\Str::random();
 
-    Questionnaire::create(QuestionnaireRequest::new(['text' => $text])->create());
+    $data = QuestionnaireRequest::new(['name' => $text])->getFactoryData()->getRequestedData();
+
+    Questionnaire::create(Arr::except($data, 'categories'));
 
     config(['json-api-paginate.max_results' => PHP_INT_MAX]);
 
