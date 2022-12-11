@@ -37,10 +37,10 @@ class AnswerSeeder extends Seeder
 
         $noOfCorrectAnswers = 0;
 
-        if ($noOfIds === 2) {
+        if ($question->is_answers_type_single) {
             $noOfCorrectAnswers = 1;
         } else {
-            $noOfCorrectAnswers = random_int(1, $noOfIds - 1);
+            $noOfCorrectAnswers = random_int(1, $noOfIds);
         }
 
         $count = 0;
@@ -55,6 +55,6 @@ class AnswerSeeder extends Seeder
             $count++;
         }
 
-        $question->answers()->attach($data);
+        $question->answers()->sync($data);
     }
 }

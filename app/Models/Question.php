@@ -66,6 +66,7 @@ class Question extends Model implements HasMedia
         'difficulty',
         'text',
         'no_of_answers',
+        'is_answers_type_single',
     ];
 
     /**
@@ -73,6 +74,7 @@ class Question extends Model implements HasMedia
      */
     protected $casts = [
         'difficulty' => Difficulty::class,
+        'is_answers_type_single' => 'boolean',
     ];
 
     protected $dispatchesEvents = [

@@ -47,6 +47,11 @@ class AsyncAnswerController extends Controller
            $correctAnswersCount < 1,
            ValidationException::withMessages(['answers' => 'At least one correct answer required'])
        );
+
+       throw_if(
+           $correctAnswersCount > 1 && $question->is_answers_type_single,
+           ValidationException::withMessages(['answers' => 'Single answers type question shouln \'t have more than one correct answers'])
+       );
    }
 
     public function prepareInputs(array $validatedInputs): array

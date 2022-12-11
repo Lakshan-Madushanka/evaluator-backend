@@ -1,9 +1,11 @@
 <?php
 
 use App\Enums\Role;
+use App\Models\Question;
 use JetBrains\PhpStorm\ArrayShape;
 use Laravel\Sanctum\Sanctum;
 use function Pest\Laravel\postJson;
+use Tests\Repositories\AnswerRepository;
 use Tests\Repositories\QuestionRepository;
 use Tests\Repositories\UserRepository;
 
@@ -47,20 +49,56 @@ it('throws validation exception when it doesnt have at least one correct answer'
     $response->assertInvalid(['answers']);
 })->group('api/v1/administrative/question/answer/async');
 
-it('allows administrative users to async answers to question', function () {
+it('throws validation exception when assigning more than one correct answers for a single answers type question',
+    function () {
+        Sanctum::actingAs(UserRepository::getRandomUser(Role::ADMIN));
+
+        $question = Question::where('is_answers_type_single', true)->first();
+
+        $payload = getPayload($question?->no_of_answers, true);
+
+        $response = postJson(
+            route('api.v1.administrative.questions.answers.async', ['question' => $question?->hash_id]),
+            $payload
+        );
+
+        $response->assertUnprocessable();
+        $response->assertInvalid(['answers']);
+    })->group('api/v1/administrative/question/answer/async');
+
+it('allows administrative users to async one correct answer to single type answers question', function () {
     Sanctum::actingAs(UserRepository::getRandomUser(Role::ADMIN));
 
-    $question = QuestionRepository::getRandomQuestion();
+    $question = Question::where('is_answers_type_single', true)->first();
 
-    $payload = getPayload($question->no_of_answers, true);
+    $payload = getPayload($question?->no_of_answers, false);
+    $payload['answers'][0]['correct'] = true;
 
     $response = postJson(
-        route('api.v1.administrative.questions.answers.async', ['question' => $question->hash_id]),
+        route('api.v1.administrative.questions.answers.async', ['question' => $question?->hash_id]),
         $payload
     );
     $response->assertOk();
 
-    $newAnswersIds = $question->answers->pluck('id')->all();
+    $newAnswersIds = $question?->answers->pluck('id')->all();
+
+    expect($newAnswersIds)->toBe($newAnswersIds);
+})->group('api/v1/administrative/question/answer/async');
+
+it('allows administrative users to async answers to multiple answers type question', function () {
+    Sanctum::actingAs(UserRepository::getRandomUser(Role::ADMIN));
+
+    $question = Question::where('is_answers_type_single', false)->first();
+
+    $payload = getPayload($question?->no_of_answers, true);
+
+    $response = postJson(
+        route('api.v1.administrative.questions.answers.async', ['question' => $question?->hash_id]),
+        $payload
+    );
+    $response->assertOk();
+
+    $newAnswersIds = $question?->answers->pluck('id')->all();
 
     expect($newAnswersIds)->toBe($newAnswersIds);
 })->group('api/v1/administrative/question/answer/async');
@@ -87,7 +125,7 @@ it('allows administrative users to remove all answers of a question', function (
 {
     $payload = [];
 
-    $answersIds = \Tests\Repositories\AnswerRepository::getRandomAnswers($limit)
+    $answersIds = AnswerRepository::getRandomAnswers($limit)
         ->pluck('id')
         ->transform(fn ($id) => \Vinkla\Hashids\Facades\Hashids::encode($id))
         ->all();

@@ -19,6 +19,15 @@ class SetModelPrettyId
      */
     public function __construct(Model $model)
     {
-        $model->pretty_id = PrettyIdGenerator::generate('questions', 'ques_', 13);
+        $data = $this->getPrettyIdData($model);
+        $model->pretty_id = PrettyIdGenerator::generate($data['table'], $data['prefix'], $data['length']);
+    }
+
+    public function getPrettyIdData(Model $model): array
+    {
+        return match (class_basename($model)) {
+            'Answer' => ['table' => 'answers', 'prefix' => 'ans_', 'length' => 12],
+            'Question' => ['table' => 'questions', 'prefix' => 'quest_', 'length' => 13]
+        };
     }
 }
