@@ -19,6 +19,7 @@ class IndexAnswerController extends Controller
                 AllowedFilter::callback('text', function (Builder $query, $value) {
                     $query->whereFullText('text', $value);
                 }),
+                AllowedFilter::exact('pretty_id'),
             ])
             ->defaultSort('-id')
             ->allowedSorts('created_at')

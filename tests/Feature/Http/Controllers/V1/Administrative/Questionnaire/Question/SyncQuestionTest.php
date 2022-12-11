@@ -19,7 +19,7 @@ beforeEach(function () {
 
     $category = \App\Models\Category::query()->first();
 
-    $this->questionnaire->categories()->attach($category->id);
+    $this->questionnaire->categories()->attach($category?->id);
 
     $answersIds = \App\Models\Answer::query()->limit(2)->pluck('id');
 
@@ -47,7 +47,7 @@ beforeEach(function () {
 
     $ids = $easyQuestionsIds->merge([$mediumQuestionsIds, $hardQuestionsIds])->flatten()->all();
 
-    $category->questions()->sync($ids);
+    $category?->questions()->sync($ids);
 });
 
 it('return 401 unauthorized response for non-login users', function () {

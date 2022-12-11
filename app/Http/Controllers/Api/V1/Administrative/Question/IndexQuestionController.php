@@ -40,6 +40,7 @@ class IndexQuestionController extends Controller
                         $query->havingRaw('no_of_answers <> answers_count');
                     }
                 }),
+                AllowedFilter::exact('pretty_id'),
                 'categories.name',
             ])
             ->defaultSort('-id')

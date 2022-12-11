@@ -10,7 +10,6 @@ use Laravel\Sanctum\Sanctum;
 use function Pest\Laravel\getJson;
 use Tests\Repositories\QuestionRepository;
 use Tests\Repositories\UserRepository;
-use Tests\RequestFactories\CategoryRequest;
 use Tests\RequestFactories\QuestionRequest;
 
 beforeEach(function () {
@@ -37,8 +36,7 @@ it('allows administrative users to retrieve all questions', function () {
     $response->assertOk();
 
     $response->assertJson(fn (AssertableJson $json) => $json->has('data', $questionsCount)->etc());
-})->fakeRequest(CategoryRequest::class)
-    ->group('api/v1/administrative/question/index');
+})->group('api/v1/administrative/question/index');
 
 it('can sorts all questions by created at column', function () {
     Sanctum::actingAs(UserRepository::getRandomUser(Role::ADMIN));
@@ -65,8 +63,7 @@ it('can sorts all questions by created at column', function () {
     $sortedData = $data->sortDesc()->values();
 
     expect($data->all())->toBe($sortedData->all());
-})->fakeRequest(CategoryRequest::class)
-    ->group('api/v1/administrative/question/index');
+})->group('api/v1/administrative/question/index');
 
 it('can filter all questions by categories name', function () {
     Sanctum::actingAs(UserRepository::getRandomUser(Role::ADMIN));
@@ -94,8 +91,7 @@ it('can filter all questions by categories name', function () {
     $categoriesNames->each(function (string $name) use ($questionName) {
         expect($name)->toBe($questionName);
     });
-})->fakeRequest(CategoryRequest::class)
-    ->group('api/v1/administrative/question/index');
+})->group('api/v1/administrative/question/index');
 
 it('can filter all questions by difficulty', function () {
     Sanctum::actingAs(UserRepository::getRandomUser(Role::ADMIN));
@@ -117,8 +113,7 @@ it('can filter all questions by difficulty', function () {
     collect($data)->pluck('attributes.hardness')
         ->filter()
         ->each(fn (string $difficulty) => expect($filteredDifficulty)->toBe($difficulty));
-})->fakeRequest(CategoryRequest::class)
-    ->group('api/v1/administrative/question/index');
+})->group('api/v1/administrative/question/index');
 
 it('can filter all questions by its content', function () {
     Sanctum::actingAs(UserRepository::getRandomUser(Role::ADMIN));
@@ -145,8 +140,7 @@ it('can filter all questions by its content', function () {
 
     collect($data)->pluck('attributes.content')
         ->each(fn (string $content) => expect(str_contains($content, 'test'))->toBeTrue());
-})->fakeRequest(CategoryRequest::class)
-    ->group('api/v1/administrative/question/index');
+})->group('api/v1/administrative/question/index');
 
 it('can filter all questions by its completeness', function (mixed $completeness) {
     Sanctum::actingAs(UserRepository::getRandomUser(Role::ADMIN));
@@ -202,5 +196,30 @@ it('can filter all questions by its incompleteness', function () {
         $question->loadCount('answers');
 
         expect($question->no_of_answers !== $question->answers_count)->toBeTrue();
+    });
+})->group('api/v1/administrative/question/index');
+
+it('can filter all questions by its pretty id', function () {
+    Sanctum::actingAs(UserRepository::getRandomUser(Role::ADMIN));
+
+    config(['json-api-paginate.max_results' => PHP_INT_MAX]);
+
+    $question = QuestionRepository::getRandomQuestion();
+
+    $query = '?'.http_build_query([
+        'filter' => ['pretty_id' => $question->pretty_id],
+        'page' => ['size' => PHP_INT_MAX],
+    ]);
+
+    $response = getJson($this->route.$query);
+    $response->assertOk();
+
+    $data = $response->decodeResponseJson()['data'];
+
+    $prettyIds = collect($data)
+        ->pluck('attributes.pretty_id');
+
+    $prettyIds->each(function (string $prettyId) use ($question) {
+        expect($prettyId)->toBe($question->pretty_id);
     });
 })->group('api/v1/administrative/question/index');
