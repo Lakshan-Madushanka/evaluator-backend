@@ -2,6 +2,8 @@
 
 use App\Enums\Difficulty;
 use App\Enums\Role;
+use App\Models\Answer;
+use App\Models\Category;
 use App\Models\Question;
 use App\Models\Questionnaire;
 use Laravel\Sanctum\Sanctum;
@@ -11,31 +13,35 @@ use Tests\Repositories\UserRepository;
 
 beforeEach(function () {
     $this->questionnaire = Questionnaire::factory()->create([
+        'single_answers_type' => false,
         'no_of_questions' => 6,
         'no_of_easy_questions' => 2,
         'no_of_medium_questions' => 2,
         'no_of_hard_questions' => 2,
     ]);
 
-    $category = \App\Models\Category::query()->first();
+    $category = Category::query()->first();
 
     $this->questionnaire->categories()->attach($category?->id);
 
-    $answersIds = \App\Models\Answer::query()->limit(2)->pluck('id');
+    $answersIds = Answer::query()->limit(2)->pluck('id');
 
     $easyQuestions = Question::factory()->count(4)->create([
+        'is_answers_type_single' => false,
         'difficulty' => Difficulty::EASY,
         'no_of_answers' => 2,
     ])
         ->each(fn (Question $question) => $question->answers()->sync($answersIds));
 
     $mediumQuestions = Question::factory()->count(4)->create([
+        'is_answers_type_single' => false,
         'difficulty' => Difficulty::MEDIUM,
         'no_of_answers' => 2,
     ])
         ->each(fn (Question $question) => $question->answers()->sync($answersIds));
 
     $hardQuestions = Question::factory()->count(4)->create([
+        'is_answers_type_single' => false,
         'difficulty' => Difficulty::HARD,
         'no_of_answers' => 2,
     ])
@@ -211,3 +217,65 @@ it('cannot attach question which belongs to different category than questionnair
 
         expect($questionsIds->count())->toEqual(0);
     })->group('api/v1/administrative/questionnaire/question/sync');
+
+it('cannot sync same question twice',
+    function () {
+        Sanctum::actingAs(UserRepository::getRandomUser(Role::ADMIN));
+
+        $payload = QuestionRepository::pluckCompletedQuestionsHashIdsByDifficulty(
+            $this->questionnaire->no_of_hard_questions - 1,
+            Difficulty::HARD,
+            $this->questionnaire
+        );
+
+        $payload->push($payload[0]);
+
+        $response = postJson(
+            route('api.v1.administrative.questionnaires.questions.sync',
+                ['questionnaire' => $this->questionnaire->hash_id]),
+            ['questions' => $payload->all()]
+        );
+
+        $attachedQuestions = $this->questionnaire->questions;
+
+        expect($attachedQuestions->count())->toBe(1);
+    })->group('api/v1/administrative/questionnaire/question/sync');
+
+it('cannot sync a multiple answer type question when questionnaire is
+single answer type', function () {
+    Sanctum::actingAs(UserRepository::getRandomUser(Role::ADMIN));
+
+    $questionnaire = Questionnaire::factory()->create([
+        'single_answers_type' => true,
+        'no_of_questions' => 6,
+        'no_of_easy_questions' => 2,
+        'no_of_medium_questions' => 2,
+        'no_of_hard_questions' => 2,
+    ]);
+
+    $category = Category::query()->first();
+
+    $questionnaire->categories()->attach($category?->id);
+
+    $answersIds = Answer::query()->limit(2)->pluck('id');
+
+    $question = Question::factory()->create([
+        'is_answers_type_single' => false,
+        'difficulty' => Difficulty::MEDIUM,
+        'no_of_answers' => 2,
+    ]);
+
+    $question->answers()->sync($answersIds);
+    $question->categories()->attach($category?->id);
+
+    $response = postJson(route(
+        'api.v1.administrative.questionnaires.questions.sync',
+        ['questionnaire' => $questionnaire?->hash_id]),
+        ['questions' => [$question?->hash_id]]
+    );
+
+    $attachedQuestions = $questionnaire?->questions;
+
+    $response->assertOk();
+    expect($attachedQuestions->count())->toBe(0);
+})->group('api/v1/administrative/questionnaire/question/sync');

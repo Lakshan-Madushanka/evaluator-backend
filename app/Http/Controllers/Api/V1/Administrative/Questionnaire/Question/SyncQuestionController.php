@@ -9,7 +9,6 @@ use App\Helpers;
 use App\Http\Controllers\Controller;
 use App\Models\Question;
 use App\Models\Questionnaire;
-use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -29,11 +28,8 @@ class SyncQuestionController extends Controller
 
         $modelIds = Helpers::getModelIdsFromHashIds($validatedQuestions);
 
-        $questionnaireCategoryIds = $questionnaire->categories()->pluck('categories.id');
-
         $attachableQuestionsModelIds = Question::query()
-            ->whereHas('categories', fn (Builder $query) => $query->whereIn('categories.id', $questionnaireCategoryIds))
-            ->completed()
+            ->eligible($questionnaire)
             ->pluck('questions.id');
 
         $availableModelIds = collect($modelIds)->intersect($attachableQuestionsModelIds);

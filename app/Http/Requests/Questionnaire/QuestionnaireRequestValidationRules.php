@@ -17,6 +17,7 @@ class QuestionnaireRequestValidationRules implements RequestValidationRulesContr
         return [
             'name' => ['required', 'string', 'between:3,50'],
             'difficulty' => ['required', new Enum(Difficulty::class)],
+            'single_answers_type' => ['required', 'boolean'],
             'no_of_easy_questions' => ['required', 'integer'],
             'no_of_medium_questions' => ['required', 'integer'],
             'no_of_hard_questions' => ['required', 'integer'],

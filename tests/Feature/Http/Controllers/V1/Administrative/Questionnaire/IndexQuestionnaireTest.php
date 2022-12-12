@@ -123,7 +123,7 @@ it('can filter all questionnaires by difficulty', function () {
 it('can filter all questionnaires by its name', function () {
     Sanctum::actingAs(UserRepository::getRandomUser(Role::ADMIN));
 
-    $text = \Illuminate\Support\Str::random().'test'.\Illuminate\Support\Str::random();
+    $text = 'z'.\Illuminate\Support\Str::random();
 
     $data = QuestionnaireRequest::new(['name' => $text])->getFactoryData()->getRequestedData();
 
@@ -134,7 +134,7 @@ it('can filter all questionnaires by its name', function () {
     $filteredDifficulty = Difficulty::EASY->name;
 
     $query = '?'.http_build_query([
-        'filter' => ['name' => 'test'],
+        'filter' => ['name' => 'z'],
         'page' => ['size' => PHP_INT_MAX],
     ]);
 
@@ -144,7 +144,10 @@ it('can filter all questionnaires by its name', function () {
     $data = $response->decodeResponseJson()['data'];
 
     collect($data)->pluck('attributes.name')
-        ->each(fn (string $content) => expect(str_contains($content, 'test'))->toBeTrue());
+        ->each(function (string $content) {
+            $exists = str_contains($content, 'z') || str_contains($content, 'Z');
+            expect($exists)->toBeTrue();
+        });
 })->fakeRequest(CategoryRequest::class)
     ->group('api/v1/administrative/questionnaire/index');
 

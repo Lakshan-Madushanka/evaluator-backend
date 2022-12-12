@@ -19,6 +19,8 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Carbon;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * App\Models\Question
@@ -46,9 +48,9 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @method static Builder|Question whereUpdatedAt($value)
  * @mixin Eloquent
  *
- * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $images
+ * @property-read MediaCollection|Media[] $images
  * @property-read int|null $images_count
- * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
+ * @property-read MediaCollection|Media[] $media
  * @property-read int|null $media_count
  *
  * @method static Builder|Question completed()
@@ -133,6 +135,9 @@ class Question extends Model implements HasMedia
         $questionnaireCategoriesIds = $questionnaire->categories()->pluck('categories.id');
 
         return $query->completed()
+            ->when($questionnaire->single_answers_type, function (Builder $query) {
+                $query->where('is_answers_type_single', true);
+            })
             ->whereHas('categories',
                 fn (Builder $query) => $query->whereIn('categories.id', $questionnaireCategoriesIds));
     }

@@ -17,6 +17,7 @@ class QuestionRequestValidationRules implements RequestValidationRulesContract
         return [
             'difficulty' => ['required', new Enum(Difficulty::class)],
             'text' => ['string', 'required', 'min:3'],
+            'is_answers_type_single' => ['boolean', 'required'],
             'no_of_answers' => ['integer', 'required', 'min:2'],
             'categories' => ['array', 'required'],
             'categories.*' => ['string', 'required'],

@@ -23,8 +23,9 @@ class QuestionnaireFactory extends Factory
         return [
             'name' => $this->faker->unique()->word().Str::random(8),
             'difficulty' => $this->faker->randomElement(Difficulty::cases()),
-            'no_of_questions' => $this->faker->numberBetween(25, 50),
+            'single_answers_type' => $this->faker->randomElement([true, false]),
 
+            'no_of_questions' => $this->faker->numberBetween(25, 50),
             'no_of_easy_questions' => function (array $attributes) {
                 return $this->calcNoOfQuestionsForDifficultyLevel(
                     $attributes['difficulty'],

@@ -18,6 +18,11 @@ return new class extends Migration
 
             $table->string('name', 50)->unique();
             $table->tinyInteger('difficulty');
+            /*
+             *  Single answers type questionnaire contain questions that has
+             * one correct answer (is_answers_type_single true)
+            */
+            $table->boolean('single_answers_type')->default(false);
 
             $table->smallInteger('no_of_questions');
             $table->smallInteger('no_of_easy_questions');

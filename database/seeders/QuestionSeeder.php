@@ -27,9 +27,12 @@ class QuestionSeeder extends Seeder
                 $noOfMediumQuestions = $questionnaire->no_of_medium_questions;
                 $noOfHardQuestions = $questionnaire->no_of_hard_questions;
 
-                $easyQuestions = $questionnaire->questions()->createMany($this->makeQuestions(Difficulty::EASY, $noOfEasyQuestions));
-                $mediumQuestions = $questionnaire->questions()->createMany($this->makeQuestions(Difficulty::MEDIUM, $noOfMediumQuestions));
-                $hardQuestions = $questionnaire->questions()->createMany($this->makeQuestions(Difficulty::HARD, $noOfHardQuestions));
+                $easyQuestions = $questionnaire->questions()->createMany($this->makeQuestions(Difficulty::EASY,
+                    $noOfEasyQuestions, $questionnaire));
+                $mediumQuestions = $questionnaire->questions()->createMany($this->makeQuestions(Difficulty::MEDIUM,
+                    $noOfMediumQuestions, $questionnaire));
+                $hardQuestions = $questionnaire->questions()->createMany($this->makeQuestions(Difficulty::HARD,
+                    $noOfHardQuestions, $questionnaire));
 
                 $this->assignCategories($easyQuestions, $questionnaire->categories);
                 $this->assignCategories($mediumQuestions, $questionnaire->categories);
@@ -37,13 +40,20 @@ class QuestionSeeder extends Seeder
             });
     }
 
-    public function makeQuestions(Difficulty $type, int $noOfQuestions): array
+    public function makeQuestions(Difficulty $type, int $noOfQuestions, Questionnaire $questionnaire): array
     {
         if ($noOfQuestions < 1) {
             return [];
         }
 
         return Question::factory()
+            ->state(function (array $attributes) use ($questionnaire) {
+                if ($questionnaire->single_answers_type) {
+                    return ['is_answers_type_single' => true];
+                }
+
+                return ['is_answers_type_single' => false];
+            })
             ->count($noOfQuestions)
             ->make(['difficulty' => $type])
             ->toArray();

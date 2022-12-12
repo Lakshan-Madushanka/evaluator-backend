@@ -64,6 +64,7 @@ class Questionnaire extends Model
     protected $fillable = [
         'name',
         'difficulty',
+        'single_answers_type',
         'no_of_questions',
         'no_of_easy_questions',
         'no_of_medium_questions',
