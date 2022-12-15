@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\V1\Administrative\Questionnaire\Question;
 
 use App\Enums\Difficulty;
-use App\Helpers;
 use App\Http\Controllers\Controller;
 use App\Models\Question;
 use App\Models\Questionnaire;
@@ -14,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
+use Vinkla\Hashids\Facades\Hashids;
 
 class SyncQuestionController extends Controller
 {
@@ -21,12 +21,16 @@ class SyncQuestionController extends Controller
     {
         $validatedInputs = $request->validate([
             'questions' => ['array'],
-            'questions.*' => ['string'],
+            'questions.*.id' => ['string'],
+            'questions.*.marks' => ['integer'],
+
         ]);
 
         $validatedQuestions = $validatedInputs['questions'];
 
-        $modelIds = Helpers::getModelIdsFromHashIds($validatedQuestions);
+        $validatedQuestions = $this->transformIds(collect($validatedQuestions));
+
+        $modelIds = $validatedQuestions->pluck('id');
 
         $attachableQuestionsModelIds = Question::query()
             ->eligible($questionnaire)
@@ -36,7 +40,7 @@ class SyncQuestionController extends Controller
 
         $this->validateQuestions($questionnaire, $availableModelIds);
 
-        $questionnaire->questions()->sync($availableModelIds);
+        $questionnaire->questions()->sync($this->prepareDataForSync($validatedQuestions->all(), $availableModelIds->all()));
 
         return new JsonResponse(status: Response::HTTP_OK);
     }
@@ -84,5 +88,25 @@ class SyncQuestionController extends Controller
                 'questions' => "No of hard questions should be {$noOfHardQuestions}",
             ])
         );
+    }
+
+    public function transformIds(Collection $valiidatedQuestions): Collection
+    {
+        return  $valiidatedQuestions->transform(function ($question) {
+            return ['id' => Hashids::decode($question['id'])[0], 'marks' => $question['marks']];
+        });
+    }
+
+    public function prepareDataForSync(array $validatedQuestions, array $validatedModelIds): array
+    {
+        $data = [];
+
+        foreach ($validatedQuestions as $question) {
+            if (in_array($question['id'], $validatedModelIds, true)) {
+                $data[$question['id']] = ['marks' => $question['marks']];
+            }
+        }
+
+        return $data;
     }
 }

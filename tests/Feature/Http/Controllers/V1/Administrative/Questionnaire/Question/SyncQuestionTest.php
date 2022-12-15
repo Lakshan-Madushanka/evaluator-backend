@@ -6,6 +6,7 @@ use App\Models\Answer;
 use App\Models\Category;
 use App\Models\Question;
 use App\Models\Questionnaire;
+use Illuminate\Support\Collection;
 use Laravel\Sanctum\Sanctum;
 use function Pest\Laravel\postJson;
 use Tests\Repositories\QuestionRepository;
@@ -74,7 +75,7 @@ it('throws validation exception when try to sync no of question greater than all
         'api.v1.administrative.questionnaires.questions.sync',
         ['questionnaire' => $this->questionnaire->hash_id]
     ),
-        ['questions' => $payload->all()]
+        prepareDataforSyncQuestiontoQuestionnaire($payload)
     );
 
     $response->assertUnprocessable();
@@ -94,7 +95,7 @@ it('throws validation exception when try to sync no of easy question greater tha
         $response = postJson(
             route('api.v1.administrative.questionnaires.questions.sync',
                 ['questionnaire' => $this->questionnaire->hash_id]),
-            ['questions' => $payload->all()]
+            prepareDataforSyncQuestiontoQuestionnaire($payload)
         );
 
         $response->assertUnprocessable();
@@ -116,7 +117,7 @@ it('throws validation exception when try to sync no of medium question greater t
                 'api.v1.administrative.questionnaires.questions.sync',
                 ['questionnaire' => $this->questionnaire->hash_id]
             ),
-            ['questions' => $payload->all()]
+            prepareDataforSyncQuestiontoQuestionnaire($payload)
         );
 
         $response->assertUnprocessable();
@@ -136,7 +137,7 @@ it('throws validation exception when try to sync no of hard question greater tha
         $response = postJson(
             route('api.v1.administrative.questionnaires.questions.sync',
                 ['questionnaire' => $this->questionnaire->hash_id]),
-            ['questions' => $payload->all()]
+            prepareDataforSyncQuestiontoQuestionnaire($payload)
         );
 
         $response->assertUnprocessable();
@@ -168,13 +169,13 @@ it('allows administrative users to sync questions',
         $response = postJson(
             route('api.v1.administrative.questionnaires.questions.sync',
                 ['questionnaire' => $this->questionnaire->hash_id]),
-            ['questions' => $payload->all()]
+            prepareDataforSyncQuestiontoQuestionnaire($payload)
         );
 
         $response->assertOk();
 
-        $questionsIds = $this->questionnaire->questions->pluck('id')->transform(fn ($id
-        ) => \Vinkla\Hashids\Facades\Hashids::encode($id));
+        $questionsIds = $this->questionnaire->questions->pluck('id')
+            ->transform(fn ($id) => \Vinkla\Hashids\Facades\Hashids::encode($id));
 
         expect($payload->diff($questionsIds))->toEqual(collect([]));
     })->group('api/v1/administrative/questionnaire/question/sync');
@@ -205,10 +206,21 @@ it('cannot attach question which belongs to different category than questionnair
         $question = Question::factory()
             ->create();
 
+        $answers = Answer::limit($question->no_of_answers)->pluck('id');
+
+        $question->answers()->sync($answers);
+
         $response = postJson(
             route('api.v1.administrative.questionnaires.questions.sync',
                 ['questionnaire' => $this->questionnaire->hash_id]),
-            ['questions' => [\Vinkla\Hashids\Facades\Hashids::encode($question->id)]]
+            [
+                'questions' => [
+                    [
+                        'id' => \Vinkla\Hashids\Facades\Hashids::encode($question->id),
+                        'marks' => 1,
+                    ],
+                ],
+            ]
         );
 
         $response->assertOk();
@@ -233,7 +245,7 @@ it('cannot sync same question twice',
         $response = postJson(
             route('api.v1.administrative.questionnaires.questions.sync',
                 ['questionnaire' => $this->questionnaire->hash_id]),
-            ['questions' => $payload->all()]
+            prepareDataforSyncQuestiontoQuestionnaire($payload)
         );
 
         $attachedQuestions = $this->questionnaire->questions;
@@ -271,7 +283,14 @@ single answer type', function () {
     $response = postJson(route(
         'api.v1.administrative.questionnaires.questions.sync',
         ['questionnaire' => $questionnaire?->hash_id]),
-        ['questions' => [$question?->hash_id]]
+        [
+            'questions' => [
+                [
+                    'id' => $question?->hash_id,
+                    'marks' => 1,
+                ],
+            ],
+        ]
     );
 
     $attachedQuestions = $questionnaire?->questions;
@@ -279,3 +298,16 @@ single answer type', function () {
     $response->assertOk();
     expect($attachedQuestions->count())->toBe(0);
 })->group('api/v1/administrative/questionnaire/question/sync');
+
+function prepareDataforSyncQuestiontoQuestionnaire(Collection $ids, int $marks = 1): array
+{
+    $data = [];
+
+    $ids = $ids->all();
+
+    foreach ($ids as $id) {
+        $data[] = ['id' => $id, 'marks' => $marks];
+    }
+
+    return ['questions' => $data];
+}

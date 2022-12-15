@@ -25,6 +25,10 @@ class QuestionResource extends JsonApiResource
             'images_count' => $this->whenCounted('images'),
         ];
 
+        if (isset($this->marks)) {
+            $attributes['marks'] = $this->marks;
+        }
+
         return $attributes;
     }
 

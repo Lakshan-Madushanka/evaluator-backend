@@ -11,11 +11,12 @@ use TiMacDonald\JsonApi\JsonApiResourceCollection;
 
 class IndexQuestionController extends Controller
 {
-    public function __invoke(Questionnaire $questionnaire, Request $request): JsonApiResourceCollection
+    public function __invoke(Questionnaire $questionnaire, Request $request)//: JsonApiResourceCollection
     {
-        $questions = QueryBuilder::for($questionnaire->questions())
-            ->allowedIncludes('answers.images')
+        $questions = QueryBuilder::for($questionnaire->questionsWithPivotData())
+            ->selectRaw('*')
             ->withCount(['images', 'answers'])
+            ->allowedIncludes('answers.images')
             ->orderBy('difficulty')
             ->jsonPaginate();
 

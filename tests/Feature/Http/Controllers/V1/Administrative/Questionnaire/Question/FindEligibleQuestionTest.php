@@ -65,7 +65,7 @@ it('return eligible false response for a question belongs to different category'
     $response->assertJsonPath('eligible', false);
 })->group('api/v1/administrative/questionnaire/question/findEligible');
 
-it('allows administrative users to retrieve all questions of a questionnaires', function () {
+it('allows administrative users to retrieve eligible question of a questionnaires', function () {
     Sanctum::actingAs(UserRepository::getRandomUser(Role::ADMIN));
 
     $question = Question::query()->eligible($this->questionnaire)->first();

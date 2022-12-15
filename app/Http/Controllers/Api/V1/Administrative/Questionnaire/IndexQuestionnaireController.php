@@ -45,6 +45,7 @@ class IndexQuestionnaireController extends Controller
                     $query->whereBetween('allocated_time', [$value]);
                 }),
                 AllowedFilter::exact('single_answers_type'),
+                AllowedFilter::scope('completed'),
                 'categories.name',
             ])
             ->defaultSort('-id')

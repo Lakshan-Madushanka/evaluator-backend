@@ -54,7 +54,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Illuminate\Support\Facades\Auth::loginUsingId(2);
+Illuminate\Support\Facades\Auth::loginUsingId(2);
 Route::get('/test', function (Request $request) {
 });
 

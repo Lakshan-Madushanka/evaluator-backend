@@ -6,11 +6,16 @@ namespace App\Models;
 
 use App\Enums\Difficulty;
 use App\Models\Concerns\HasHashids;
+use Database\Factories\QuestionnaireFactory;
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Support\Carbon;
 
 /**
  * App\Models\Questionnaire
@@ -23,35 +28,35 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  * @property int $no_of_medium_questions
  * @property int $no_of_hard_questions
  * @property int $allocated_time
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Category[] $categories
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Collection|Category[] $categories
  * @property-read int|null $categories_count
- * @property-read \App\Models\UserQuestionnaire|null $evaluations
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Question[] $questions
+ * @property-read UserQuestionnaire|null $evaluations
+ * @property-read Collection|Question[] $questions
  * @property-read int|null $questions_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $users
+ * @property-read Collection|User[] $users
  * @property-read int|null $users_count
  *
- * @method static \Database\Factories\QuestionnaireFactory factory(...$parameters)
- * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire query()
- * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire whereAllocatedTime($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire whereContent($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire whereDifficulty($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire whereNoOfEasyQuestions($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire whereNoOfHardQuestions($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire whereNoOfMediumQuestions($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire whereNoOfQuestions($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire whereUpdatedAt($value)
- * @mixin \Eloquent
+ * @method static QuestionnaireFactory factory(...$parameters)
+ * @method static Builder|Questionnaire newModelQuery()
+ * @method static Builder|Questionnaire newQuery()
+ * @method static Builder|Questionnaire query()
+ * @method static Builder|Questionnaire whereAllocatedTime($value)
+ * @method static Builder|Questionnaire whereContent($value)
+ * @method static Builder|Questionnaire whereCreatedAt($value)
+ * @method static Builder|Questionnaire whereDifficulty($value)
+ * @method static Builder|Questionnaire whereId($value)
+ * @method static Builder|Questionnaire whereNoOfEasyQuestions($value)
+ * @method static Builder|Questionnaire whereNoOfHardQuestions($value)
+ * @method static Builder|Questionnaire whereNoOfMediumQuestions($value)
+ * @method static Builder|Questionnaire whereNoOfQuestions($value)
+ * @method static Builder|Questionnaire whereUpdatedAt($value)
+ * @mixin Eloquent
  *
  * @property string $name
  *
- * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire whereName($value)
+ * @method static Builder|Questionnaire whereName($value)
  */
 class Questionnaire extends Model
 {
@@ -80,7 +85,20 @@ class Questionnaire extends Model
         'single_answers_type' => 'boolean',
     ];
 
-    //--------------------------Relationships----------------------------
+    public function completed()
+    {
+        // return $this->no
+    }
+
+    // --------------------------------Scopes--------------------------------------------
+    public function scopeCompleted(Builder $query): Builder
+    {
+        return $query->havingRaw('questions_count = no_of_questions');
+    }
+
+    //--------------------------------Scopes--------------------------------------------
+
+    //--------------------------Relationships--------------------------------------------
     /**
      * @return MorphToMany<Category>
      */
@@ -105,6 +123,19 @@ class Questionnaire extends Model
             foreignPivotKey: 'questionnaire_id',
             relatedPivotKey: 'question_id'
         );
+    }
+
+    /**
+     * @return BelongsToMany<Question>
+     */
+    public function questionsWithPivotData(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            related: Question::class,
+            table: 'questionnaire_question',
+            foreignPivotKey: 'questionnaire_id',
+            relatedPivotKey: 'question_id'
+        )->withPivot(['marks']);
     }
 
     /**
