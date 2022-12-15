@@ -223,3 +223,26 @@ it('can filter all questions by its pretty id', function () {
         expect($prettyId)->toBe($question->pretty_id);
     });
 })->group('api/v1/administrative/question/index');
+
+it('can filter by single answers type questions', function () {
+    Sanctum::actingAs(UserRepository::getRandomUser(Role::ADMIN));
+
+    config(['json-api-paginate.max_results' => PHP_INT_MAX]);
+
+    $query = '?'.http_build_query([
+        'filter' => ['answers_type_single' => true],
+        'page' => ['size' => PHP_INT_MAX],
+    ]);
+
+    $response = getJson($this->route.$query);
+    $response->assertOk();
+
+    $data = $response->decodeResponseJson()['data'];
+
+    $prettyIds = collect($data)
+        ->pluck('attributes.answers_type_single');
+
+    $prettyIds->each(function (bool $singleAnswersType) {
+        expect($singleAnswersType)->toBeTrue();
+    });
+})->group('api/v1/administrative/question/index');

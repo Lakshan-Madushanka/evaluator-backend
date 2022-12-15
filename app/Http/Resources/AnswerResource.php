@@ -29,6 +29,8 @@ class AnswerResource extends JsonApiResource
 
     protected function toRelationships(Request $request): array
     {
-        return [];
+        return [
+            'images' => fn () => MediaResource::collection($this->images),
+        ];
     }
 }

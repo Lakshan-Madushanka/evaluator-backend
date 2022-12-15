@@ -5,8 +5,7 @@ namespace App\Http\Controllers\Api\V1\Administrative\Questionnaire;
 use App\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Questionnaire\QuestionnaireStoreRequest;
-use App\Http\Requests\User\UserStoreRequest;
-use App\Http\Resources\QuestionResource;
+use App\Http\Resources\QuestionnaireResource;
 use App\Models\Questionnaire;
 use Illuminate\Support\Arr;
 
@@ -15,10 +14,10 @@ class StoreQuestionnaireController extends Controller
     /**
      * Handle the incoming request.
      *
-     * @param  UserStoreRequest  $request
-     * @return QuestionResource
+     * @param  QuestionnaireStoreRequest  $request
+     * @return QuestionnaireResource
      */
-    public function __invoke(QuestionnaireStoreRequest $request): QuestionResource
+    public function __invoke(QuestionnaireStoreRequest $request): QuestionnaireResource
     {
         /** @var array<string> $validatedInputs * */
         $validatedInputs = $request->validated();
@@ -27,6 +26,6 @@ class StoreQuestionnaireController extends Controller
 
         $questionnaire->categories()->attach(Helpers::getModelIdsFromHashIds($validatedInputs['categories']));
 
-        return new QuestionResource($questionnaire);
+        return new QuestionnaireResource($questionnaire);
     }
 }

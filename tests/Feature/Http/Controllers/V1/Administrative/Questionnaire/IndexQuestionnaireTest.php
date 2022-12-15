@@ -285,3 +285,26 @@ it('can filter all questionnaires by its allocated time range', function () {
         expect($allocatedTime >= $min && $allocatedTime <= $max)->toBeTrue();
     });
 })->group('api/v1/administrative/questionnaire/index');
+
+it('can filter by single answers type questions', function () {
+    Sanctum::actingAs(UserRepository::getRandomUser(Role::ADMIN));
+
+    config(['json-api-paginate.max_results' => PHP_INT_MAX]);
+
+    $query = '?'.http_build_query([
+        'filter' => ['single_answers_type' => true],
+        'page' => ['size' => PHP_INT_MAX],
+    ]);
+
+    $response = getJson($this->route.$query);
+    $response->assertOk();
+
+    $data = $response->decodeResponseJson()['data'];
+
+    $prettyIds = collect($data)
+        ->pluck('attributes.single_answers_type');
+
+    $prettyIds->each(function (bool $singleAnswersType) {
+        expect($singleAnswersType)->toBeTrue();
+    });
+})->group('api/v1/administrative/questionnaire/index');

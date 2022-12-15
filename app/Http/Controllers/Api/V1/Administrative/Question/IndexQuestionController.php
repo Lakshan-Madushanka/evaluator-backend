@@ -41,6 +41,7 @@ class IndexQuestionController extends Controller
                     }
                 }),
                 AllowedFilter::exact('pretty_id'),
+                AllowedFilter::exact('answers_type_single', 'is_answers_type_single'),
                 'categories.name',
             ])
             ->defaultSort('-id')

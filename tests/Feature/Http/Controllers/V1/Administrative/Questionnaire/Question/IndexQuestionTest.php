@@ -26,7 +26,13 @@ it('allows administrative users to retrieve all questions of a questionnaires', 
 
     $questionsCount = $this->questionnaire->questions->count();
 
-    $response = getJson($this->route);
+    config(['json-api-paginate.max_results' => PHP_INT_MAX]);
+
+    $query = '?'.http_build_query([
+        'page' => ['size' => PHP_INT_MAX],
+    ]);
+
+    $response = getJson($this->route.$query);
     $response->assertOk();
 
     $response->assertJson(fn (AssertableJson $json) => $json->has('data', $questionsCount)

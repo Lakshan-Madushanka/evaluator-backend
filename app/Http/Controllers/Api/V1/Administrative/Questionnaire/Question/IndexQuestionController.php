@@ -6,15 +6,18 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\QuestionResource;
 use App\Models\Questionnaire;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\QueryBuilder;
 use TiMacDonald\JsonApi\JsonApiResourceCollection;
 
 class IndexQuestionController extends Controller
 {
     public function __invoke(Questionnaire $questionnaire, Request $request): JsonApiResourceCollection
     {
-        $questions = $questionnaire->questions()
+        $questions = QueryBuilder::for($questionnaire->questions())
+            ->allowedIncludes('answers.images')
             ->withCount(['images', 'answers'])
-            ->orderBy('difficulty')->get();
+            ->orderBy('difficulty')
+            ->jsonPaginate();
 
         return QuestionResource::collection($questions);
     }

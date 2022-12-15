@@ -32,6 +32,7 @@ class QuestionResource extends JsonApiResource
     {
         return [
             'categories' => fn () => CategoryResource::collection($this->categories),
+            'answers' => fn () => AnswerResource::collection($this->answers),
         ];
     }
 }

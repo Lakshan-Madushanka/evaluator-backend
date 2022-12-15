@@ -13,19 +13,18 @@ class QuestionnaireResource extends JsonApiResource
 {
     public function toAttributes(Request $request): array
     {
-        $attributes = [
+        return [
             'name' => $this->name,
             'difficulty' => $this->difficulty->name,
+            'single_answers_type' => $this->single_answers_type,
             'no_of_easy_questions' => $this->no_of_easy_questions,
             'no_of_medium_questions' => $this->no_of_medium_questions,
             'no_of_hard_questions' => $this->no_of_hard_questions,
             'no_of_questions' => $this->no_of_questions,
             'no_of_assigned_questions' => $this->whenCounted('questions'),
             'allocated_time' => $this->allocated_time,
-            'created_at' => $this->created_at,
+            'created_at' => $this->created_at->toFormattedDayDateString(),
         ];
-
-        return $attributes;
     }
 
     protected function toRelationships(Request $request): array
