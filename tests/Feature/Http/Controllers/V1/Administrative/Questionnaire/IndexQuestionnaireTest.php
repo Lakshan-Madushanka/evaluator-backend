@@ -308,3 +308,22 @@ it('can filter by single answers type questions', function () {
         expect($singleAnswersType)->toBeTrue();
     });
 })->group('api/v1/administrative/questionnaire/index');
+
+it('can filter all questionnaires by its completeness', function (bool $completed) {
+    Sanctum::actingAs(UserRepository::getRandomUser(Role::ADMIN));
+
+    $query = '?'.http_build_query([
+        'filter' => ['completed' => $completed],
+    ]);
+
+    $response = getJson($this->route.$query);
+    $response->assertOk();
+
+    $data = $response->decodeResponseJson()['data'];
+
+    collect($data)->pluck('attributes.completed')
+        ->each(function (bool $isCcompleted) use ($completed) {
+            expect($isCcompleted)->toBe($completed);
+        });
+})->with([true, false])
+    ->group('api/v1/administrative/questionnaire/index1');

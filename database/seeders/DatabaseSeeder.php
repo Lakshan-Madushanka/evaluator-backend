@@ -17,11 +17,11 @@ class DatabaseSeeder extends Seeder
     {
         // Don't change the order
         $this->call([
-            UserSeeder::class,
             CategorySeeder::class,
             QuestionnaireSeeder::class,
             QuestionSeeder::class,
             AnswerSeeder::class,
+            UserSeeder::class,
         ]);
     }
 }
