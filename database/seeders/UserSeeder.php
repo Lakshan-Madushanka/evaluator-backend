@@ -3,7 +3,9 @@
 namespace Database\Seeders;
 
 use App\Enums\Role;
+use App\Models\Questionnaire;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -19,7 +21,9 @@ class UserSeeder extends Seeder
         $this->createAdmin();
         $this->createSuperAdmin();
 
-        User::factory()->count(50)->create();
+        $users = User::factory()->count(50)->create();
+
+        $this->assignQuestionnaires($users);
     }
 
     public function createAdmin(): void
@@ -45,6 +49,20 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('superAdmin123'),
                 'email' => 'super-admin@company.com',
             ]);
+        });
+    }
+
+    public function assignQuestionnaires(Collection $users): void
+    {
+        $users->each(function (User $user) {
+            $questionnaireIds = Questionnaire::query()
+                ->withCount('questions')
+                ->completed(true)
+                ->inRandomOrder()
+                ->limit(random_int(1, 5))
+                ->pluck('id');
+
+            $user->questionnaires()->syncWithPivotValues($questionnaireIds, ['answers' => json_encode([])]);
         });
     }
 }

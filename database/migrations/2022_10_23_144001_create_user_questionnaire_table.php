@@ -19,7 +19,9 @@ return new class extends Migration
             $table->unsignedSmallInteger('questionnaire_id');
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
 
-            $table->json('answers');
+            $table->tinyInteger('attempts')->default(1);
+            $table->string('code', 50)->nullable();
+            $table->json('answers')->nullable();
 
             $table->timestamps();
 

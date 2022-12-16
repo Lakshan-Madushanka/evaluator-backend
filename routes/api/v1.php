@@ -54,8 +54,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Illuminate\Support\Facades\Auth::loginUsingId(2);
+//Illuminate\Support\Facades\Auth::loginUsingId(2);
 Route::get('/test', function (Request $request) {
+    \Illuminate\Support\Facades\Notification::route('mail', 'lak@gmail.co')
+        ->notify(new \App\Notifications\QuestionnaireAttachedToUser('lakshan'));
 });
 
 Route::prefix('super-admin')->name('super-admin.')->group(function () {
@@ -116,6 +118,14 @@ Route::prefix('administrative')->name('administrative.')->group(function () {
     Route::middleware(['auth:sanctum', 'can:administrative'])
         ->get('/users/{user}', ShowUserController::class)
         ->name('users.show');
+
+    // Questionnaires
+    Route::get('users/{user}/questionnaires',
+        \App\Http\Controllers\Api\V1\Administrative\User\Questionnaire\IndexQuestionnaireController::class)
+        ->name('users.questionnaires.index');
+    Route::post('users/{user}/questionnaires/{questionnaireId}/attach',
+        \App\Http\Controllers\Api\V1\Administrative\User\Questionnaire\AttachQuestionnaireController::class)
+        ->name('users.questionnaires.attach');
 
     /*
      *Categories

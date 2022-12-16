@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\Difficulty;
+use App\Helpers;
 use App\Models\Concerns\HasHashids;
 use Database\Factories\QuestionnaireFactory;
 use Eloquent;
@@ -85,15 +86,14 @@ class Questionnaire extends Model
         'single_answers_type' => 'boolean',
     ];
 
-    public function completed()
-    {
-        // return $this->no
-    }
-
     // --------------------------------Scopes--------------------------------------------
-    public function scopeCompleted(Builder $query): Builder
+    public function scopeCompleted(Builder $query, $value): Builder
     {
-        return $query->havingRaw('questions_count = no_of_questions');
+        if (Helpers::checkValueIsTrue($value)) {
+            return $query->havingRaw('questions_count = no_of_questions');
+        }
+
+        return $query->havingRaw('questions_count <> no_of_questions');
     }
 
     //--------------------------------Scopes--------------------------------------------
