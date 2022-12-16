@@ -119,13 +119,19 @@ Route::prefix('administrative')->name('administrative.')->group(function () {
         ->get('/users/{user}', ShowUserController::class)
         ->name('users.show');
 
-    // Questionnaires
-    Route::get('users/{user}/questionnaires',
-        \App\Http\Controllers\Api\V1\Administrative\User\Questionnaire\IndexQuestionnaireController::class)
-        ->name('users.questionnaires.index');
-    Route::post('users/{user}/questionnaires/{questionnaireId}/attach',
-        \App\Http\Controllers\Api\V1\Administrative\User\Questionnaire\AttachQuestionnaireController::class)
-        ->name('users.questionnaires.attach');
+    /*
+     * Users
+     *
+     */
+    Route::name('users.')->prefix('users')->middleware(['auth:sanctum', 'can:administrative'])->group(function () {
+        //Questionnaires
+        Route::get('{user}/questionnaires',
+            \App\Http\Controllers\Api\V1\Administrative\User\Questionnaire\IndexQuestionnaireController::class)
+            ->name('questionnaires.index');
+        Route::post('{user}/questionnaires/{questionnaireId}/attach',
+            \App\Http\Controllers\Api\V1\Administrative\User\Questionnaire\AttachQuestionnaireController::class)
+            ->name('questionnaires.attach');
+    });
 
     /*
      *Categories

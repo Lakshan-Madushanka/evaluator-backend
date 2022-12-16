@@ -9,7 +9,7 @@ use Tests\Repositories\UserRepository;
 it('return 401 response non-login users ', function () {
     $user = UserRepository::getRandomUser();
 
-    $response = getJson(route('api.v1.administrative.users.questionnaires.index'));
+    $response = getJson(route('api.v1.administrative.users.questionnaires.index', ['user' => $user->hash_id]));
     $response->assertUnauthorized();
 })->group('administrative/users/questionnaires/index');
 
@@ -17,7 +17,7 @@ it('return 404 response regular login users', function () {
     $user = UserRepository::getRandomUser();
     Sanctum::actingAs($user);
 
-    $response = getJson(route('api.v1.administrative.users.questionnaires.index'));
+    $response = getJson(route('api.v1.administrative.users.questionnaires.index', ['user' => $user->hash_id]));
     $response->assertNotFound();
 })->group('administrative/users/questionnaires/index');
 
@@ -36,9 +36,10 @@ test('can paginate user records', function () {
 
     $user = \App\Models\User::whereHas('questionnaires')->first();
 
-    $query = http_build_query(['page' => ['size' => 1]]);
+    $query = '?'.http_build_query(['page' => ['size' => 1]]);
 
-    $response = getJson(route('api.v1.administrative.users.questionnaires.index', ['user' => $user?->hash_id]));
+    $route = route('api.v1.administrative.users.questionnaires.index', ['user' => $user?->hash_id]).$query;
+    $response = getJson($route);
     $response->assertOk();
 
     $response->assertJson(fn (AssertableJson $json) => $json->has('data', 1)
