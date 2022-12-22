@@ -43,7 +43,6 @@ use App\Http\Controllers\Api\V1\SuperAdmin\User\CreateUserController;
 use App\Http\Controllers\Api\V1\SuperAdmin\User\DeleteUserController;
 use App\Http\Controllers\Api\V1\SuperAdmin\User\MassDeleteUserController;
 use App\Http\Controllers\Api\V1\SuperAdmin\User\UpdateUserController;
-use App\Notifications\QuestionnaireAttachedToUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -60,7 +59,6 @@ use Illuminate\Support\Facades\Route;
 
 //Illuminate\Support\Facades\Auth::loginUsingId(2);
 Route::get('/test', function (Request $request) {
-
 });
 
 Route::prefix('super-admin')->name('super-admin.')->group(function () {
