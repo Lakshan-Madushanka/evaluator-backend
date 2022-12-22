@@ -2,18 +2,22 @@
 
 namespace App\Models;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * App\Models\UserQuestionnaire
  *
- * @method static \Illuminate\Database\Eloquent\Builder|UserQuestionnaire newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|UserQuestionnaire newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|UserQuestionnaire query()
- * @mixin \Eloquent
+ * @method static Builder|UserQuestionnaire newModelQuery()
+ * @method static Builder|UserQuestionnaire newQuery()
+ * @method static Builder|UserQuestionnaire query()
+ * @mixin Eloquent
  */
 class UserQuestionnaire extends Model
 {
+    protected $table = 'user_questionnaire';
+
     /**
      * @var string[]
      */
@@ -24,4 +28,16 @@ class UserQuestionnaire extends Model
         'no_of_answered_questions',
         'marks',
     ];
+
+    //-----------------------------------scopes-------------------------------------------------------------------------
+
+    public function scopeAvailable(Builder $query, string $code): Builder
+    {
+        return $query
+            ->where('code', $code)
+            ->where('attempts', 0)
+            ->where('expires_at', '>=', now());
+    }
+
+    //-----------------------------------scopes-------------------------------------------------------------------------
 }

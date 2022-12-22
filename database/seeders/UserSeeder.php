@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class UserSeeder extends Seeder
 {
@@ -55,14 +56,21 @@ class UserSeeder extends Seeder
     public function assignQuestionnaires(Collection $users): void
     {
         $users->each(function (User $user) {
-            $questionnaireIds = Questionnaire::query()
+            $data = [];
+            $questionnaires = Questionnaire::query()
                 ->withCount('questions')
                 ->completed(true)
                 ->inRandomOrder()
                 ->limit(random_int(1, 5))
-                ->pluck('id');
+                ->get()
+                ->each(function (Questionnaire $questionnaire) use (&$data) {
+                    $data[$questionnaire->id] = [
+                        'code' => Str::uuid(),
+                        'expires_at' => now()->addMinutes($questionnaire->allocated_time * 2),
+                    ];
+                });
 
-            $user->questionnaires()->syncWithPivotValues($questionnaireIds, ['answers' => json_encode([])]);
+            $user->questionnaires()->sync($data);
         });
     }
 }

@@ -112,6 +112,19 @@ class Question extends Model implements HasMedia
     }
 
     /**
+     * @return BelongsToMany<Answer>
+     */
+    public function onlyAnswers(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            Answer::class,
+            'question_answer',
+            foreignPivotKey: 'question_id',
+            relatedPivotKey: 'answer_id'
+        );
+    }
+
+    /**
      * @return MorphMany<Model>
      */
     public function images(): MorphMany

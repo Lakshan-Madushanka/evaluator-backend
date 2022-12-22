@@ -22,10 +22,16 @@ class AttachQuestionnaireController extends Controller
      */
     public function __invoke(User $user, string $questionnaireId, Request $request)
     {
-        $decodedQuestionId = Hashids::decode($questionnaireId)[0];
+        $decodedQuestionnaireId = Hashids::decode($questionnaireId)[0] ?? null;
+
+        if (is_null($decodedQuestionnaireId)) {
+            return new JsonResponse(data: [
+                'eligible' => false,
+            ]);
+        }
 
         $questionnaire = Questionnaire::query()
-            ->whereId($decodedQuestionId)
+            ->whereId($decodedQuestionnaireId)
             ->withCount('questions')
             ->completed(true)
             ->first();
@@ -37,7 +43,9 @@ class AttachQuestionnaireController extends Controller
         }
 
         $code = Str::uuid();
-        $user->questionnaires()->attach($decodedQuestionId, ['code' => $code]);
+        $expiresAt = now()->addMinutes($questionnaire->allocated_time);
+
+        $user->questionnaires()->attach($decodedQuestionnaireId, ['code' => $code, 'expires_at' => $expiresAt]);
 
         $user->notify(new QuestionnaireAttachedToUser($code, $request->action_url));
     }

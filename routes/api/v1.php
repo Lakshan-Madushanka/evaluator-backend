@@ -34,12 +34,15 @@ use App\Http\Controllers\Api\V1\Administrative\Questionnaire\ShowQuestionnaireCo
 use App\Http\Controllers\Api\V1\Administrative\Questionnaire\StoreQuestionnaireController;
 use App\Http\Controllers\Api\V1\Administrative\Questionnaire\UpdateQuestionnaireController;
 use App\Http\Controllers\Api\V1\Administrative\User\IndexUserController;
+use App\Http\Controllers\Api\V1\Administrative\User\Questionnaire\AttachQuestionnaireController;
 use App\Http\Controllers\Api\V1\Administrative\User\ShowUserController;
 use App\Http\Controllers\Api\V1\FileUploadController;
+use App\Http\Controllers\Api\V1\Regular\User\Questionnaire\CheckQuestionnaireAvailableController;
 use App\Http\Controllers\Api\V1\SuperAdmin\User\CreateUserController;
 use App\Http\Controllers\Api\V1\SuperAdmin\User\DeleteUserController;
 use App\Http\Controllers\Api\V1\SuperAdmin\User\MassDeleteUserController;
 use App\Http\Controllers\Api\V1\SuperAdmin\User\UpdateUserController;
+use App\Notifications\QuestionnaireAttachedToUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -57,7 +60,7 @@ use Illuminate\Support\Facades\Route;
 //Illuminate\Support\Facades\Auth::loginUsingId(2);
 Route::get('/test', function (Request $request) {
     \Illuminate\Support\Facades\Notification::route('mail', 'lak@gmail.co')
-        ->notify(new \App\Notifications\QuestionnaireAttachedToUser('lakshan'));
+        ->notify(new QuestionnaireAttachedToUser('lakshan'));
 });
 
 Route::prefix('super-admin')->name('super-admin.')->group(function () {
@@ -129,7 +132,7 @@ Route::prefix('administrative')->name('administrative.')->group(function () {
             \App\Http\Controllers\Api\V1\Administrative\User\Questionnaire\IndexQuestionnaireController::class)
             ->name('questionnaires.index');
         Route::post('{user}/questionnaires/{questionnaireId}/attach',
-            \App\Http\Controllers\Api\V1\Administrative\User\Questionnaire\AttachQuestionnaireController::class)
+            AttachQuestionnaireController::class)
             ->name('questionnaires.attach');
     });
 
@@ -192,6 +195,9 @@ Route::prefix('administrative')->name('administrative.')->group(function () {
         ->name('questionnaires.')
         ->prefix('questionnaires')
         ->group(function () {
+            Route::get('/{questionnaireId}/check-available',
+                \App\Http\Controllers\Api\V1\Administrative\Questionnaire\CheckQuestionnaireAvailableController::class)
+                ->name('checkAvailable');
             Route::get('/', IndexQuestionnaireController::class)->name('index');
             Route::get('/{questionnaire}', ShowQuestionnaireController::class)->name('show');
             Route::middleware(['xss-protect'])->post('/', StoreQuestionnaireController::class)->name('store');
@@ -208,6 +214,19 @@ Route::prefix('administrative')->name('administrative.')->group(function () {
             Route::name('questions.sync')->post('{questionnaire}/questions',
                 SyncQuestionController::class);
         });
+});
+
+Route::prefix('users')->name('users.')->group(function () {
+    // Questionnaires
+
+    Route::prefix('questionnaires')->name('questionnaires.')->group(function () {
+        Route::middleware(['throttle:5,1'])
+            ->get('{code}/check-available', CheckQuestionnaireAvailableController::class)
+            ->name('checkAvailable');
+        Route::middleware(['throttle:5,1'])
+            ->get('{code}', \App\Http\Controllers\Api\V1\Regular\User\Questionnaire\ShowQuestionnaireController::class)
+            ->name('show');
+    });
 });
 
 /*

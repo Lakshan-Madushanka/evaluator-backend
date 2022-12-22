@@ -14,6 +14,8 @@ class UserQuestionnaireResource extends JsonApiResource
     public function toAttributes(Request $request): array
     {
         $attributes = [
+            'attempts' => $this->attempts,
+            'expires_at' => $this->expires_at,
             'updated_at' => $this->created_at->toFormattedDayDateString(),
             'created_at' => $this->created_at->toFormattedDayDateString(),
         ];

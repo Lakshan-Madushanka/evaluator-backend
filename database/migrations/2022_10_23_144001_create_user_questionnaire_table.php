@@ -19,8 +19,10 @@ return new class extends Migration
             $table->unsignedSmallInteger('questionnaire_id');
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
 
-            $table->tinyInteger('attempts')->default(1);
+            $table->tinyInteger('attempts')->default(0);
             $table->string('code', 50)->nullable();
+            $table->timestamp('started_at')->nullable();
+            $table->timestamp('expires_at');
             $table->json('answers')->nullable();
 
             $table->timestamps();
