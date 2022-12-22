@@ -21,11 +21,12 @@ class IndexQuestionnaireController extends Controller
      * @param  Request  $request
      * @return JsonApiResourceCollection
      */
-    public function __invoke(User $user, Request $request): JsonApiResourceCollection
+    public function __invoke(User $user, Request $request)//: JsonApiResourceCollection
     {
         $questionnaires = QueryBuilder::for($user->questionnairesWithPivotData())
             ->select([
                 'questionnaires.id',
+                'user_questionnaire.id as userQuestionnaireId',
                 'user_questionnaire.attempts',
                 'user_questionnaire.expires_at',
                 'user_questionnaire.updated_at',

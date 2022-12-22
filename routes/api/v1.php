@@ -35,6 +35,7 @@ use App\Http\Controllers\Api\V1\Administrative\Questionnaire\StoreQuestionnaireC
 use App\Http\Controllers\Api\V1\Administrative\Questionnaire\UpdateQuestionnaireController;
 use App\Http\Controllers\Api\V1\Administrative\User\IndexUserController;
 use App\Http\Controllers\Api\V1\Administrative\User\Questionnaire\AttachQuestionnaireController;
+use App\Http\Controllers\Api\V1\Administrative\User\Questionnaire\ResendQuestionnaireAttachedNotificationController;
 use App\Http\Controllers\Api\V1\Administrative\User\ShowUserController;
 use App\Http\Controllers\Api\V1\FileUploadController;
 use App\Http\Controllers\Api\V1\Regular\User\Questionnaire\CheckQuestionnaireAvailableController;
@@ -59,8 +60,7 @@ use Illuminate\Support\Facades\Route;
 
 //Illuminate\Support\Facades\Auth::loginUsingId(2);
 Route::get('/test', function (Request $request) {
-    \Illuminate\Support\Facades\Notification::route('mail', 'lak@gmail.co')
-        ->notify(new QuestionnaireAttachedToUser('lakshan'));
+
 });
 
 Route::prefix('super-admin')->name('super-admin.')->group(function () {
@@ -131,9 +131,10 @@ Route::prefix('administrative')->name('administrative.')->group(function () {
         Route::get('{user}/questionnaires',
             \App\Http\Controllers\Api\V1\Administrative\User\Questionnaire\IndexQuestionnaireController::class)
             ->name('questionnaires.index');
-        Route::post('{user}/questionnaires/{questionnaireId}/attach',
-            AttachQuestionnaireController::class)
+        Route::post('{user}/questionnaires/{questionnaireId}/attach', AttachQuestionnaireController::class)
             ->name('questionnaires.attach');
+        Route::get('{user}/questionnaire/{userQuestionnaireId}/resend-notification', ResendQuestionnaireAttachedNotificationController::class)
+        ->name('questionnaires.resendNotification');
     });
 
     /*

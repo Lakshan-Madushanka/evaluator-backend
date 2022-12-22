@@ -39,5 +39,12 @@ class UserQuestionnaire extends Model
             ->where('expires_at', '>=', now());
     }
 
+    public function scopeCheckAvailable(Builder $query): Builder
+    {
+        return $query
+            ->where('attempts', 0)
+            ->where('expires_at', '>=', now());
+    }
+
     //-----------------------------------scopes-------------------------------------------------------------------------
 }
