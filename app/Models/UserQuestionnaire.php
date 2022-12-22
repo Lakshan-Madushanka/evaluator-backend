@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static Builder|UserQuestionnaire newModelQuery()
  * @method static Builder|UserQuestionnaire newQuery()
  * @method static Builder|UserQuestionnaire query()
+ *
  * @mixin Eloquent
  */
 class UserQuestionnaire extends Model
