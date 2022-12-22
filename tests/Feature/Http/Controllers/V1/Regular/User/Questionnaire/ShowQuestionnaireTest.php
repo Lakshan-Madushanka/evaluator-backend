@@ -22,12 +22,18 @@ it('can show  questionnaire if available for a user', function () {
     $questionnaire = UserQuestionnaire::query()
         ->where('attempts', 0)
         ->first();
-    $questionnaire->expires_at = now()->subMinutes(30);
+    $questionnaire->expires_at = now()->addMinutes(30);
     $questionnaire?->save();
-    $questionnaire?->refresh();
 
     $response = getJson(route('api.v1.users.questionnaires.show',
         ['code' => $questionnaire?->code]));
+
+    $questionnaire?->refresh();
+
+    $data = $response->decodeResponseJson()['data'];
+
+    expect($data)->toBeArray()->not()->toBeEmpty();
+    expect($questionnaire?->attempts)->toBe(1);
 
     $response->assertJson(fn (AssertableJson $json) => $json->has('data')
         ->etc()

@@ -58,4 +58,4 @@ it('can resend notification to non attempted and not expired user questionnaire'
 
     Notification::assertSentTo([$user], QuestionnaireAttachedToUser::class);
     $response->assertOk();
-})->group('administrative/users/questionnaires/resendNotification1');
+})->group('administrative/users/questionnaires/resendNotification');

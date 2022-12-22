@@ -12,23 +12,25 @@ class ShowQuestionnaireController extends Controller
 {
     public function __invoke(string $code)
     {
-        $questionnaireId = UserQuestionnaire::query()
-            ->select('questionnaire_id')
+        $userQuestionnaire = UserQuestionnaire::query()
             ->available($code)
-            ->value('questionnaire_id');
+            ->first();
 
-        if (is_null($questionnaireId)) {
+        if (is_null($userQuestionnaire)) {
             return QuestionResource::collection([]);
         }
 
         $questionnaire = Questionnaire::query()
-            ->where('id', $questionnaireId)
+            ->where('id', $userQuestionnaire->questionnaire_id)
             ->first();
 
         $questions = QueryBuilder::for($questionnaire?->questions())
             ->inRandomOrder()
             ->allowedIncludes(['images', 'onlyAnswers.images'])
             ->jsonPaginate();
+
+        $userQuestionnaire->attempts = 1;
+        $userQuestionnaire->save();
 
         return QuestionResource::collection($questions);
     }

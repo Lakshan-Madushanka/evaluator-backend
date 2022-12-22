@@ -11,7 +11,7 @@ use TiMacDonald\JsonApi\JsonApiResourceCollection;
 
 class IndexQuestionController extends Controller
 {
-    public function __invoke(Questionnaire $questionnaire, Request $request)//: JsonApiResourceCollection
+    public function __invoke(Questionnaire $questionnaire, Request $request): JsonApiResourceCollection
     {
         $questions = QueryBuilder::for($questionnaire->questionsWithPivotData())
             ->selectRaw('*')
