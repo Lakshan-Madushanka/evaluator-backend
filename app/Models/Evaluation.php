@@ -32,6 +32,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Evaluation whereTimeTaken($value)
  * @method static Builder|Evaluation whereUpdatedAt($value)
  * @method static Builder|Evaluation whereUserQuestionnaireId($value)
+ *
  * @mixin Eloquent
  */
 class Evaluation extends Model

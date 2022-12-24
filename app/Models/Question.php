@@ -46,6 +46,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @method static Builder|Question whereNoOfAnswers($value)
  * @method static Builder|Question whereText($value)
  * @method static Builder|Question whereUpdatedAt($value)
+ *
  * @mixin Eloquent
  *
  * @property-read MediaCollection|Media[] $images

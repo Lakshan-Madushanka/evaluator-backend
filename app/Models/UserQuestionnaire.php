@@ -40,6 +40,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @method static Builder|UserQuestionnaire whereStartedAt($value)
  * @method static Builder|UserQuestionnaire whereUpdatedAt($value)
  * @method static Builder|UserQuestionnaire whereUserId($value)
+ *
  * @mixin Eloquent
  */
 class UserQuestionnaire extends Model

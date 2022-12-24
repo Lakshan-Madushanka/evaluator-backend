@@ -53,6 +53,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Questionnaire whereNoOfMediumQuestions($value)
  * @method static Builder|Questionnaire whereNoOfQuestions($value)
  * @method static Builder|Questionnaire whereUpdatedAt($value)
+ *
  * @mixin Eloquent
  *
  * @property string $name
