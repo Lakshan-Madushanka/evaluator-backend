@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @method static Builder|UserQuestionnaire newModelQuery()
  * @method static Builder|UserQuestionnaire newQuery()
  * @method static Builder|UserQuestionnaire query()
+ *
  * @mixin Eloquent
  *
  * @property int $id
