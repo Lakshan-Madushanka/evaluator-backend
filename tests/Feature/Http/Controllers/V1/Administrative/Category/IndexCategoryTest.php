@@ -71,7 +71,7 @@ it('can sorts all categories by name', function () {
 it('can filter all categories by name', function () {
     Sanctum::actingAs(UserRepository::getRandomUser(Role::ADMIN));
 
-    $name = Str::random(2);
+    $name = Str::random();
     $category = \App\Models\Category::create(['name' => $name]);
 
     $query = '?'.http_build_query([
@@ -87,4 +87,4 @@ it('can filter all categories by name', function () {
         expect(str_contains($catName, $name))->toBeTrue();
     });
 })->fakeRequest(CategoryRequest::class)
-    ->group('api/v1/administrative/category/index');
+    ->group('api/v1/administrative/category/index1');

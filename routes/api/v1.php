@@ -39,6 +39,7 @@ use App\Http\Controllers\Api\V1\Administrative\User\Questionnaire\ResendQuestion
 use App\Http\Controllers\Api\V1\Administrative\User\ShowUserController;
 use App\Http\Controllers\Api\V1\FileUploadController;
 use App\Http\Controllers\Api\V1\Regular\User\Questionnaire\CheckQuestionnaireAvailableController;
+use App\Http\Controllers\Api\V1\Regular\User\Questionnaire\EvaluateQuestionnaireController;
 use App\Http\Controllers\Api\V1\SuperAdmin\User\CreateUserController;
 use App\Http\Controllers\Api\V1\SuperAdmin\User\DeleteUserController;
 use App\Http\Controllers\Api\V1\SuperAdmin\User\MassDeleteUserController;
@@ -131,8 +132,9 @@ Route::prefix('administrative')->name('administrative.')->group(function () {
             ->name('questionnaires.index');
         Route::post('{user}/questionnaires/{questionnaireId}/attach', AttachQuestionnaireController::class)
             ->name('questionnaires.attach');
-        Route::get('{user}/questionnaire/{userQuestionnaireId}/resend-notification', ResendQuestionnaireAttachedNotificationController::class)
-        ->name('questionnaires.resendNotification');
+        Route::get('{user}/questionnaire/{userQuestionnaireId}/resend-notification',
+            ResendQuestionnaireAttachedNotificationController::class)
+            ->name('questionnaires.resendNotification');
     });
 
     /*
@@ -217,7 +219,6 @@ Route::prefix('administrative')->name('administrative.')->group(function () {
 
 Route::prefix('users')->name('users.')->group(function () {
     // Questionnaires
-
     Route::prefix('questionnaires')->name('questionnaires.')->group(function () {
         Route::middleware(['throttle:5,1'])
             ->get('{code}/check-available', CheckQuestionnaireAvailableController::class)
@@ -225,6 +226,8 @@ Route::prefix('users')->name('users.')->group(function () {
         Route::middleware(['throttle:5,1'])
             ->get('{code}', \App\Http\Controllers\Api\V1\Regular\User\Questionnaire\ShowQuestionnaireController::class)
             ->name('show');
+        Route::post('{code}\evaluate', EvaluateQuestionnaireController::class)
+            ->name('evaluate');
     });
 });
 

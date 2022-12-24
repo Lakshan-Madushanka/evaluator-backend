@@ -29,8 +29,12 @@ class ShowQuestionnaireController extends Controller
             ->allowedIncludes(['images', 'onlyAnswers.images'])
             ->jsonPaginate();
 
-        $userQuestionnaire->attempts = 1;
-        $userQuestionnaire->save();
+        if ($userQuestionnaire->attempts === 0 && is_null($userQuestionnaire->started_at)) {
+            $userQuestionnaire->attempts = 1;
+            $userQuestionnaire->started_at = now();
+
+            $userQuestionnaire->save();
+        }
 
         return QuestionResource::collection($questions);
     }

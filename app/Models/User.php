@@ -48,8 +48,10 @@ use Laravel\Sanctum\HasApiTokens;
  * @method static Builder|User whereRememberToken($value)
  * @method static Builder|User whereRole($value)
  * @method static Builder|User whereUpdatedAt($value)
- *
  * @mixin Eloquent
+ *
+ * @property-read Collection|\App\Models\Questionnaire[] $questionnairesWithPivotData
+ * @property-read int|null $questionnaires_with_pivot_data_count
  */
 class User extends Authenticatable
 {

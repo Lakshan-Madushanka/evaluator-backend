@@ -28,7 +28,6 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @method static \Illuminate\Database\Eloquent\Builder|Answer whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Answer whereText($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Answer whereUpdatedAt($value)
- *
  * @mixin \Eloquent
  *
  * @property string $pretty_id

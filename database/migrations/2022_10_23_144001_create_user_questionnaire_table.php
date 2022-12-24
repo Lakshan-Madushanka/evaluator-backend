@@ -22,6 +22,7 @@ return new class extends Migration
             $table->tinyInteger('attempts')->default(0);
             $table->string('code', 50)->nullable();
             $table->timestamp('started_at')->nullable();
+            $table->timestamp('finished_at')->nullable();
             $table->timestamp('expires_at');
             $table->json('answers')->nullable();
 

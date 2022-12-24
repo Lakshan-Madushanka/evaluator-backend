@@ -15,6 +15,7 @@
         "spatie/laravel-json-api-paginate": "^1.12",
         "spatie/laravel-medialibrary": "^10.7",
         "spatie/laravel-query-builder": "^5.0",
+        "spatie/laravel-ray": "^1.31",
         "timacdonald/json-api": "^0.2.1",
         "vinkla/hashids": "^10.0"
     },
