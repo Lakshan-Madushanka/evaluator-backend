@@ -10,11 +10,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 /**
  * App\Models\UserQuestionnaire
  *
- * @method static Builder|UserQuestionnaire newModelQuery()
- * @method static Builder|UserQuestionnaire newQuery()
- * @method static Builder|UserQuestionnaire query()
- * @mixin Eloquent
- *
  * @property int $id
  * @property int $questionnaire_id
  * @property int $user_id
@@ -22,7 +17,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property string|null $code
  * @property \Illuminate\Support\Carbon|null $started_at
  * @property \Illuminate\Support\Carbon|null $finished_at
- * @property string $expires_at
+ * @property \Illuminate\Support\Carbon $expires_at
  * @property array|null $answers
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -31,6 +26,9 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @method static Builder|UserQuestionnaire available(string $code)
  * @method static Builder|UserQuestionnaire checkAvailable()
  * @method static Builder|UserQuestionnaire expired($expired = false)
+ * @method static Builder|UserQuestionnaire newModelQuery()
+ * @method static Builder|UserQuestionnaire newQuery()
+ * @method static Builder|UserQuestionnaire query()
  * @method static Builder|UserQuestionnaire whereAnswers($value)
  * @method static Builder|UserQuestionnaire whereAttempts($value)
  * @method static Builder|UserQuestionnaire whereCode($value)
@@ -42,6 +40,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @method static Builder|UserQuestionnaire whereStartedAt($value)
  * @method static Builder|UserQuestionnaire whereUpdatedAt($value)
  * @method static Builder|UserQuestionnaire whereUserId($value)
+ * @mixin Eloquent
  */
 class UserQuestionnaire extends Model
 {
@@ -61,6 +60,7 @@ class UserQuestionnaire extends Model
     protected $casts = [
         'started_at' => 'datetime',
         'finished_at' => 'datetime',
+        'expires_at' => 'datetime',
         'answers' => 'array',
     ];
 

@@ -53,6 +53,6 @@ it('can show  questionnaire if available for a user', function () {
 
     $questionnaire2 = $questionnaire->fresh();
 
-    expect($questionnaire2->attempts)->toBe(1);
-    expect($questionnaire->started_at->getTimestamp())->toBe($questionnaire2->started_at->getTimestamp());
-})->group('regular/users/questionnaires/show1');
+    expect($questionnaire2?->attempts)->toBe(1);
+    expect($questionnaire->started_at->getTimestamp())->toBe($questionnaire2?->started_at->getTimestamp());
+})->group('regular/users/questionnaires/show');

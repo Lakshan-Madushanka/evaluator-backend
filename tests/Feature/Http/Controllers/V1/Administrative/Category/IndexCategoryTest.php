@@ -87,4 +87,4 @@ it('can filter all categories by name', function () {
         expect(str_contains($catName, $name))->toBeTrue();
     });
 })->fakeRequest(CategoryRequest::class)
-    ->group('api/v1/administrative/category/index1');
+    ->group('api/v1/administrative/category/index');
