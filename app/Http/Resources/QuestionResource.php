@@ -17,7 +17,7 @@ class QuestionResource extends JsonApiResource
             'pretty_id' => $this->pretty_id,
             'hardness' => $this->difficulty->name,
             'content' => $this->text,
-            'created_at' => $this->created_at->toFormattedDayDateString(),
+            'created_at' => $this->created_at,
             'answers_type_single' => $this->is_answers_type_single,
             'no_of_answers' => $this->no_of_answers,
             'completed' => $this->no_of_answers === $this->whenCounted('answers'),

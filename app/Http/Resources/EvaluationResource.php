@@ -20,8 +20,8 @@ class EvaluationResource extends JsonApiResource
             'time_taken' => $this->time_taken,
             'no_of_answered_questions' => $this->no_of_answered_questions,
             'no_of_correct_answers' => $this->correct_answers,
-            'created_at' => $this->created_at->toDateTimeString(),
-            'updated_at' => $this->updated_at->toDateTimeString(),
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ];
     }
 }

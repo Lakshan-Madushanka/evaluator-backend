@@ -21,7 +21,7 @@ class UserResource extends JsonApiResource
             'name' => $this->name,
             'email' => $this->email,
             'role' => $this->role->name,
-            'created_at' => $this->created_at->toFormattedDayDateString(),
+            'created_at' => $this->created_at,
         ];
     }
 }

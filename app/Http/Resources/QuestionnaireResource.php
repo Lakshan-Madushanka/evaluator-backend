@@ -23,7 +23,7 @@ class QuestionnaireResource extends JsonApiResource
             'no_of_questions' => $this->no_of_questions,
             'no_of_assigned_questions' => $this->whenCounted('questions'),
             'allocated_time' => $this->allocated_time,
-            'created_at' => $this->created_at->toFormattedDayDateString(),
+            'created_at' => $this->created_at,
             'completed' => $this->no_of_questions === $this->whenCounted('questions'),
         ];
 
