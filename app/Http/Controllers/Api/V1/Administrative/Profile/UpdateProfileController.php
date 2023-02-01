@@ -28,7 +28,7 @@ class UpdateProfileController extends Controller
         $validatedInputs = Arr::except((array) $request->validated(), 'role'); // we don't need role to be updated
 
         /*
-         * we need admin to update only their password
+         * we only need admin to update their password
          */
         if ($user->role->value === Role::ADMIN->value) {
             $validatedInputs = Arr::only($validatedInputs, ['password']);
