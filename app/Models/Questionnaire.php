@@ -92,6 +92,7 @@ class Questionnaire extends Model
     protected $casts = [
         'difficulty' => Difficulty::class,
         'single_answers_type' => 'boolean',
+        'expires_at' => 'datetime'
     ];
 
     // --------------------------------Scopes--------------------------------------------
