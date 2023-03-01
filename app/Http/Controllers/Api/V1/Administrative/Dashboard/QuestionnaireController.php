@@ -11,15 +11,12 @@ class QuestionnaireController extends Controller
 {
     public function __invoke(): JsonResponse
     {
-        $easyValue = Difficulty::EASY->value;
-        $mediumValue = Difficulty::MEDIUM->value;
-        $hardValue = Difficulty::HARD->value;
-
         $data = Questionnaire::query()
-            ->selectRaw('max(no_of_easy_questions) as easy_questions_count')
-            ->selectRaw('max(no_of_medium_questions) as medium_questions_count')
-            ->selectRaw('max(no_of_hard_questions) as hard_questions_count')
-            ->selectRaw('max(allocated_time) as max_allocated_time')
+            ->selectRaw('max(no_of_easy_questions) as max_no_of_easy_questions_per_questionnaire')
+            ->selectRaw('max(no_of_medium_questions) as max_no_of_medium_questions_per_questionnaire')
+            ->selectRaw('max(no_of_hard_questions) as max_no_of_hard_questions_per_questionnaire')
+            ->selectRaw('max(no_of_questions) as max_no_of_total_questions_per_questionnaire')
+            ->selectRaw('max(allocated_time) as max_allocated_time_per_questionnaire')
             ->toBase()
             ->get();
 
