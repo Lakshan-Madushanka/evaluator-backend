@@ -63,4 +63,14 @@ test('allows attach eligible questionnaire to a user', function () {
 
     $response->assertOk();
     \Illuminate\Support\Facades\Notification::assertSentTo([$user], QuestionnaireAttachedToUser::class);
+
+    $attachedQuestionnaire = \App\Models\UserQuestionnaire::where([
+        ['user_id', $user->id],
+        ['questionnaire_id', $questionnaire->id],
+    ])->first();
+
+    $expectedExpiredAtTime = now()->addMinutes($questionnaire->allocated_time * 2);
+
+    // Expired at time must be twice the allocated time from now
+    expect($expectedExpiredAtTime->diffInMinutes($attachedQuestionnaire->expires_at) >= 0)->toBeTrue();
 })->group('administrative/users/questionnaires/attach');

@@ -43,7 +43,7 @@ class AttachQuestionnaireController extends Controller
         }
 
         $code = Str::uuid();
-        $expiresAt = now()->addMinutes($questionnaire->allocated_time);
+        $expiresAt = now()->addMinutes($questionnaire->allocated_time * 2);
 
         $user->questionnaires()->attach($decodedQuestionnaireId, ['code' => $code, 'expires_at' => $expiresAt]);
 
