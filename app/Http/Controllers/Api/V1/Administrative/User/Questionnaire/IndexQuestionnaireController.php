@@ -21,7 +21,7 @@ class IndexQuestionnaireController extends Controller
      * @param  Request  $request
      * @return JsonApiResourceCollection
      */
-    public function __invoke(User $user, Request $request)//: JsonApiResourceCollection
+    public function __invoke(User $user, Request $request): JsonApiResourceCollection
     {
         $questionnaires = QueryBuilder::for($user->questionnairesWithPivotData())
             ->select([
@@ -42,10 +42,10 @@ class IndexQuestionnaireController extends Controller
                 }),
                 AllowedFilter::callback('expired', function (Builder $query, $value) {
                     if (Helpers::checkValueIsTrue($value)) {
-                        return $query->where('user_questionnaire.expires_at', '>', now());
+                        return $query->where('user_questionnaire.expires_at', '<=', now());
                     }
 
-                    return $query->where('user_questionnaire.expires_at', '<=', now());
+                    return $query->where('user_questionnaire.expires_at', '>=', now());
                 }),
             ])
             ->defaultSort('-user_questionnaire.id')

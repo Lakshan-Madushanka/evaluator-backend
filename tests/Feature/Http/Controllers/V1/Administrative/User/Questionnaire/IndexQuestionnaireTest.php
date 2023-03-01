@@ -49,3 +49,27 @@ test('can paginate user records', function () {
 
     $response->assertJsonPath('meta.per_page', 1);
 })->group('administrative/users/questionnaires/index');
+
+test('can filter records by expired status', function () {
+    Sanctum::actingAs(UserRepository::getRandomUser(Role::SUPER_ADMIN));
+
+    config(['json-api-paginate.max_results' => PHP_INT_MAX]);
+
+    $user = \App\Models\User::whereHas('questionnaires')->first();
+
+    $query = '?' . http_build_query([
+        'filter' => ['expired' => false],
+        'page' => ['size' => PHP_INT_MAX],
+    ]);
+
+    $route = route('api.v1.administrative.users.questionnaires.index', ['user' => $user?->hash_id]).$query;
+    $response = getJson($route);
+
+    $results = $response->decodeResponseJson()['data'];
+    $expiredProperties = collect($results)->pluck('attributes.expires_at');
+
+    $expiredProperties->each(function ($expiredAt)  {
+        expect(\Carbon\Carbon::parse($expiredAt)->gte(now()))->toBeTrue();
+    });
+    $response->assertOk();
+})->group('administrative/users/questionnaires/index');
