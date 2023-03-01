@@ -57,7 +57,7 @@ test('can filter records by expired status', function () {
 
     $user = \App\Models\User::whereHas('questionnaires')->first();
 
-    $query = '?' . http_build_query([
+    $query = '?'.http_build_query([
         'filter' => ['expired' => false],
         'page' => ['size' => PHP_INT_MAX],
     ]);
@@ -68,7 +68,7 @@ test('can filter records by expired status', function () {
     $results = $response->decodeResponseJson()['data'];
     $expiredProperties = collect($results)->pluck('attributes.expires_at');
 
-    $expiredProperties->each(function ($expiredAt)  {
+    $expiredProperties->each(function ($expiredAt) {
         expect(\Carbon\Carbon::parse($expiredAt)->gte(now()))->toBeTrue();
     });
     $response->assertOk();

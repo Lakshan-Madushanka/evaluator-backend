@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api\V1\Administrative\Dashboard;
 
-use App\Enums\Difficulty;
 use App\Http\Controllers\Controller;
 use App\Models\Questionnaire;
 use Illuminate\Http\JsonResponse;
