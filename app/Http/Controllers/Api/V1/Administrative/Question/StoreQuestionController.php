@@ -16,7 +16,6 @@ class StoreQuestionController extends Controller
      * Handle the incoming request.
      *
      * @param  UserStoreRequest  $request
-     * @return QuestionResource
      */
     public function __invoke(QuestionStoreRequest $request): QuestionResource
     {

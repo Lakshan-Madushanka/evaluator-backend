@@ -11,9 +11,6 @@ class StoreAnswerController extends Controller
 {
     /**
      * Handle the incoming request.
-     *
-     * @param  AnswerRequest  $request
-     * @return AnswerResource
      */
     public function __invoke(AnswerRequest $request): AnswerResource
     {

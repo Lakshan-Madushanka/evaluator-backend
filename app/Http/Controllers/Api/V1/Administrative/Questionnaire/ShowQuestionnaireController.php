@@ -10,9 +10,6 @@ class ShowQuestionnaireController extends Controller
 {
     /**
      * Handle the incoming request.
-     *
-     * @param  Questionnaire  $questionnaire
-     * @return QuestionnaireResource
      */
     public function __invoke(Questionnaire $questionnaire): QuestionnaireResource
     {

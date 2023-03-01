@@ -57,8 +57,6 @@ class QuestionnaireFactory extends Factory
     /**
      * if difficulty level is HARD this method is used to decide
      * no of questions for each difficulty level
-     *
-     * @return int
      */
     public function calcNoOfQuestionsForDifficultyLevel(
         Difficulty $difficulty,

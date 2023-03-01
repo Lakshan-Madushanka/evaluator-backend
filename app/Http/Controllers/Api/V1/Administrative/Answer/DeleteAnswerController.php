@@ -11,9 +11,6 @@ class DeleteAnswerController extends Controller
 {
     /**
      * Handle the incoming request.
-     *
-     * @param  Answer  $question
-     * @return JsonResponse
      */
     public function __invoke(Answer $question): JsonResponse
     {

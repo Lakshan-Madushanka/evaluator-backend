@@ -11,9 +11,6 @@ class ShowAuthUserController extends Controller
 {
     /**
      * Handle the incoming request.
-     *
-     * @param  Request  $request
-     * @return UserResource
      */
     public function __invoke(Request $request): UserResource
     {

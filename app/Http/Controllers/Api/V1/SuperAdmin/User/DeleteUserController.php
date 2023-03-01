@@ -14,8 +14,6 @@ class DeleteUserController extends Controller
     /**
      * Handle the incoming request.
      *
-     * @param  User  $user
-     * @return JsonResponse
      *
      * @throws \Throwable
      */

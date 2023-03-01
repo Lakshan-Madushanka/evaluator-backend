@@ -10,9 +10,6 @@ class ShowUserController extends Controller
 {
     /**
      * Handle the incoming request.
-     *
-     * @param  User  $user
-     * @return UserResource
      */
     public function __invoke(User $user): UserResource
     {

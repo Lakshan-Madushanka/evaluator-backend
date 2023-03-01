@@ -9,8 +9,6 @@ class UpdateUserAction
 {
     /**
      * @param  array<string, mixed>  $validatedInputs
-     * @param  User  $user
-     * @return bool
      */
     public static function execute(array $validatedInputs, User $user): bool
     {

@@ -12,9 +12,6 @@ class CreateUserController extends Controller
 {
     /**
      * Handle the incoming request.
-     *
-     * @param  UserStoreRequest  $request
-     * @return UserResource
      */
     public function __invoke(UserStoreRequest $request): UserResource
     {

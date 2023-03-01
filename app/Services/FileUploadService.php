@@ -22,9 +22,6 @@ class FileUploadService
     ];
 
     /**
-     * @param  string  $type
-     * @return Model
-     *
      * @throws RouteNotFoundException|\Throwable
      */
     public function validateEndPoint(string $type, string $id): Model
@@ -47,8 +44,6 @@ class FileUploadService
     }
 
     /**
-     * @param  Request  $request
-     * @param  string  $type
      * @return mixed[]
      */
     public function validateUploadedFiles(Request $request, string $type): array
@@ -66,9 +61,7 @@ class FileUploadService
     }
 
     /**
-     * @param  Model  $model
      * @param  array  $files
-     * @param  string  $collecton
      * @return MediaCollection
      */
     public function execute(Model $model, $files, string $collecton = 'default'): ?MediaCollection
@@ -90,9 +83,6 @@ class FileUploadService
 
     /**
      * @param  array  $medias
-     * @param  Model  $model
-     * @param  string  $collection
-     * @return MediaCollection
      */
     public function multipleFileUpload($medias, Model $model, string $collection): MediaCollection
     {
@@ -154,7 +144,6 @@ class FileUploadService
 
     /**
      * @param  string[]  $ids
-     * @return void
      */
     public function changeOrder(array $ids): void
     {
