@@ -25,7 +25,7 @@ class ResendQuestionnaireAttachedNotificationController extends Controller
 
         $userQuestionnaire = UserQuestionnaire::query()
             ->where([
-                ['id', $userQuestionnaireId],
+                ['id', $id],
                 ['user_id', $user->id],
             ])
             ->checkAvailable()

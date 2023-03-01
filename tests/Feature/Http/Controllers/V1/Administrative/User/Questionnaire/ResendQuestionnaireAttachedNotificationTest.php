@@ -52,7 +52,7 @@ it('can resend notification to non attempted and not expired user questionnaire'
     $response = getJson(route('api.v1.administrative.users.questionnaires.resendNotification',
         [
             'user' => Hashids::encode($this->questionnaire?->user_id),
-            'userQuestionnaireId' => $this->questionnaire?->id,
+            'userQuestionnaireId' => Hashids::encode($this->questionnaire?->id),
         ]
     ));
 
