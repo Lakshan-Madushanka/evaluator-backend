@@ -25,8 +25,8 @@ class QuestionResource extends JsonApiResource
             'images_count' => $this->whenCounted('images'),
         ];
 
-        if (isset($this->marks)) {
-            $attributes['marks'] = $this->marks;
+        if (isset($this->pivot?->marks)) {
+            $attributes['marks'] = $this->pivot->marks;
         }
 
         return $attributes;
@@ -35,6 +35,7 @@ class QuestionResource extends JsonApiResource
     protected function toRelationships(Request $request): array
     {
         return [
+            'images' => fn () => MediaResource::collection($this->images),
             'categories' => fn () => CategoryResource::collection($this->categories),
             'answers' => fn () => AnswerResource::collection($this->answers),
             'onlyAnswers' => fn () => AnswerResource::collection($this->onlyAnswers),
