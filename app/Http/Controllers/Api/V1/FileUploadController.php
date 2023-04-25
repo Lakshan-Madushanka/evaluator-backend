@@ -20,9 +20,6 @@ class FileUploadController extends Controller
 
     /**
      * Handle the incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return JsonResponse
      */
     public function store(string $type, string $id, Request $request, FileUploadService $uploadService): JsonResponse
     {

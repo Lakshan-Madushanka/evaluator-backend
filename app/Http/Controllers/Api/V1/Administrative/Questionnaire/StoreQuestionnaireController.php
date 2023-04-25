@@ -13,9 +13,6 @@ class StoreQuestionnaireController extends Controller
 {
     /**
      * Handle the incoming request.
-     *
-     * @param  QuestionnaireStoreRequest  $request
-     * @return QuestionnaireResource
      */
     public function __invoke(QuestionnaireStoreRequest $request): QuestionnaireResource
     {

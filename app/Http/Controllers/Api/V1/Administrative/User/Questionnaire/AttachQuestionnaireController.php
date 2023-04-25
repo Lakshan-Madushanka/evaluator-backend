@@ -16,8 +16,6 @@ class AttachQuestionnaireController extends Controller
     /**
      * Handle the incoming request.
      *
-     * @param  User  $user
-     * @param  string  $questionnaireId
      * @return JsonResponse|void
      */
     public function __invoke(User $user, string $questionnaireId, Request $request)

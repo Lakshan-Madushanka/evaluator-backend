@@ -16,7 +16,6 @@ class UpdateQuestionController extends Controller
      * Handle the incoming request.
      *
      * @param  UserStoreRequest  $request
-     * @return QuestionResource
      */
     public function __invoke(Question $question, QuestionUpdateRequest $request): QuestionResource
     {

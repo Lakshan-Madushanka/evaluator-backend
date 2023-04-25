@@ -15,7 +15,6 @@ class CheckAnswerExistsController extends Controller
      * Handle the incoming request.
      *
      * @param  UserStoreRequest  $request
-     * @return JsonResponse
      */
     public function __invoke(string $id): JsonResponse
     {

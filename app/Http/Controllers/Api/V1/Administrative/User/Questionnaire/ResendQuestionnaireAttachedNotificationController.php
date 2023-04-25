@@ -15,7 +15,6 @@ class ResendQuestionnaireAttachedNotificationController extends Controller
     /**
      * Handle the incoming request.
      *
-     * @param  User  $user
      * @param  string  $questionnaireId
      * @return JsonResponse|void
      */

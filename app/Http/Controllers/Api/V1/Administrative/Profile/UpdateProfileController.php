@@ -15,9 +15,6 @@ class UpdateProfileController extends Controller
     /**
      * Handle the incoming request.
      *
-     * @param  UserUpdateRequest  $request
-     * @param  User  $user
-     * @return UserResource
      *
      * @throws \Throwable
      */

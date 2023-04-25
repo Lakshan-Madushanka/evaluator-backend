@@ -17,9 +17,6 @@ class IndexUserController extends Controller
 {
     /**
      * Handle the incoming request.
-     *
-     * @param  Request  $request
-     * @return JsonApiResourceCollection
      */
     public function __invoke(Request $request): JsonApiResourceCollection
     {

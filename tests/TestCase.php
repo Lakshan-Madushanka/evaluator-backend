@@ -8,8 +8,5 @@ abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
 
-    /**
-     * @var bool
-     */
     protected bool $seed = true;
 }

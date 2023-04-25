@@ -15,9 +15,7 @@ class UpdateQuestionnaireController extends Controller
     /**
      * Handle the incoming request.
      *
-     * @param  Questionnaire  $questionnaire
      * @param  QuestionUpdateRequest  $request
-     * @return QuestionnaireResource
      */
     public function __invoke(Questionnaire $questionnaire, QuestionnaireUpdateRequest $request): QuestionnaireResource
     {

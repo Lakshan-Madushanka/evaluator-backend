@@ -14,7 +14,6 @@ class UpdateAnswerController extends Controller
      * Handle the incoming request.
      *
      * @param  UserStoreRequest  $request
-     * @return AnswerResource
      */
     public function __invoke(Answer $answer, AnswerRequest $request): AnswerResource
     {

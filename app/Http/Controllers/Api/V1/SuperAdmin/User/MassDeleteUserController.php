@@ -16,7 +16,6 @@ class MassDeleteUserController extends Controller
      * Handle the incoming request.
      *
      * @param  UserStoreRequest  $request
-     * @return JsonResponse
      *
      * @throws \Throwable
      */
