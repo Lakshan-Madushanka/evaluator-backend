@@ -226,7 +226,7 @@ Route::prefix('users')->name('users.')->group(function () {
         Route::middleware(['throttle:5,1'])
             ->get('{code}', \App\Http\Controllers\Api\V1\Regular\User\Questionnaire\ShowQuestionnaireController::class)
             ->name('show');
-        Route::post('{code}\evaluate', EvaluateQuestionnaireController::class)
+        Route::post('{code}/evaluate', EvaluateQuestionnaireController::class)
             ->name('evaluate');
     });
 });
