@@ -43,6 +43,9 @@ class FileUploadService
             case 'questions':
             case 'answers':
                 Gate::authorize('administrative');
+                break;
+            default:
+                abort(404);
         }
     }
 
