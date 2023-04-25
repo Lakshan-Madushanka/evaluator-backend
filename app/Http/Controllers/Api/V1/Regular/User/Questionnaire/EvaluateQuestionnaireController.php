@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1\Regular\User\Questionnaire;
 
 use App\Exceptions\EvaluationException;
+use App\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\EvaluationResource;
 use App\Models\Evaluation;
@@ -91,7 +92,7 @@ class EvaluateQuestionnaireController extends Controller
         $data = [];
 
         foreach ($answers as $key => $value) {
-            $data[Hashids::decode($key)[0]] = $value;
+            $data[Hashids::decode($key)[0]] = Helpers::getModelIdsFromHashIds($value);
         }
 
         return $data;

@@ -100,7 +100,6 @@ function setQuestionnaireToEvaluate(): array
     $selectedAnswers = [];
 
     $easyQuestions->merge($mediumQuestions)->each(function (Question $question) use (
-
         &$selectedAnswers
     ) {
         $answersIds = Answer::factory()->count(4)->create()->pluck('id');
@@ -122,7 +121,7 @@ function setQuestionnaireToEvaluate(): array
         $question->answers()->attach($data);
 
         // User receive 0 marks for answers
-        $selectedAnswers[\Vinkla\Hashids\Facades\Hashids::encode($question->id)] = $answersIds->all();
+        $selectedAnswers[\Vinkla\Hashids\Facades\Hashids::encode($question->id)] = \App\Helpers::getHashIdsFromModelIds($answersIds->all());
     });
 
     $hardQuestions->each(function (Question $question) use (&$selectedAnswers) {
@@ -134,7 +133,7 @@ function setQuestionnaireToEvaluate(): array
             if ($index === 0) {
                 $data[$id] = ['correct_answer' => true];
                 // User receive 1.625 mark for each hard questions (total 3.25)
-                $selectedAnswers[\Vinkla\Hashids\Facades\Hashids::encode($question->id)] = [$id];
+                $selectedAnswers[\Vinkla\Hashids\Facades\Hashids::encode($question->id)] = [\Vinkla\Hashids\Facades\Hashids::encode([$id])];
             } else {
                 $data[$id] = ['correct_answer' => false];
             }
