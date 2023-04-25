@@ -17,10 +17,10 @@ class CheckQuestionnaireAvailableController extends Controller
 
         if ($decodedQuestionnaireId) {
             $exists = Questionnaire::query()
-            ->whereId($decodedQuestionnaireId)
-            ->withCount('questions')
-            ->completed(true)
-            ->exists();
+                ->whereId($decodedQuestionnaireId)
+                ->withCount('questions')
+                ->completed(true)
+                ->exists();
         }
 
         return new JsonResponse(data: ['available' => $exists]);

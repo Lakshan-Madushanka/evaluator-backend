@@ -92,7 +92,7 @@ class SyncQuestionController extends Controller
 
     public function transformIds(Collection $valiidatedQuestions): Collection
     {
-        return  $valiidatedQuestions->transform(function ($question) {
+        return $valiidatedQuestions->transform(function ($question) {
             return ['id' => Hashids::decode($question['id'])[0], 'marks' => $question['marks']];
         });
     }
