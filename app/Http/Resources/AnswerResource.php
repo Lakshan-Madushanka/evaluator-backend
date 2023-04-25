@@ -19,8 +19,7 @@ class AnswerResource extends JsonApiResource
             'created_at' => $this->created_at,
             'images_count' => $this->images_count ?? 0,
         ];
-
-        if (isset($this->pivot) && isset($attributes['correct_answer'])) {
+        if (isset($this->pivot?->correct_answer)) {
             $attributes['correct_answer'] = (bool) $this->pivot->correct_answer;
         }
 
