@@ -14,11 +14,10 @@ class IndexQuestionController extends Controller
     public function __invoke(Questionnaire $questionnaire, Request $request): JsonApiResourceCollection
     {
         $questions = QueryBuilder::for($questionnaire->questionsWithPivotData())
-            ->selectRaw('*')
+            ->allowedIncludes(['images', 'answers.images'])
             ->withCount(['images', 'answers'])
-            ->allowedIncludes('answers.images')
             ->orderBy('difficulty')
-            ->jsonPaginate();
+            ->get();
 
         return QuestionResource::collection($questions);
     }
