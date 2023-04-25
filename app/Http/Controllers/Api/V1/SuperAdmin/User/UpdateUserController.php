@@ -22,7 +22,7 @@ class UpdateUserController extends Controller
     {
         throw_if(
             $user->role->value === Role::SUPER_ADMIN->value,
-            new  AuthorizationException('Super admin cannot be updated here, Please use profile section !')
+            new AuthorizationException('Super admin cannot be updated here, Please use profile section !')
         );
 
         UpdateUserAction::execute((array) $request->validated(), $user);

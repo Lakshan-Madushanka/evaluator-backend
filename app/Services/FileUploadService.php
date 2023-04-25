@@ -131,9 +131,9 @@ class FileUploadService
     {
         collect($ids)->each(function ($id) {
             Media::query()
-            ->where('uuid', $id)
-            ->firstOrFail()
-            ->delete();
+                ->where('uuid', $id)
+                ->firstOrFail()
+                ->delete();
         });
     }
 

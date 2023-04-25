@@ -19,6 +19,6 @@ class DeleteQuestionController extends Controller
     {
         $question->delete();
 
-        return new JsonResponse(status:Response::HTTP_NO_CONTENT);
+        return new JsonResponse(status: Response::HTTP_NO_CONTENT);
     }
 }

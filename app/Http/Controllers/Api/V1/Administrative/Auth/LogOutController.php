@@ -21,6 +21,6 @@ class LogOutController extends Controller
 
         $request->session()->regenerateToken();
 
-        return new JsonResponse(status:Response::HTTP_NO_CONTENT);
+        return new JsonResponse(status: Response::HTTP_NO_CONTENT);
     }
 }

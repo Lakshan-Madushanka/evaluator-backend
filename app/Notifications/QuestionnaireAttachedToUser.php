@@ -40,10 +40,10 @@ class QuestionnaireAttachedToUser extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('Please use below code to do questionnaire.')
-                    ->line($this->code)
-                    ->action('Proceed to questionnaire', $this->actionUrl ?? url('/'))
-                    ->line('Thank you for using our application!');
+            ->line('Please use below code to do questionnaire.')
+            ->line($this->code)
+            ->action('Proceed to questionnaire', $this->actionUrl ?? url('/'))
+            ->line('Thank you for using our application!');
     }
 
     /**

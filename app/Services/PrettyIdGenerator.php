@@ -48,16 +48,16 @@ class PrettyIdGenerator
 
         $suffix = str_repeat('0', $remainingLength).$suffix;
 
-        return  $prefix.$suffix;
+        return $prefix.$suffix;
     }
 
     private static function checkPrettyIdExists(string $id, string $table): bool
     {
-        return  self::$prettyIds->contains(fn (string $prettyId) => $id === $prettyId);
+        return self::$prettyIds->contains(fn (string $prettyId) => $id === $prettyId);
     }
 
     public static function getPrettyIds(string $table): Collection
     {
-        return  \DB::table($table)->pluck('pretty_id');
+        return \DB::table($table)->pluck('pretty_id');
     }
 }

@@ -28,6 +28,6 @@ class MassDeleteAnswerController extends Controller
             Answer::find(Hashids::decode($id)[0])?->delete();
         });
 
-        return new JsonResponse(status:Response::HTTP_NO_CONTENT);
+        return new JsonResponse(status: Response::HTTP_NO_CONTENT);
     }
 }
