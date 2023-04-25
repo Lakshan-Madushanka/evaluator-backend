@@ -27,7 +27,7 @@ class ShowQuestionnaireController extends Controller
         $questions = QueryBuilder::for($questionnaire?->questions())
             ->inRandomOrder()
             ->allowedIncludes(['images', 'onlyAnswers.images'])
-            ->jsonPaginate();
+            ->get();
 
         if ($userQuestionnaire->attempts === 0 && is_null($userQuestionnaire->started_at)) {
             $userQuestionnaire->attempts = 1;
