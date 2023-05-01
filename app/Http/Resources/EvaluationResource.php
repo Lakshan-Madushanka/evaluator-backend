@@ -13,8 +13,10 @@ class EvaluationResource extends JsonApiResource
 {
     public function toAttributes(Request $request): array
     {
+        $marksPercentage = round($this->marks_percentage, 2);
+
         return [
-            'marks_percentage' => $this->marks_percentage,
+            'marks_percentage' => $marksPercentage,
             'total_points_earned' => $this->total_points_earned,
             'total_points_allocated' => $this->total_points_allocated,
             'time_taken' => $this->time_taken,
