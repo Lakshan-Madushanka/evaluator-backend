@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
+use Route;
 use TiMacDonald\JsonApi\JsonApiResource;
 use Vinkla\Hashids\Facades\Hashids;
 
@@ -117,34 +118,35 @@ class AppServiceProvider extends ServiceProvider
 
     public function implicitRouteModelBinding(): void
     {
-        \Route::bind('user', function ($value) {
+        Route::bind('user', function ($value) {
             $id = Hashids::decode($value)[0] ?? PHP_INT_MIN;
 
             return User::findOrFail($id);
         });
 
-        \Route::bind('category', function ($value) {
+        Route::bind('category', function ($value) {
             $id = Hashids::decode($value)[0] ?? PHP_INT_MIN;
 
             return Category::findOrFail($id);
         });
 
-        \Route::bind('question', function ($value) {
+        Route::bind('question', function ($value) {
             $id = Hashids::decode($value)[0] ?? PHP_INT_MIN;
 
             return Question::findOrFail($id);
         });
 
-        \Route::bind('answer', function ($value) {
+        Route::bind('answer', function ($value) {
             $id = Hashids::decode($value)[0] ?? PHP_INT_MIN;
 
             return Answer::findOrFail($id);
         });
 
-        \Route::bind('questionnaire', function ($value) {
+        Route::bind('questionnaire', function ($value) {
             $id = Hashids::decode($value)[0] ?? PHP_INT_MIN;
 
             return Questionnaire::findOrFail($id);
         });
+
     }
 }

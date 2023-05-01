@@ -10,7 +10,7 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class ShowQuestionnaireController extends Controller
 {
-    public function __invoke(string $code)
+    public function __invoke(string $code): \TiMacDonald\JsonApi\JsonApiResourceCollection
     {
         $userQuestionnaire = UserQuestionnaire::query()
             ->available($code)
