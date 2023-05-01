@@ -112,20 +112,15 @@ Route::prefix('administrative')->name('administrative.')->group(function () {
         ->name('logout');
 
     /*
-     *Users
-     */
-    Route::middleware(['auth:sanctum', 'can:administrative'])
-        ->get('/users', IndexUserController::class)
-        ->name('users.index');
-    Route::middleware(['auth:sanctum', 'can:administrative'])
-        ->get('/users/{user}', ShowUserController::class)
-        ->name('users.show');
-
-    /*
      * Users
      *
      */
     Route::name('users.')->prefix('users')->middleware(['auth:sanctum', 'can:administrative'])->group(function () {
+        Route::get('/', IndexUserController::class)
+            ->name('index');
+        Route::get('/{user}', ShowUserController::class)
+            ->name('show');
+
         //Questionnaires
         Route::get('{user}/questionnaires',
             \App\Http\Controllers\Api\V1\Administrative\User\Questionnaire\IndexQuestionnaireController::class)
