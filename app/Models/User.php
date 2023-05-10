@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
@@ -51,7 +52,7 @@ use Laravel\Sanctum\HasApiTokens;
  *
  * @mixin Eloquent
  *
- * @property-read Collection|\App\Models\Questionnaire[] $questionnairesWithPivotData
+ * @property-read Collection|Questionnaire[] $questionnairesWithPivotData
  * @property-read int|null $questionnaires_with_pivot_data_count
  */
 class User extends Authenticatable
@@ -131,5 +132,14 @@ class User extends Authenticatable
         return $this->questionnaires()->withPivotValue(['answers']);
     }
 
+    public function evaluations(): HasManyThrough
+    {
+        return $this->hasManyThrough(
+            Evaluation::class,
+            UserQuestionnaire::class,
+            'user_id',
+            'user_questionnaire_id',
+        );
+    }
     //-------------------------End of Relationships----------------------------
 }

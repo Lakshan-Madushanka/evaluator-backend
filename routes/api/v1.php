@@ -17,6 +17,7 @@ use App\Http\Controllers\Api\V1\Administrative\Category\StoreCategoryController;
 use App\Http\Controllers\Api\V1\Administrative\Category\UpdateCategoryController;
 use App\Http\Controllers\Api\V1\Administrative\Dashboard\QuestionController;
 use App\Http\Controllers\Api\V1\Administrative\Dashboard\QuestionnaireController;
+use App\Http\Controllers\Api\V1\Administrative\Evaluation\IndexEvaluationController;
 use App\Http\Controllers\Api\V1\Administrative\Profile\UpdateProfileController;
 use App\Http\Controllers\Api\V1\Administrative\Question\Answer\AsyncAnswerController;
 use App\Http\Controllers\Api\V1\Administrative\Question\DeleteQuestionController;
@@ -210,6 +211,14 @@ Route::prefix('administrative')->name('administrative.')->group(function () {
             Route::name('questions.sync')->post('{questionnaire}/questions',
                 SyncQuestionController::class);
         });
+
+    // Evaluations
+    Route::middleware(['auth:sanctum', 'can:administrative'])
+        ->prefix('evaluations')
+        ->name('evaluations.')
+        ->group(function () {
+        Route::get('/', IndexEvaluationController::class)->name('index');
+    });
 });
 
 Route::prefix('users')->name('users.')->group(function () {

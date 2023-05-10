@@ -7,7 +7,9 @@ use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
+use Vinkla\Hashids\Facades\Hashids;
 
 /**
  * App\Models\Evaluation
@@ -49,4 +51,44 @@ class Evaluation extends Model
         'total_points_earned',
         'total_points_allocated',
     ];
+
+    //----------------------------------------Scopes-----------------------------------------------
+    public function scopeFilterByUserId(Builder $query, string $value): Builder
+    {
+        return $query->whereHas('userQuestionnaire', function (Builder $builder) use ($value) {
+            $builder->where('user_id', Hashids::decode($value));
+        });
+    }
+
+    public function scopeFilterByQuestionnaireId(Builder $query, string $value): Builder
+    {
+        return $query->whereHas('userQuestionnaire', function (Builder $builder) use ($value) {
+            $builder->where('questionnaire_id', Hashids::decode($value));
+        });
+    }
+
+    public function scopeFilterByUserQuestionnaire(Builder $query, ...$value): Builder
+    {
+        return $query->whereHas('userQuestionnaire', function (Builder $builder) use ($value) {
+            $builder->where(
+                [
+                    [
+                        'user_id', Hashids::decode($value[0]),
+                    ],
+                    [
+                        'questionnaire_id', Hashids::decode($value[1]),
+                    ],
+                ]);
+
+        });
+    }
+
+    //----------------------------------------Scopes-----------------------------------------------
+
+    //-------------------------------- Relationships-----------------------------------------------
+    public function userQuestionnaire(): BelongsTo
+    {
+        return $this->belongsTo(UserQuestionnaire::class, 'user_questionnaire_id');
+    }
+    //--------------------------End of Relationships-----------------------------------------------
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Models\Evaluation;
+use Hashids;
 use Illuminate\Http\Request;
 use TiMacDonald\JsonApi\JsonApiResource;
 
@@ -15,7 +16,7 @@ class EvaluationResource extends JsonApiResource
     {
         $marksPercentage = round($this->marks_percentage, 2);
 
-        return [
+        $attributes = [
             'marks_percentage' => $marksPercentage,
             'total_points_earned' => $this->total_points_earned,
             'total_points_allocated' => $this->total_points_allocated,
@@ -25,5 +26,12 @@ class EvaluationResource extends JsonApiResource
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
+
+        if ($this->relationLoaded('userQuestionnaire')) {
+            $attributes['user_id'] = Hashids::encode($this->userQuestionnaire->user_id);
+            $attributes['questionnaire_id'] = Hashids::encode($this->userQuestionnaire->questionnaire_id);
+        }
+
+        return $attributes;
     }
 }
