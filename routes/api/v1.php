@@ -15,6 +15,7 @@ use App\Http\Controllers\Api\V1\Administrative\Category\IndexCategoryController;
 use App\Http\Controllers\Api\V1\Administrative\Category\ShowCategoryController;
 use App\Http\Controllers\Api\V1\Administrative\Category\StoreCategoryController;
 use App\Http\Controllers\Api\V1\Administrative\Category\UpdateCategoryController;
+use App\Http\Controllers\Api\V1\Administrative\Dashboard\IndexDashboardController;
 use App\Http\Controllers\Api\V1\Administrative\Dashboard\QuestionController;
 use App\Http\Controllers\Api\V1\Administrative\Dashboard\QuestionnaireController;
 use App\Http\Controllers\Api\V1\Administrative\Evaluation\IndexEvaluationController;
@@ -92,8 +93,9 @@ Route::prefix('administrative')->name('administrative.')->group(function () {
         ->prefix('dashboard')
         ->name('dashboard')
         ->group(function () {
-            Route::get('questionnaires', QuestionnaireController::class);
-            Route::get('question', QuestionController::class);
+            Route::get('/', IndexDashboardController::class);
+            Route::get('questionnaires', QuestionnaireController::class)->name('questionnaires');
+            Route::get('question', QuestionController::class)->name('question');
         });
 
     /*
@@ -217,8 +219,8 @@ Route::prefix('administrative')->name('administrative.')->group(function () {
         ->prefix('evaluations')
         ->name('evaluations.')
         ->group(function () {
-        Route::get('/', IndexEvaluationController::class)->name('index');
-    });
+            Route::get('/', IndexEvaluationController::class)->name('index');
+        });
 });
 
 Route::prefix('users')->name('users.')->group(function () {

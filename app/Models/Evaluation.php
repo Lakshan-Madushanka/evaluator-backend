@@ -90,5 +90,29 @@ class Evaluation extends Model
     {
         return $this->belongsTo(UserQuestionnaire::class, 'user_questionnaire_id');
     }
+
+    public function user()
+    {
+        return $this->hasOneThrough(
+          User::class,
+          UserQuestionnaire::class,
+                 'id',
+            'id',
+            'user_questionnaire_id',
+            'user_id',
+        );
+    }
+
+    public function questionnaire()
+    {
+        return $this->hasOneThrough(
+            Questionnaire::class,
+            UserQuestionnaire::class,
+            'id',
+            'id',
+            'user_questionnaire_id',
+            'questionnaire_id',
+        );
+    }
     //--------------------------End of Relationships-----------------------------------------------
 }
