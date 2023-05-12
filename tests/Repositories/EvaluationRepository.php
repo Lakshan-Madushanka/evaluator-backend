@@ -2,16 +2,13 @@
 
 namespace Tests\Repositories;
 
-use App\Enums\Role;
 use App\Models\Evaluation;
-use App\Models\User;
 use App\Models\UserQuestionnaire;
-use Illuminate\Database\Eloquent\Collection;
 
 class EvaluationRepository
 {
    public static function createEvaluations(int $limit = 25): void
-    {
+   {
         $userQuestionnaires = UserQuestionnaire::query()
             ->limit($limit)
             ->get()

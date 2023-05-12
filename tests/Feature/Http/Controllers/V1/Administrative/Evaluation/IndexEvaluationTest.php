@@ -7,9 +7,9 @@ use App\Models\UserQuestionnaire;
 use Illuminate\Support\Carbon;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Laravel\Sanctum\Sanctum;
-use Tests\Repositories\EvaluationRepository;
 use function Pest\Laravel\getJson;
 use function Pest\Laravel\json;
+use Tests\Repositories\EvaluationRepository;
 use Tests\Repositories\UserRepository;
 
 beforeEach(function () {
@@ -60,7 +60,7 @@ test('can paginate evaluation records', function () {
     $response = json('GET', $this->route.'?'.$query);
     $response->assertOk();
 
-    $response->assertJson(fn(AssertableJson $json) => $json->has('data', 1)
+    $response->assertJson(fn (AssertableJson $json) => $json->has('data', 1)
         ->hasAll(['links', 'meta', 'meta.current_page'])
         ->missing('data.0.attributes.password')
         ->etc());
@@ -296,5 +296,3 @@ test('can sort evaluations by created at', function () {
 
     expect($data->all())->toBe($sortedData->all());
 })->group('administrative/evaluations/index');
-
-
