@@ -7,6 +7,7 @@ use App\Models\UserQuestionnaire;
 use Illuminate\Support\Carbon;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Laravel\Sanctum\Sanctum;
+use Tests\Repositories\EvaluationRepository;
 use function Pest\Laravel\getJson;
 use function Pest\Laravel\json;
 use Tests\Repositories\UserRepository;
@@ -14,7 +15,7 @@ use Tests\Repositories\UserRepository;
 beforeEach(function () {
     config(['json-api-paginate.max_results' => PHP_INT_MAX]);
 
-    createEvaluations();
+    EvaluationRepository::createEvaluations();
 
     $this->route = route('api.v1.administrative.evaluations.index');
 });
@@ -59,7 +60,7 @@ test('can paginate evaluation records', function () {
     $response = json('GET', $this->route.'?'.$query);
     $response->assertOk();
 
-    $response->assertJson(fn (AssertableJson $json) => $json->has('data', 1)
+    $response->assertJson(fn(AssertableJson $json) => $json->has('data', 1)
         ->hasAll(['links', 'meta', 'meta.current_page'])
         ->missing('data.0.attributes.password')
         ->etc());
@@ -296,20 +297,4 @@ test('can sort evaluations by created at', function () {
     expect($data->all())->toBe($sortedData->all());
 })->group('administrative/evaluations/index');
 
-function createEvaluations(): void
-{
-    $userQuestionnaires = UserQuestionnaire::query()
-        ->limit(25)
-        ->get()
-        ->each(function (UserQuestionnaire $uq) {
-            Evaluation::create([
-                'user_questionnaire_id' => $uq->id,
-                'time_taken' => random_int(25, 60),
-                'correct_answers' => random_int(5, 30),
-                'no_of_answered_questions' => random_int(20, 30),
-                'marks_percentage' => random_int(10, 100),
-                'total_points_earned' => random_int(0, 10),
-                'total_points_allocated' => random_int(10, 20),
-            ]);
-        });
-}
+
