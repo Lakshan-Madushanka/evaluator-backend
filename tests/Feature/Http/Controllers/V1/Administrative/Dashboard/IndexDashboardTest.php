@@ -77,8 +77,6 @@ it('return total no of questions', function () {
 
     $response = getJson($this->route);
 
-    dd($response->json());
-
     $response->assertJsonPath('data.attributes.no_of_questions', Question::count());
 });
 
@@ -101,11 +99,14 @@ it('return categories questions data', function () {
 
     $response = getJson($this->route);
 
-    $countData = Category::query()->withCount('questions')->get();
+    $countData = Category::query()
+        ->withCount('questions')
+        ->get()
+        ->mapWithKeys(fn(Category $category) => [$category->name => $category->questions_count]);
 
     $responseData = $response->json('data.attributes.category_questions');
 
-    expect($responseData[$countData?->name])->toEqual($countData?->questions_count);
+    expect($responseData)->toMatchArray($countData);
 });
 
 it('return latest evaluations data', function () {
