@@ -6,10 +6,9 @@ use App\Models\Question;
 use App\Models\Questionnaire;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Laravel\Sanctum\Sanctum;
+use function Pest\Laravel\getJson;
 use Tests\Repositories\QuestionRepository;
 use Tests\Repositories\UserRepository;
-
-use function Pest\Laravel\getJson;
 
 beforeEach(function () {
     $this->questionnaire = Questionnaire::whereHas('questions')->first();

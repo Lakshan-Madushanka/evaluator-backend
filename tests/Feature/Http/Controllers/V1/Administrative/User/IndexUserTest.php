@@ -3,9 +3,8 @@
 use App\Enums\Role;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Laravel\Sanctum\Sanctum;
-use Tests\Repositories\UserRepository;
-
 use function Pest\Laravel\getJson;
+use Tests\Repositories\UserRepository;
 
 beforeEach(function () {
     $this->route = route('api.v1.administrative.users.index');

@@ -53,7 +53,7 @@ class Evaluation extends Model
         'total_points_allocated',
     ];
 
-    // ----------------------------------------Scopes-----------------------------------------------
+    //----------------------------------------Scopes-----------------------------------------------
     public function scopeFilterByUserId(Builder $query, string $value): Builder
     {
         return $query->whereHas('userQuestionnaire', function (Builder $builder) use ($value) {
@@ -84,9 +84,9 @@ class Evaluation extends Model
         });
     }
 
-    // ----------------------------------------Scopes-----------------------------------------------
+    //----------------------------------------Scopes-----------------------------------------------
 
-    // -------------------------------- Relationships-----------------------------------------------
+    //-------------------------------- Relationships-----------------------------------------------
     public function userQuestionnaire(): BelongsTo
     {
         return $this->belongsTo(UserQuestionnaire::class, 'user_questionnaire_id');
@@ -115,5 +115,5 @@ class Evaluation extends Model
             'questionnaire_id',
         );
     }
-    // --------------------------End of Relationships-----------------------------------------------
+    //--------------------------End of Relationships-----------------------------------------------
 }

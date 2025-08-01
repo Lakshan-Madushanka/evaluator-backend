@@ -8,10 +8,9 @@ use App\Models\Question;
 use App\Models\Questionnaire;
 use Illuminate\Support\Collection;
 use Laravel\Sanctum\Sanctum;
+use function Pest\Laravel\postJson;
 use Tests\Repositories\QuestionRepository;
 use Tests\Repositories\UserRepository;
-
-use function Pest\Laravel\postJson;
 
 beforeEach(function () {
     $this->questionnaire = Questionnaire::factory()->create([

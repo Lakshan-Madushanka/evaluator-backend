@@ -6,11 +6,10 @@ use Illuminate\Queue\Middleware\ThrottlesExceptions;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Illuminate\Testing\TestResponse;
 use Laravel\Sanctum\Sanctum;
-use Tests\Repositories\UserRepository;
-
 use function Pest\Laravel\assertAuthenticated;
 use function Pest\Laravel\getJson;
 use function Pest\Laravel\postJson;
+use Tests\Repositories\UserRepository;
 
 beforeEach(function () {
     $this->admin = User::factory()->create([

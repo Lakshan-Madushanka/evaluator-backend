@@ -3,9 +3,8 @@
 use App\Enums\Role;
 use Illuminate\Testing\TestResponse;
 use Laravel\Sanctum\Sanctum;
-use Tests\Repositories\UserRepository;
-
 use function Pest\Laravel\postJson;
+use Tests\Repositories\UserRepository;
 
 it('return 401 response for non login users', function () {
     $response = postJson(route('api.v1.administrative.logout'));

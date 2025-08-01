@@ -3,12 +3,11 @@
 use App\Enums\Role;
 use Database\Seeders\QuestionnaireSeeder;
 use Laravel\Sanctum\Sanctum;
-use Tests\Repositories\QuestionnaireRepository;
-use Tests\Repositories\UserRepository;
-
 use function Pest\Laravel\assertDatabaseMissing;
 use function Pest\Laravel\deleteJson;
 use function Pest\Laravel\postJson;
+use Tests\Repositories\QuestionnaireRepository;
+use Tests\Repositories\UserRepository;
 
 beforeEach(function () {
     $this->seeder = QuestionnaireSeeder::class;

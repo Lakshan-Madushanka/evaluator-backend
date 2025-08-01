@@ -5,9 +5,8 @@ use App\Models\User;
 use App\Models\UserQuestionnaire;
 use App\Notifications\QuestionnaireAttachedToUser;
 use Laravel\Sanctum\Sanctum;
-use Tests\Repositories\UserRepository;
-
 use function Pest\Laravel\getJson;
+use Tests\Repositories\UserRepository;
 
 beforeEach(function () {
     $questionnaire = UserQuestionnaire::query()

@@ -6,10 +6,9 @@ use App\Models\Question;
 use App\Models\Questionnaire;
 use App\Models\User;
 use Laravel\Sanctum\Sanctum;
+use function Pest\Laravel\getJson;
 use Tests\Repositories\EvaluationRepository;
 use Tests\Repositories\UserRepository;
-
-use function Pest\Laravel\getJson;
 
 beforeEach(function () {
     $this->route = route('api.v1.administrative.dashboard');

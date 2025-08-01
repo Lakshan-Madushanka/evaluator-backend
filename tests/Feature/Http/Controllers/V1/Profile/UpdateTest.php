@@ -4,10 +4,9 @@ use App\Enums\Role;
 use Database\Seeders\UserSeeder;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Laravel\Sanctum\Sanctum;
+use function Pest\Laravel\putJson;
 use Tests\Repositories\UserRepository;
 use Tests\RequestFactories\UserRequest;
-
-use function Pest\Laravel\putJson;
 
 beforeEach(function () {
     $this->seeder = UserSeeder::class;

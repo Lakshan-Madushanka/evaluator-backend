@@ -6,11 +6,10 @@ use App\Models\Answer;
 use Carbon\Carbon;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Laravel\Sanctum\Sanctum;
+use function Pest\Laravel\getJson;
 use Tests\Repositories\AnswerRepository;
 use Tests\Repositories\UserRepository;
 use Tests\RequestFactories\AnswerRequest;
-
-use function Pest\Laravel\getJson;
 
 beforeEach(function () {
     $this->route = route('api.v1.administrative.answers.index');

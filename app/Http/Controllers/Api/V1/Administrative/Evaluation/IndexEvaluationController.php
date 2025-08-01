@@ -20,7 +20,7 @@ class IndexEvaluationController
                 AllowedFilter::scope('user', 'filterByUserId'),
                 AllowedFilter::scope('questionnaire', 'filterByQuestionnaireId'),
                 AllowedFilter::scope('user_questionnaire', 'filterByUserQuestionnaire'),
-                AllowedFilter::custom('marks_percentage', new BetweenFilter),
+                AllowedFilter::custom('marks_percentage', new BetweenFilter()),
             ])
             ->defaultSort('-id')
             ->allowedSorts(

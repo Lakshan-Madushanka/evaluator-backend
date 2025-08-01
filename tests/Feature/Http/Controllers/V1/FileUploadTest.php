@@ -2,9 +2,8 @@
 
 use App\Enums\Role;
 use Laravel\Sanctum\Sanctum;
-use Tests\Repositories\UserRepository;
-
 use function Pest\Laravel\post;
+use Tests\Repositories\UserRepository;
 
 it('throws 404 for invalid route end points', function () {
     Sanctum::actingAs(UserRepository::getRandomUser(Role::ADMIN));

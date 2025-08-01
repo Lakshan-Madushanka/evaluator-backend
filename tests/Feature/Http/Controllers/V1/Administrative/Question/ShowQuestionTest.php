@@ -3,10 +3,9 @@
 use App\Enums\Role;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Laravel\Sanctum\Sanctum;
+use function Pest\Laravel\getJson;
 use Tests\Repositories\UserRepository;
 use Tests\RequestFactories\CategoryRequest;
-
-use function Pest\Laravel\getJson;
 
 it('return 401 unauthorized response for non-login users', function () {
     $response = getJson(route('api.v1.administrative.questions.show', ['question' => 1]));

@@ -18,7 +18,7 @@ return new class extends Migration
 
             $table->unsignedTinyInteger('category_id');
 
-            // Polymorphic relationship columns
+            //Polymorphic relationship columns
             $table->unsignedTinyInteger('categorizable_type')->index();
             $table->unsignedBigInteger('categorizable_id')->index();
 

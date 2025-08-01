@@ -3,12 +3,11 @@
 use App\Enums\Role;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Laravel\Sanctum\Sanctum;
+use function Pest\Laravel\assertDatabaseCount;
+use function Pest\Laravel\putJson;
 use Tests\Repositories\QuestionRepository;
 use Tests\Repositories\UserRepository;
 use Tests\RequestFactories\QuestionRequest;
-
-use function Pest\Laravel\assertDatabaseCount;
-use function Pest\Laravel\putJson;
 
 it('return 401 unauthorized response for non-login users', function () {
     $response = putJson(route('api.v1.administrative.questions.update', ['question' => 1]));
@@ -74,7 +73,7 @@ it('can sync categories to question', function () {
     );
 })->group('api/v1/administrative/question/update');
 
-// it('allows administrative users to remove a media attached to question', function () {
+//it('allows administrative users to remove a media attached to question', function () {
 //    Sanctum::actingAs(UserRepository::getRandomUser(Role::ADMIN));
 //
 //    /*
@@ -114,4 +113,4 @@ it('can sync categories to question', function () {
 //    \Illuminate\Support\Facades\Storage::disk(config('media-library.disk_name'))
 //        ->assertMissing("{$uploadedMedia->id}/{$uploadedMedia->file_name}");
 //
-// })->group('api/v1/administrative/question/update');
+//})->group('api/v1/administrative/question/update');

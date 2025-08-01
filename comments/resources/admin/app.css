@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    h1 {
+        @apply font-bold text-2xl
+    }
+}
+
+.ql-toolbar {
+    @apply rounded rounded-b-none
+}
+
+.scrollbar::-webkit-scrollbar {
+    width: 2px;
+    height: 2px;
+}
+
+.scrollbar::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 5px;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 5px;
+}
+
+.scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.scrollbar::-webkit-scrollbar-button {
+    display: none;
+}

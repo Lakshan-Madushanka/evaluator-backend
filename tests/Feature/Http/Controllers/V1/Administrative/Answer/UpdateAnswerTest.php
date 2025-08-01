@@ -3,11 +3,10 @@
 use App\Enums\Role;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Laravel\Sanctum\Sanctum;
+use function Pest\Laravel\putJson;
 use Tests\Repositories\AnswerRepository;
 use Tests\Repositories\UserRepository;
 use Tests\RequestFactories\AnswerRequest;
-
-use function Pest\Laravel\putJson;
 
 it('return 401 unauthorized response for non-login users', function () {
     $response = putJson(route('api.v1.administrative.answers.update', ['answer' => 1]));

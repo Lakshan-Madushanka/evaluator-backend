@@ -61,8 +61,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Illuminate\Support\Facades\Auth::loginUsingId(2);
-Route::get('/test', function (Request $request) {});
+//Illuminate\Support\Facades\Auth::loginUsingId(2);
+Route::get('/test', function (Request $request) {
+});
 
 Route::prefix('super-admin')->name('super-admin.')->group(function () {
     /**
@@ -124,7 +125,7 @@ Route::prefix('administrative')->name('administrative.')->group(function () {
         Route::get('/{user}', ShowUserController::class)
             ->name('show');
 
-        // Questionnaires
+        //Questionnaires
         Route::get('{user}/questionnaires',
             \App\Http\Controllers\Api\V1\Administrative\User\Questionnaire\IndexQuestionnaireController::class)
             ->name('questionnaires.index');

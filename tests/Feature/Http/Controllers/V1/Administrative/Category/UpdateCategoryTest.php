@@ -3,11 +3,10 @@
 use App\Enums\Role;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Laravel\Sanctum\Sanctum;
+use function Pest\Laravel\putJson;
 use Tests\Repositories\CategoryRepository;
 use Tests\Repositories\UserRepository;
 use Tests\RequestFactories\CategoryRequest;
-
-use function Pest\Laravel\putJson;
 
 it('return 401 unauthorized response for non-login users', function () {
     $response = putJson(route('api.v1.administrative.categories.update', ['category' => 1]));

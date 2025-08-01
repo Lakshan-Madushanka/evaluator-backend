@@ -8,7 +8,6 @@ use App\Models\Questionnaire;
 use App\Models\User;
 use App\Models\UserQuestionnaire;
 use Illuminate\Testing\Fluent\AssertableJson;
-
 use function Pest\Laravel\postJson;
 
 it('throws exception if submitted time exceeded allocated time', function () {

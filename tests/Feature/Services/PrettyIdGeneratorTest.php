@@ -2,9 +2,8 @@
 
 use App\Models\Answer;
 use App\Services\PrettyIdGenerator;
-use Tests\Repositories\AnswerRepository;
-
 use function PHPUnit\Framework\assertNotEmpty;
+use Tests\Repositories\AnswerRepository;
 
 it('can get last inserted id of a model', function () {
     $id = PrettyIdGenerator::getLastInsertedId('answers');
@@ -29,7 +28,7 @@ it('can check if pretty id exists', function () {
     $initMethod->setAccessible(true);
     $checkPrettyIdExistsMethod->setAccessible(true);
 
-    $idGenerator = new PrettyIdGenerator;
+    $idGenerator = new PrettyIdGenerator();
 
     $initMethod->invoke($idGenerator, 'answers');
 

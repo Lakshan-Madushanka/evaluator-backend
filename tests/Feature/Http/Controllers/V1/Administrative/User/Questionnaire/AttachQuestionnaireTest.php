@@ -4,9 +4,8 @@ use App\Enums\Role;
 use App\Models\Questionnaire;
 use App\Notifications\QuestionnaireAttachedToUser;
 use Laravel\Sanctum\Sanctum;
-use Tests\Repositories\UserRepository;
-
 use function Pest\Laravel\postJson;
+use Tests\Repositories\UserRepository;
 
 it('return 401 response non-login users ', function () {
     $user = UserRepository::getRandomUser();

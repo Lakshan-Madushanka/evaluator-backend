@@ -65,6 +65,7 @@ class FileUploadService
 
     /**
      * @param  array  $files
+     * @return MediaCollection
      */
     public function execute(Model $model, $files, string $collecton = 'default'): ?MediaCollection
     {

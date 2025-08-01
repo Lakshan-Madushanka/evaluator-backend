@@ -104,9 +104,9 @@ class Questionnaire extends Model
         return $query->havingRaw('questions_count <> no_of_questions');
     }
 
-    // --------------------------------Scopes--------------------------------------------
+    //--------------------------------Scopes--------------------------------------------
 
-    // --------------------------Relationships--------------------------------------------
+    //--------------------------Relationships--------------------------------------------
     /**
      * @return MorphToMany<Category>
      */
@@ -158,5 +158,5 @@ class Questionnaire extends Model
             relatedPivotKey: 'user_id',
         );
     }
-    // -------------------------End of Relationships----------------------------
+    //-------------------------End of Relationships----------------------------
 }

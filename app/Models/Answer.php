@@ -54,7 +54,7 @@ class Answer extends Model implements HasMedia
         'creating' => SetModelPrettyId::class,
     ];
 
-    // --------------------------Relationships----------------------------
+    //--------------------------Relationships----------------------------
 
     /**
      * @return MorphMany<Answer>
@@ -64,5 +64,5 @@ class Answer extends Model implements HasMedia
         return $this->media()->orderBy('order_column');
     }
 
-    // ------------------------End Of Relationships----------------------------
+    //------------------------End Of Relationships----------------------------
 }
