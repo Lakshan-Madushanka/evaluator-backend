@@ -102,7 +102,7 @@ it('return categories questions data', function () {
     $countData = Category::query()
         ->withCount('questions')
         ->get()
-        ->mapWithKeys(fn(Category $category) => [$category->name => $category->questions_count]);
+        ->mapWithKeys(fn (Category $category) => [$category->name => $category->questions_count]);
 
     $responseData = $response->json('data.attributes.category_questions');
 
