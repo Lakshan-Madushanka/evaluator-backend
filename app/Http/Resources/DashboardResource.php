@@ -12,7 +12,7 @@ class DashboardResource extends JsonApiResource
      */
     public function toAttributes(Request $request): array
     {
-       return $this->resource;
+        return $this->resource;
     }
 
     public function toId(Request $request): string

@@ -7,8 +7,8 @@ use App\Models\UserQuestionnaire;
 
 class EvaluationRepository
 {
-   public static function createEvaluations(int $limit = 25): void
-   {
+    public static function createEvaluations(int $limit = 25): void
+    {
         $userQuestionnaires = UserQuestionnaire::query()
             ->limit($limit)
             ->get()

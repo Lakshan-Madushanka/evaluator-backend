@@ -95,9 +95,9 @@ class Evaluation extends Model
     public function user()
     {
         return $this->hasOneThrough(
-          User::class,
-          UserQuestionnaire::class,
-                 'id',
+            User::class,
+            UserQuestionnaire::class,
+            'id',
             'id',
             'user_questionnaire_id',
             'user_id',
