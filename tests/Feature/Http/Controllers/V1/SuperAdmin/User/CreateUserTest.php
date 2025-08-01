@@ -3,9 +3,10 @@
 use App\Enums\Role;
 use App\Models\User;
 use Laravel\Sanctum\Sanctum;
+use Tests\RequestFactories\UserRequest;
+
 use function Pest\Laravel\assertDatabaseCount;
 use function Pest\Laravel\postJson;
-use Tests\RequestFactories\UserRequest;
 
 beforeEach(function () {
     $this->seeder = \Database\Seeders\UserSeeder::class;

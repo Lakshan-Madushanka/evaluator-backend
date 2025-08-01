@@ -10,8 +10,8 @@ class Tag extends Model
 {
     protected $table = 'posts';
 
-    use HasFactory;
     use Commentable;
+    use HasFactory;
 
     public $guarded = [];
 }

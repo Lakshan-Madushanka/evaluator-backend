@@ -29,7 +29,7 @@ return new class extends Migration
             $table->smallInteger('no_of_medium_questions');
             $table->smallInteger('no_of_hard_questions');
 
-            $table->unsignedSmallInteger('allocated_time'); //in minutes
+            $table->unsignedSmallInteger('allocated_time'); // in minutes
 
             $table->index(['difficulty', 'no_of_questions']);
 

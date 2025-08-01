@@ -48,7 +48,7 @@ class Category extends Model
         'pivot',
     ];
 
-    //--------------------------Relationships----------------------------
+    // --------------------------Relationships----------------------------
 
     /**
      * @return MorphToMany<Questionnaire>
@@ -76,5 +76,5 @@ class Category extends Model
         );
     }
 
-    //-------------------------End of Relationships----------------------------
+    // -------------------------End of Relationships----------------------------
 }

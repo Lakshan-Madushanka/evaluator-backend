@@ -2,10 +2,11 @@
 
 use App\Enums\Role;
 use Laravel\Sanctum\Sanctum;
-use function Pest\Laravel\postJson;
 use Tests\Repositories\QuestionRepository;
 use Tests\Repositories\UserRepository;
 use Tests\RequestFactories\QuestionRequest;
+
+use function Pest\Laravel\postJson;
 
 it('return 401 unauthorized response for non-login users', function () {
     $response = \Pest\Laravel\postJson(route('api.v1.uploads.store', ['type' => 'questions', 'id' => '456']));

@@ -2,11 +2,12 @@
 
 use App\Enums\Role;
 use Laravel\Sanctum\Sanctum;
-use function Pest\Laravel\assertDatabaseCount;
-use function Pest\Laravel\deleteJson;
 use Tests\Repositories\CategoryRepository;
 use Tests\Repositories\UserRepository;
 use Tests\RequestFactories\CategoryRequest;
+
+use function Pest\Laravel\assertDatabaseCount;
+use function Pest\Laravel\deleteJson;
 
 it('return 401 unauthorized response for non-login users', function () {
     $response = deleteJson(route('api.v1.administrative.categories.delete', ['category' => 1]));

@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Models\Article;
 use App\Models\Post;
 use App\Models\User;
-
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use LakM\Comments\Models\Comment;
@@ -63,8 +62,8 @@ class DatabaseSeeder extends Seeder
                     ];
                 }
 
-               $comment->replies()
-                   ->createMany($replies);
+                $comment->replies()
+                    ->createMany($replies);
             });
 
         // Add Reactions
@@ -99,7 +98,7 @@ class DatabaseSeeder extends Seeder
                 'commenter_type' => $user->getMorphClass(),
                 'commenter_id' => $user->getAuthIdentifier(),
                 'approved' => true,
-                'ip_address' => fake()->ipv4()
+                'ip_address' => fake()->ipv4(),
             ];
         }
         $comments = $article->comments()->createMany($comments);
@@ -117,7 +116,7 @@ class DatabaseSeeder extends Seeder
                         'commenter_type' => $user->getMorphClass(),
                         'commenter_id' => $user->getAuthIdentifier(),
                         'approved' => true,
-                        'ip_address' => fake()->ipv4()
+                        'ip_address' => fake()->ipv4(),
                     ];
                 }
 
@@ -135,7 +134,7 @@ class DatabaseSeeder extends Seeder
                     $reactions[] = [
                         'type' => fake()->randomElement(array_keys(config('comments.reactions'))),
                         'user_id' => User::factory()->create()->getAuthIdentifier(),
-                        'ip_address' => fake()->ipv4()
+                        'ip_address' => fake()->ipv4(),
                     ];
                 }
 

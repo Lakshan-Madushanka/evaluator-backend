@@ -9,8 +9,8 @@ use LakM\Comments\Contracts\CommentableContract;
 
 class Article extends Model implements CommentableContract
 {
-    use HasFactory;
     use Commentable;
+    use HasFactory;
 
     private $guestMode = false;
 }

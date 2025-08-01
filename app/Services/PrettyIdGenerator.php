@@ -18,7 +18,7 @@ class PrettyIdGenerator
 
     public static function generate(string $table, string $prefix, int $length = 12): string
     {
-        (new self())->init($table);
+        (new self)->init($table);
 
         $nextId = self::getLastInsertedId($table) + 1;
 
