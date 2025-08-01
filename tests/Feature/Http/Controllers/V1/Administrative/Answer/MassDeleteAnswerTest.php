@@ -3,10 +3,11 @@
 use App\Enums\Role;
 use Database\Seeders\UserSeeder;
 use Laravel\Sanctum\Sanctum;
+use Tests\Repositories\UserRepository;
+
 use function Pest\Laravel\assertDatabaseMissing;
 use function Pest\Laravel\deleteJson;
 use function Pest\Laravel\postJson;
-use Tests\Repositories\UserRepository;
 
 beforeEach(function () {
     $this->seeder = UserSeeder::class;

@@ -57,7 +57,7 @@ use Laravel\Sanctum\HasApiTokens;
  */
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, HasHashids;
+    use HasApiTokens, HasFactory, HasHashids, Notifiable;
 
     /**
      * @var string[]
@@ -98,7 +98,7 @@ class User extends Authenticatable
         'role' => Role::class,
     ];
 
-    //--------------------------Relationships----------------------------
+    // --------------------------Relationships----------------------------
 
     /**
      * @return BelongsToMany<Questionnaire>
@@ -141,5 +141,5 @@ class User extends Authenticatable
             'user_questionnaire_id',
         );
     }
-    //-------------------------End of Relationships----------------------------
+    // -------------------------End of Relationships----------------------------
 }

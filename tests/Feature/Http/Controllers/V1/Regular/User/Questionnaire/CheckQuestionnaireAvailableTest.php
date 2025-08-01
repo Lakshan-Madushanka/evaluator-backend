@@ -2,6 +2,7 @@
 
 use App\Models\UserQuestionnaire;
 use Illuminate\Testing\Fluent\AssertableJson;
+
 use function Pest\Laravel\getJson;
 
 it('it can throttle request', function () {

@@ -4,10 +4,11 @@ use App\Enums\Role;
 use App\Models\Question;
 use JetBrains\PhpStorm\ArrayShape;
 use Laravel\Sanctum\Sanctum;
-use function Pest\Laravel\postJson;
 use Tests\Repositories\AnswerRepository;
 use Tests\Repositories\QuestionRepository;
 use Tests\Repositories\UserRepository;
+
+use function Pest\Laravel\postJson;
 
 it('return 401 unauthorized response for non-login users', function () {
     $response = postJson(

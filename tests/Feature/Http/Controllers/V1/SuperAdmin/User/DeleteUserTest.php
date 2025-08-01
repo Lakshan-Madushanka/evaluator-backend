@@ -4,9 +4,10 @@ use App\Enums\Role;
 use App\Models\User;
 use Database\Seeders\UserSeeder;
 use Laravel\Sanctum\Sanctum;
-use function Pest\Laravel\deleteJson;
 use Tests\Repositories\UserRepository;
 use Tests\RequestFactories\UserRequest;
+
+use function Pest\Laravel\deleteJson;
 
 beforeEach(function () {
     $this->seeder = UserSeeder::class;
