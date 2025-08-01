@@ -31,28 +31,28 @@ class AsyncAnswerController extends Controller
         return new JsonResponse(status: Response::HTTP_OK);
     }
 
-   public function checkValidity(array $validatedInputs, Question $question): void
-   {
-       throw_if(
-           count($validatedInputs['answers']) > $question->no_of_answers,
-           ValidationException::withMessages(['answers' => "Exceeds allowed no of answers ({$question->no_of_answers})"])
-       );
+    public function checkValidity(array $validatedInputs, Question $question): void
+    {
+        throw_if(
+            count($validatedInputs['answers']) > $question->no_of_answers,
+            ValidationException::withMessages(['answers' => "Exceeds allowed no of answers ({$question->no_of_answers})"])
+        );
 
-       $correctAnswersCount = collect($validatedInputs['answers'])
-           ->pluck('correct')
-           ->filter()
-           ->count();
+        $correctAnswersCount = collect($validatedInputs['answers'])
+            ->pluck('correct')
+            ->filter()
+            ->count();
 
-       throw_if(
-           $correctAnswersCount < 1,
-           ValidationException::withMessages(['answers' => 'At least one correct answer required'])
-       );
+        throw_if(
+            $correctAnswersCount < 1,
+            ValidationException::withMessages(['answers' => 'At least one correct answer required'])
+        );
 
-       throw_if(
-           $correctAnswersCount > 1 && $question->is_answers_type_single,
-           ValidationException::withMessages(['answers' => 'Single answers type question shouln \'t have more than one correct answers'])
-       );
-   }
+        throw_if(
+            $correctAnswersCount > 1 && $question->is_answers_type_single,
+            ValidationException::withMessages(['answers' => 'Single answers type question shouln \'t have more than one correct answers'])
+        );
+    }
 
     public function prepareInputs(array $validatedInputs): array
     {

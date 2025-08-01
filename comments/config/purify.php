@@ -1,7 +1,6 @@
 <?php
 
 use LakM\Comments\PurityDefinitons\TrixPurifierDefinitions;
-use Stevebauman\Purify\Definitions\Html5Definition;
 
 return [
 
@@ -103,8 +102,8 @@ return [
     */
 
     'serializer' => [
-        //'driver' => env('CACHE_DRIVER', 'file'),
-        //'cache' => \Stevebauman\Purify\Cache\CacheDefinitionCache::class,
+        // 'driver' => env('CACHE_DRIVER', 'file'),
+        // 'cache' => \Stevebauman\Purify\Cache\CacheDefinitionCache::class,
     ],
 
     // 'serializer' => [

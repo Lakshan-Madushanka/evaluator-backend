@@ -1,16 +1,11 @@
 <?php
 
 use App\Enums\Role;
-use App\Models\Evaluation;
-use App\Models\User;
-use App\Models\UserQuestionnaire;
-use Illuminate\Support\Carbon;
-use Illuminate\Testing\Fluent\AssertableJson;
 use Laravel\Sanctum\Sanctum;
-use function Pest\Laravel\getJson;
-use function Pest\Laravel\json;
 use Tests\Repositories\EvaluationRepository;
 use Tests\Repositories\UserRepository;
+
+use function Pest\Laravel\getJson;
 
 beforeEach(function () {
     EvaluationRepository::createEvaluations();
@@ -48,5 +43,3 @@ it('allow to get an evaluation records for admin type users', function () {
     $response->assertOk();
 
 })->group('administrative/evaluations/index');
-
-

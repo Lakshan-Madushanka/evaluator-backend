@@ -1,8 +1,9 @@
 <?php
 
 use App\Models\Questionnaire;
-use function Pest\Laravel\getJson;
 use Tests\Repositories\UserRepository;
+
+use function Pest\Laravel\getJson;
 
 it('return 401 response non-login users ', function () {
     $user = UserRepository::getRandomUser();

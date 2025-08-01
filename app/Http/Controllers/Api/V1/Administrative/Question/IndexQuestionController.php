@@ -19,7 +19,7 @@ class IndexQuestionController extends Controller
     public function __invoke(Request $request): JsonApiResourceCollection
     {
         $questions = QueryBuilder::for(Question::class)
-            //->with(['categories'])
+            // ->with(['categories'])
             ->withCount(['answers', 'images'])
             ->allowedIncludes(['categories'])
             ->allowedFilters([

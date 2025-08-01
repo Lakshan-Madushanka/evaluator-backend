@@ -68,8 +68,8 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 class Question extends Model implements HasMedia
 {
     use HasFactory;
-    use InteractsWithMedia;
     use HasHashids;
+    use InteractsWithMedia;
 
     /**
      * @var string[]
@@ -93,7 +93,7 @@ class Question extends Model implements HasMedia
         'creating' => SetModelPrettyId::class,
     ];
 
-    //--------------------------Relationships----------------------------
+    // --------------------------Relationships----------------------------
 
     /**
      * @return MorphToMany<Category>
@@ -142,9 +142,9 @@ class Question extends Model implements HasMedia
         return $this->media()->orderBy('order_column');
     }
 
-    //-------------------------End of Relationships----------------------------
+    // -------------------------End of Relationships----------------------------
 
-    //--------------------------------Query scopes-----------------------------
+    // --------------------------------Query scopes-----------------------------
 
     public function scopeCompleted(Builder $query): Builder
     {
@@ -165,7 +165,7 @@ class Question extends Model implements HasMedia
                 fn (Builder $query) => $query->whereIn('categories.id', $questionnaireCategoriesIds));
     }
 
-    //--------------------------------End of scopes-----------------------------
+    // --------------------------------End of scopes-----------------------------
 
     public function checkQuestionIsComplete(Question $question): bool
     {

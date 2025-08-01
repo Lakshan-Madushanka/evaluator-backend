@@ -65,7 +65,7 @@ class UserQuestionnaire extends Model
         'answers' => 'array',
     ];
 
-    //-----------------------------------scopes-------------------------------------------------------------------------
+    // -----------------------------------scopes-------------------------------------------------------------------------
 
     public function scopeAvailable(Builder $query, string $code): Builder
     {
@@ -93,14 +93,14 @@ class UserQuestionnaire extends Model
             ->where('expires_at', '>=', now());
     }
 
-    //-----------------------------------scopes-------------------------------------------------------------------------
+    // -----------------------------------scopes-------------------------------------------------------------------------
 
-    //--------------------------Relationships----------------------------
+    // --------------------------Relationships----------------------------
 
     public function evaluation(): HasOne
     {
         return $this->hasOne(Evaluation::class, foreignKey: 'user_questionnaire_id');
     }
 
-    //-------------------------End of Relationships----------------------------
+    // -------------------------End of Relationships----------------------------
 }

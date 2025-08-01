@@ -12,7 +12,7 @@ use LakM\Comments\Contracts\CommenterContract;
 
 class User extends Authenticatable implements CommenterContract
 {
-    use HasFactory, Notifiable, Commenter;
+    use Commenter, HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -51,7 +51,7 @@ class User extends Authenticatable implements CommenterContract
     public function profilePhotoUrl(): Attribute
     {
         return Attribute::make(
-            get: fn() => 'https://avatars.githubusercontent.com/u/47297673?v=4'
+            get: fn () => 'https://avatars.githubusercontent.com/u/47297673?v=4'
         );
     }
 }

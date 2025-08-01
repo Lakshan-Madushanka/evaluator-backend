@@ -2,10 +2,11 @@
 
 use App\Enums\Role;
 use Laravel\Sanctum\Sanctum;
-use function Pest\Laravel\assertDatabaseCount;
-use function Pest\Laravel\deleteJson;
 use Tests\Repositories\QuestionRepository;
 use Tests\Repositories\UserRepository;
+
+use function Pest\Laravel\assertDatabaseCount;
+use function Pest\Laravel\deleteJson;
 
 it('return 401 unauthorized response for non-login users', function () {
     $response = deleteJson(route('api.v1.administrative.questions.delete', ['question' => 1]));

@@ -3,11 +3,12 @@
 use App\Enums\Role;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Laravel\Sanctum\Sanctum;
-use function Pest\Laravel\assertDatabaseCount;
-use function Pest\Laravel\postJson;
 use Tests\Repositories\QuestionRepository;
 use Tests\Repositories\UserRepository;
 use Tests\RequestFactories\QuestionRequest;
+
+use function Pest\Laravel\assertDatabaseCount;
+use function Pest\Laravel\postJson;
 
 beforeEach(function () {
     $this->route = route('api.v1.administrative.questions.store');

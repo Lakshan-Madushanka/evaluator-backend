@@ -2,9 +2,10 @@
 
 use App\Enums\Role;
 use Laravel\Sanctum\Sanctum;
-use function Pest\Laravel\postJson;
 use Tests\Repositories\UserRepository;
 use Tests\RequestFactories\CategoryRequest;
+
+use function Pest\Laravel\postJson;
 
 it('required name', function () {
     Sanctum::actingAs(UserRepository::getRandomUser(Role::ADMIN));
