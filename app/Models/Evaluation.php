@@ -41,6 +41,7 @@ class Evaluation extends Model
 {
     use HasFactory;
     use HasHashids;
+    use HasHashids;
 
     protected $fillable = [
         'user_questionnaire_id',

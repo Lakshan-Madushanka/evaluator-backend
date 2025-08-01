@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Answer;
 use App\Models\Category;
+use App\Models\Evaluation;
 use App\Models\Question;
 use App\Models\Questionnaire;
 use App\Models\User;
@@ -146,6 +147,12 @@ class AppServiceProvider extends ServiceProvider
             $id = Hashids::decode($value)[0] ?? PHP_INT_MIN;
 
             return Questionnaire::findOrFail($id);
+        });
+
+        Route::bind('evaluation', function ($value) {
+            $id = Hashids::decode($value)[0] ?? PHP_INT_MIN;
+
+            return Evaluation::findOrFail($id);
         });
 
     }

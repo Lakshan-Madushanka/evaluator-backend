@@ -24,4 +24,9 @@ class EvaluationRepository
                 ]);
             });
     }
+
+    public static function getRandomEvaluation(): Evaluation
+    {
+        return Evaluation::inRandomOrder()->first();
+    }
 }

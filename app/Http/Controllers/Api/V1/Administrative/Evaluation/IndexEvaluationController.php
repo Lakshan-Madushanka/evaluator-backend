@@ -15,7 +15,7 @@ class IndexEvaluationController
 {
     public function __invoke(User $user): JsonApiResourceCollection
     {
-        $results = QueryBuilder::for(Evaluation::query()->with('userQuestionnaire'))
+        $results = QueryBuilder::for(Evaluation::query()->with('userQuestionnaire:id,user_id,questionnaire_id'))
             ->allowedFilters([
                 AllowedFilter::scope('user', 'filterByUserId'),
                 AllowedFilter::scope('questionnaire', 'filterByQuestionnaireId'),

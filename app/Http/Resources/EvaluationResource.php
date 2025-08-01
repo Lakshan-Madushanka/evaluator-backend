@@ -5,6 +5,7 @@ namespace App\Http\Resources;
 use App\Models\Evaluation;
 use Hashids;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use TiMacDonald\JsonApi\JsonApiResource;
 
 /**
@@ -30,8 +31,24 @@ class EvaluationResource extends JsonApiResource
         if ($this->relationLoaded('userQuestionnaire')) {
             $attributes['user_id'] = Hashids::encode($this->userQuestionnaire->user_id);
             $attributes['questionnaire_id'] = Hashids::encode($this->userQuestionnaire->questionnaire_id);
+
+            if (isset($this->userQuestionnaire->answers)) {
+                $attributes['answers'] = $this->convertAnswers(collect($this->userQuestionnaire->answers));
+            }
         }
 
         return $attributes;
+    }
+
+    public function convertAnswers(Collection $answers): Collection
+    {
+        return $answers->mapWithKeys(callback: function (array $answers, string $key) {
+
+            $answers = collect($answers)->transform(function (string $value) {
+                return Hashids::encode($value);
+            });
+
+            return [Hashids::encode($key) => $answers];
+        });
     }
 }
