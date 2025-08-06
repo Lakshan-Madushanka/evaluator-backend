@@ -80,7 +80,7 @@ it('allows administrative users to retrieve eligible question of a questionnaire
         ]
     ));
 
-    $response->assertJson(fn(AssertableJson $json) => $json->where('data.id', $question->hash_id)
+    $response->assertJson(fn (AssertableJson $json) => $json->where('data.id', $question->hash_id)
         ->hasAll(['data.attributes.no_of_assigned_answers', 'data.attributes.images_count'])
         ->etc()
     );
@@ -124,19 +124,19 @@ it('returns the list of eligible questions', function () {
     config(['json-api-paginate.max_results' => PHP_INT_MAX]);
 
     $route = route(
-            'api.v1.administrative.questionnaires.questions.eligibleQuestions',
-            [
-                'questionnaire' => $this->questionnaire?->hash_id,
-            ]
-        ) . '?include=categories';
+        'api.v1.administrative.questionnaires.questions.eligibleQuestions',
+        [
+            'questionnaire' => $this->questionnaire?->hash_id,
+        ]
+    ).'?include=categories';
 
     $response = getJson($route);
 
     $categories = $this
         ->questionnaire
         ?->categories()
-        ->pluck((new Category())->qualifyColumn('id'))
-        ->map(fn(int $id) => Hashids::encode($id))
+        ->pluck((new Category)->qualifyColumn('id'))
+        ->map(fn (int $id) => Hashids::encode($id))
         ->toArray();
 
     $data = $response->decodeResponseJson()['data'];
