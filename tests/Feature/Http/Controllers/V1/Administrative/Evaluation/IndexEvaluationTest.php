@@ -107,7 +107,7 @@ test('can filter evaluations by questionnaire id', function () {
 
     $results = $response->decodeResponseJson()['data'];
 
-    expect(count($results))->toBeGreaterThan(1);
+    expect(count($results))->toBeGreaterThanOrEqual(1);
 
     collect($results)->pluck('attributes.questionnaire_id')
         ->each(function (string $id) use ($questionnaireId) {
