@@ -20,7 +20,7 @@ class Data
                 'PHP is an open-source programming language',
                 'PHP is used to develop dynamic and interactive websites',
                 'PHP is a server-side scripting language',
-                'All of the mentioned'
+                'All of the mentioned',
             ],
             'correctAnswer' => 4,
         ],
@@ -31,7 +31,7 @@ class Data
                 'Drek Kolkevi',
                 'Rasmus Lerdorf',
                 'Willam Makepiece',
-                'List Barely'
+                'List Barely',
             ],
             'correctAnswer' => 2,
         ],
@@ -42,7 +42,7 @@ class Data
                 'PHP stands for Preprocessor Home Page',
                 'PHP stands for Pretext Hypertext Processor',
                 'PHP stands for Hypertext Preprocessor',
-                'PHP stands for Personal Hyper Processor'
+                'PHP stands for Personal Hyper Processor',
             ],
             'correctAnswer' => 3,
         ],
@@ -53,7 +53,7 @@ class Data
                 '<?php ?>',
                 '< php >',
                 '< ? php ?>',
-                '<? ?>'
+                '<? ?>',
             ],
             'correctAnswer' => 4,
         ],
@@ -64,7 +64,7 @@ class Data
                 'PHP is an open-source programming language',
                 'PHP is used to develop dynamic and interactive websites',
                 'PHP is a server-side scripting language',
-                'All of the mentioned'
+                'All of the mentioned',
             ],
             'correctAnswer' => 4,
         ],
@@ -75,7 +75,7 @@ class Data
                 '#',
                 '//',
                 '/* */',
-                'All of the mentioned'
+                'All of the mentioned',
             ],
             'correctAnswer' => 4,
         ],
@@ -86,7 +86,7 @@ class Data
                 '.php',
                 '.ph',
                 '.xml',
-                '.html'
+                '.html',
             ],
             'correctAnswer' => 1,
         ],
@@ -97,7 +97,7 @@ class Data
                 'functionName(parameters) {function body}',
                 'function {function body}',
                 'function functionName(parameters) {function body}',
-                'data type functionName(parameters) {function body}'
+                'data type functionName(parameters) {function body}',
             ],
             'correctAnswer' => 3,
         ],
@@ -108,7 +108,7 @@ class Data
                 '$3hello',
                 '$_hello',
                 '$this',
-                '$5_Hello'
+                '$5_Hello',
             ],
             'correctAnswer' => 2,
         ],
@@ -119,7 +119,7 @@ class Data
                 'md5()',
                 'uniqueid()',
                 'mdid()',
-                'id()'
+                'id()',
             ],
             'correctAnswer' => 2,
         ],
@@ -130,7 +130,7 @@ class Data
                 'Apache and PHP',
                 'IIS',
                 'XAMPP',
-                'Any of the mentioned'
+                'Any of the mentioned',
             ],
             'correctAnswer' => 2,
         ],
@@ -151,19 +151,19 @@ class Data
             $q['text'] = $question['question'];
             $q['difficulty'] = $question['difficulty']->value;
             $q['no_of_answers'] = count($question['answers']);
-            $q['pretty_id'] = PrettyIdGenerator::generate('questions', 'quest_'. $index, 13);
+            $q['pretty_id'] = PrettyIdGenerator::generate('questions', 'quest_'.$index, 13);
             $questions[] = $q;
 
             $category = [];
             $category['category_id'] = 1;
             $category['categorizable_id'] = $index + 1;
-            $category['categorizable_type'] = (new Question())->getMorphClass();
+            $category['categorizable_type'] = (new Question)->getMorphClass();
             $categorizables[] = $category;
 
             foreach ($question['answers'] as $aIndex => $answer) {
                 $qa = [];
                 $a = [];
-                $a['pretty_id'] = PrettyIdGenerator::generate('questions', 'ans_'. $lastAnsId, 12);
+                $a['pretty_id'] = PrettyIdGenerator::generate('questions', 'ans_'.$lastAnsId, 12);
                 $a['text'] = $answer;
                 $answers[] = $a;
 
@@ -174,7 +174,7 @@ class Data
             }
         }
 
-        DB::table('categories')->insert(['name' => 'PHP' . uniqid()]);
+        DB::table('categories')->insert(['name' => 'PHP'.uniqid()]);
         DB::table('categorizables')->insert($categorizables);
         DB::table('questions')->insert($questions);
         DB::table('answers')->insert($answers);
