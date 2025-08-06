@@ -4,6 +4,7 @@ use App\Models\Answer;
 use App\Models\Category;
 use App\Models\Question;
 use Database\Data\Data;
+
 use function Pest\Laravel\assertDatabaseCount;
 use function Pest\Laravel\withoutExceptionHandling;
 
@@ -20,8 +21,8 @@ it('can build questions', function () {
 
     Data::seedQuestions();
 
-    assertDatabaseCount((new Question())->getTable(), 11);
-    assertDatabaseCount((new Answer())->getTable(), 44);
-    assertDatabaseCount((new Category())->getTable(), 1);
+    assertDatabaseCount((new Question)->getTable(), 11);
+    assertDatabaseCount((new Answer)->getTable(), 44);
+    assertDatabaseCount((new Category)->getTable(), 1);
     assertDatabaseCount('categorizables', 11);
 });
