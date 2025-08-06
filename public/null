@@ -1,0 +1,10 @@
+Carbon\Carbon::createFrom('2025-08-02 09:39:05');
+Carbon\Carbon::createfrom('2025-08-02 09:39:05');
+$a = Carbon\Carbon::parse('2025-08-02 09:39:05');
+$b = Carbon\Carbon::parse('2025-08-03 09:39:20');
+
+echo $a->diffInMinutes($b);
+$a = Carbon\Carbon::parse('2025-08-02 09:39:05');
+$b = Carbon\Carbon::parse('2025-08-02 09:39:20');
+
+echo $a->diffInMinutes($b);

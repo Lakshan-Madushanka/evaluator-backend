@@ -18,6 +18,8 @@ class UserQuestionnaireResource extends JsonApiResource
             'user_questionnaire_id' => Hashids::encode($this->userQuestionnaireId),
             'attempts' => $this->attempts,
             'expires_at' => $this->expires_at,
+            'started_at' => $this->started_at,
+            'finished_at' => $this->finished_at,
             'updated_at' => $this->created_at,
             'created_at' => $this->created_at,
         ];
