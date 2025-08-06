@@ -13,5 +13,5 @@
 
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 
-uses(LazilyRefreshDatabase::class)->in('Feature');
-uses(Tests\TestCase::class)->in('Feature');
+uses(LazilyRefreshDatabase::class)->in('Feature', 'Unit');
+uses(Tests\TestCase::class)->in('Feature', 'Unit');

@@ -17,40 +17,10 @@ class UserSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
-        $this->createAdmin();
-        $this->createSuperAdmin();
-
         $users = User::factory()->count(50)->create();
-
         $this->assignQuestionnaires($users);
-    }
-
-    public function createAdmin(): void
-    {
-        $adminEmail = 'admin@company.com';
-
-        User::whereEmail($adminEmail)->existsOr(function () {
-            User::factory()->create([
-                'role' => Role::ADMIN,
-                'password' => Hash::make('admin123'),
-                'email' => 'admin@company.com',
-            ]);
-        });
-    }
-
-    public function createSuperAdmin(): void
-    {
-        $superAdminEmail = 'super-admin@company.com';
-
-        User::whereEmail($superAdminEmail)->existsOr(function () {
-            User::factory()->create([
-                'role' => Role::SUPER_ADMIN,
-                'password' => Hash::make('superAdmin123'),
-                'email' => 'super-admin@company.com',
-            ]);
-        });
     }
 
     public function assignQuestionnaires(Collection $users): void
