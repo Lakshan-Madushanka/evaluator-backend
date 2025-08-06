@@ -8,13 +8,13 @@ use App\Models\Question;
 use App\Models\Questionnaire;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\QueryBuilder;
+use TiMacDonald\JsonApi\JsonApiResourceCollection;
 
-class FindEligibleQuestionController extends Controller
+class EligibleQuestionController extends Controller
 {
-    public function __invoke(Questionnaire $questionnaire, string $questionId, Request $request): QuestionResource|JsonResponse
+    public function find(Questionnaire $questionnaire, string $questionId, Request $request): QuestionResource|JsonResponse
     {
-        $questionnaireCategoriesIds = $questionnaire->categories()->pluck('categories.id');
-
         $question = Question::query()
             ->eligible($questionnaire)
             ->wherePrettyId($questionId)
@@ -26,5 +26,17 @@ class FindEligibleQuestionController extends Controller
         }
 
         return new QuestionResource($question);
+    }
+
+    public function index(Questionnaire $questionnaire): JsonApiResourceCollection
+    {
+        $questions = QueryBuilder::for(Question::query())
+            ->eligible($questionnaire)
+            ->withCount('images')
+            ->with('categories')
+            ->jsonPaginate();
+
+        return QuestionResource::collection($questions);
+
     }
 }

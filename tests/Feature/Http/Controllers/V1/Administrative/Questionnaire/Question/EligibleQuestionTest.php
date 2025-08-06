@@ -8,6 +8,7 @@ use Illuminate\Testing\Fluent\AssertableJson;
 use Laravel\Sanctum\Sanctum;
 use Tests\Repositories\QuestionRepository;
 use Tests\Repositories\UserRepository;
+use Vinkla\Hashids\Facades\Hashids;
 
 use function Pest\Laravel\getJson;
 
@@ -79,7 +80,7 @@ it('allows administrative users to retrieve eligible question of a questionnaire
         ]
     ));
 
-    $response->assertJson(fn (AssertableJson $json) => $json->where('data.id', $question->hash_id)
+    $response->assertJson(fn(AssertableJson $json) => $json->where('data.id', $question->hash_id)
         ->hasAll(['data.attributes.no_of_assigned_answers', 'data.attributes.images_count'])
         ->etc()
     );
@@ -116,3 +117,39 @@ single answer type', function () {
 
     $response->assertJsonPath('eligible', false);
 })->group('api/v1/administrative/questionnaire/question/findEligible');
+
+it('returns the list of eligible questions', function () {
+    Sanctum::actingAs(UserRepository::getRandomUser(Role::ADMIN));
+
+    config(['json-api-paginate.max_results' => PHP_INT_MAX]);
+
+    $route = route(
+            'api.v1.administrative.questionnaires.questions.eligibleQuestions',
+            [
+                'questionnaire' => $this->questionnaire?->hash_id,
+            ]
+        ) . '?include=categories';
+
+    $response = getJson($route);
+
+    $categories = $this
+        ->questionnaire
+        ?->categories()
+        ->pluck((new Category())->qualifyColumn('id'))
+        ->map(fn(int $id) => Hashids::encode($id))
+        ->toArray();
+
+    $data = $response->decodeResponseJson()['data'];
+
+    foreach ($data as $question) {
+        $this->assertTrue($question['attributes']['completed']);
+
+        foreach ($question['relationships']['categories'] as $category) {
+            $this->assertTrue(in_array($category['data']['id'], $categories));
+        }
+
+        if ($this->questionnaire->single_answers_type) {
+            $this->assertTrue($question['attributes']['answers_type_single']);
+        }
+    }
+});

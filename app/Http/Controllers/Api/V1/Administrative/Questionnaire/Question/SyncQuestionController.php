@@ -45,6 +45,9 @@ class SyncQuestionController extends Controller
         return new JsonResponse(status: Response::HTTP_OK);
     }
 
+    /**
+     * @throws \Throwable
+     */
     public function validateQuestions(Questionnaire $questionnaire, Collection $modelIds): void
     {
         $noOfTotalQuestions = $modelIds->count();

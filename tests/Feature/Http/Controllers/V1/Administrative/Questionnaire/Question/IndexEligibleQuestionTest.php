@@ -1,7 +1,6 @@
 <?php
 
 use App\Enums\Role;
-use App\Models\Questionnaire;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Laravel\Sanctum\Sanctum;
 use Tests\Repositories\UserRepository;
@@ -10,7 +9,7 @@ use Tests\RequestFactories\CategoryRequest;
 use function Pest\Laravel\getJson;
 
 beforeEach(function () {
-    $this->questionnaire = Questionnaire::whereHas('questions')->first();
+    $this->questionnaire = \App\Models\Questionnaire::whereHas('questions')->first();
 
     $this->route = route(
         'api.v1.administrative.questionnaires.questions.index',

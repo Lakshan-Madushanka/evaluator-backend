@@ -31,7 +31,7 @@ use App\Http\Controllers\Api\V1\Administrative\Question\UpdateQuestionController
 use App\Http\Controllers\Api\V1\Administrative\Questionnaire\DeleteQuestionnaireController;
 use App\Http\Controllers\Api\V1\Administrative\Questionnaire\IndexQuestionnaireController;
 use App\Http\Controllers\Api\V1\Administrative\Questionnaire\MassDeleteQuestionnaireController;
-use App\Http\Controllers\Api\V1\Administrative\Questionnaire\Question\FindEligibleQuestionController;
+use App\Http\Controllers\Api\V1\Administrative\Questionnaire\Question\EligibleQuestionController;
 use App\Http\Controllers\Api\V1\Administrative\Questionnaire\Question\SyncQuestionController;
 use App\Http\Controllers\Api\V1\Administrative\Questionnaire\ShowQuestionnaireController;
 use App\Http\Controllers\Api\V1\Administrative\Questionnaire\StoreQuestionnaireController;
@@ -207,7 +207,9 @@ Route::prefix('administrative')->name('administrative.')->group(function () {
 
             // Questions
             Route::get('/{questionnaire}/eligible/{questionId}',
-                FindEligibleQuestionController::class)->name('questions.findEligibleQuestion');
+                [EligibleQuestionController::class, 'find'])->name('questions.findEligibleQuestion');
+            Route::get('/{questionnaire}/eligible-questions',
+                [EligibleQuestionController::class, 'index'])->name('questions.eligibleQuestions');
             Route::name('questions.index')->get('{questionnaire}/questions',
                 \App\Http\Controllers\Api\V1\Administrative\Questionnaire\Question\IndexQuestionController::class);
             Route::name('questions.sync')->post('{questionnaire}/questions',
