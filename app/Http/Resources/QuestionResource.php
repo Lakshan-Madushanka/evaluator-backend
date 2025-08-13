@@ -32,7 +32,7 @@ class QuestionResource extends JsonApiResource
         return $attributes;
     }
 
-    protected function toRelationships(Request $request): array
+    public function toRelationships(Request $request): array
     {
         return [
             'images' => fn () => MediaResource::collection($this->images),

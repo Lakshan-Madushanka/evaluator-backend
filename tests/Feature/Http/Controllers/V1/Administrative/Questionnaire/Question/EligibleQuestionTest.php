@@ -145,6 +145,7 @@ it('returns the list of eligible questions', function () {
         $this->assertTrue($question['attributes']['completed']);
 
         foreach ($question['relationships']['categories'] as $category) {
+            dd($category);
             $this->assertTrue(in_array($category['data']['id'], $categories));
         }
 

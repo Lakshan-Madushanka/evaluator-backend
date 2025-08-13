@@ -34,7 +34,7 @@ class QuestionnaireResource extends JsonApiResource
         return $attributes;
     }
 
-    protected function toRelationships(Request $request): array
+    public function toRelationships(Request $request): array
     {
         return [
             'categories' => fn () => CategoryResource::collection($this->categories),
