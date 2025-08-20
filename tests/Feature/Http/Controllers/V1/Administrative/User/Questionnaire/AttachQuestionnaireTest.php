@@ -47,7 +47,6 @@ test('return eligible false for uncompleted questionnaire', function () {
 test('allows attach eligible questionnaire to a user', function () {
     \Illuminate\Support\Facades\Notification::fake();
 
-
     Sanctum::actingAs(UserRepository::getRandomUser(Role::SUPER_ADMIN));
 
     $user = UserRepository::getRandomUser();

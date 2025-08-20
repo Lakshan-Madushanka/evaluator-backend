@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api\V1\Administrative\Questionnaire\Question;
 
 use App\Enums\Difficulty;
-use App\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\QuestionResource;
 use App\Models\Question;
@@ -35,9 +34,9 @@ class EligibleQuestionController extends Controller
 
     public function index(Questionnaire $questionnaire): JsonApiResourceCollection
     {
-        $qIds = $questionnaire->questions()->pluck((new Question())->qualifyColumn('id'));
+        $qIds = $questionnaire->questions()->pluck((new Question)->qualifyColumn('id'));
 
-       // return $qIds->toArray();
+        // return $qIds->toArray();
 
         $questions = QueryBuilder::for(Question::query())
             ->eligible($questionnaire)

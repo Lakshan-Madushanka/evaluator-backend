@@ -162,14 +162,14 @@ class Question extends Model implements HasMedia
                 $query->where('is_answers_type_single', true);
             })
             ->whereHas('categories',
-                fn(Builder $query) => $query->whereIn('categories.id', $questionnaireCategoriesIds));
+                fn (Builder $query) => $query->whereIn('categories.id', $questionnaireCategoriesIds));
     }
 
     // --------------------------------End of scopes-----------------------------
 
     public function checkQuestionIsComplete(Question $question): bool
     {
-        if (!$this->hasAttribute('answers_count')) {
+        if (! $this->hasAttribute('answers_count')) {
             $question->loadCount('answers');
         }
 

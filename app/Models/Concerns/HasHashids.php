@@ -10,7 +10,7 @@ trait HasHashids
     protected function hashId(): Attribute
     {
         return Attribute::get(
-             fn () => Hashids::encode($this->getKey())
+            fn () => Hashids::encode($this->getKey())
         );
     }
 }

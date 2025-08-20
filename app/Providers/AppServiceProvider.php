@@ -9,6 +9,7 @@ use App\Models\Question;
 use App\Models\Questionnaire;
 use App\Models\User;
 use Exception;
+use Hashids\Hashids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Events\QueryExecuted;
@@ -19,15 +20,12 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
 use Route;
 use TiMacDonald\JsonApi\JsonApiResource;
-use Hashids\Hashids;
 use Vinkla\Hashids\Facades\Hashids as HashidsFacade;
 
 class AppServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
-     *
-     * @return void
      */
     public function register(): void
     {
@@ -37,8 +35,6 @@ class AppServiceProvider extends ServiceProvider
 
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
     public function boot(): void
     {
