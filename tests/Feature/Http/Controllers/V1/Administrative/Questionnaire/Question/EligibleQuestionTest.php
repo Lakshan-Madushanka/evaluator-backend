@@ -144,9 +144,8 @@ it('returns the list of eligible questions', function () {
     foreach ($data as $question) {
         $this->assertTrue($question['attributes']['completed']);
 
-        foreach ($question['relationships']['categories'] as $category) {
-            dd($category);
-            $this->assertTrue(in_array($category['data']['id'], $categories));
+        foreach ($question['relationships']['categories']['data'] as $category) {
+            $this->assertTrue(in_array($category['id'], $categories));
         }
 
         if ($this->questionnaire->single_answers_type) {

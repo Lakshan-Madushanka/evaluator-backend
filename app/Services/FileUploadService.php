@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Answer;
 use App\Models\Question;
+use Hashids\Hashids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -12,7 +13,6 @@ use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
-use Vinkla\Hashids\Facades\Hashids;
 
 class FileUploadService
 {
@@ -158,9 +158,11 @@ class FileUploadService
 
     public function getModelInstance(string $type, string $id): Model
     {
+        $hashId = new Hashids;
+
         return match ($type) {
-            'questions' => app(Question::class)::findOrFail(Hashids::decode($id)[0]),
-            'answers' => app(Answer::class)::findOrFail(Hashids::decode($id)[0]),
+            'questions' => app(Question::class)::findOrFail($hashId->decode($id)[0]),
+            'answers' => app(Answer::class)::findOrFail($hashId->decode($id)[0]),
         };
     }
 }

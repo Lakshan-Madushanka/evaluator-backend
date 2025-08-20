@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('categorizables', function (Blueprint $table) {
-            $table->id();
+            $table->id()->primary();
 
             $table->unsignedTinyInteger('category_id');
 

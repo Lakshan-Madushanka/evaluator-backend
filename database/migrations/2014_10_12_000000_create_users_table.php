@@ -15,7 +15,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id();
+            $table->id()->primary();
             $table->tinyInteger('role')->default(Role::REGULAR->value)->index();
             $table->string('name');
             $table->string('email')->unique();

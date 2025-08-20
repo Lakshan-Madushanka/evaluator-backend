@@ -19,7 +19,8 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
 use Route;
 use TiMacDonald\JsonApi\JsonApiResource;
-use Vinkla\Hashids\Facades\Hashids;
+use Hashids\Hashids;
+use Vinkla\Hashids\Facades\Hashids as HashidsFacade;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -28,7 +29,7 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->registerLocally();
         $this->registerLocallyAndTesting();
@@ -39,8 +40,9 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
+        $this->resolveBindings();
         $this->customizePolymorphicTypes();
         $this->setupPasswordRules();
         $this->customizeJsonApiId();
@@ -120,40 +122,46 @@ class AppServiceProvider extends ServiceProvider
     public function implicitRouteModelBinding(): void
     {
         Route::bind('user', function ($value) {
-            $id = Hashids::decode($value)[0] ?? PHP_INT_MIN;
+            $id = HashidsFacade::decode($value)[0] ?? PHP_INT_MIN;
 
             return User::findOrFail($id);
         });
 
         Route::bind('category', function ($value) {
-            $id = Hashids::decode($value)[0] ?? PHP_INT_MIN;
+            $id = HashidsFacade::decode($value)[0] ?? PHP_INT_MIN;
 
             return Category::findOrFail($id);
         });
 
         Route::bind('question', function ($value) {
-            $id = Hashids::decode($value)[0] ?? PHP_INT_MIN;
+            $id = HashidsFacade::decode($value)[0] ?? PHP_INT_MIN;
 
             return Question::findOrFail($id);
         });
 
         Route::bind('answer', function ($value) {
-            $id = Hashids::decode($value)[0] ?? PHP_INT_MIN;
+            $id = HashidsFacade::decode($value)[0] ?? PHP_INT_MIN;
 
             return Answer::findOrFail($id);
         });
 
         Route::bind('questionnaire', function ($value) {
-            $id = Hashids::decode($value)[0] ?? PHP_INT_MIN;
+            $id = HashidsFacade::decode($value)[0] ?? PHP_INT_MIN;
 
             return Questionnaire::findOrFail($id);
         });
 
         Route::bind('evaluation', function ($value) {
-            $id = Hashids::decode($value)[0] ?? PHP_INT_MIN;
+            $id = HashidsFacade::decode($value)[0] ?? PHP_INT_MIN;
 
             return Evaluation::findOrFail($id);
         });
+    }
 
+    public function resolveBindings()
+    {
+        $this->app->singleton('hashids', function () {
+            return new Hashids;
+        });
     }
 }

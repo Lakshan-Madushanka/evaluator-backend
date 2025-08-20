@@ -2,6 +2,7 @@
 
 use App\Enums\Role;
 use App\Models\Questionnaire;
+use App\Models\UserQuestionnaire;
 use App\Notifications\QuestionnaireAttachedToUser;
 use Laravel\Sanctum\Sanctum;
 use Tests\Repositories\UserRepository;
@@ -46,6 +47,7 @@ test('return eligible false for uncompleted questionnaire', function () {
 test('allows attach eligible questionnaire to a user', function () {
     \Illuminate\Support\Facades\Notification::fake();
 
+
     Sanctum::actingAs(UserRepository::getRandomUser(Role::SUPER_ADMIN));
 
     $user = UserRepository::getRandomUser();
@@ -65,7 +67,7 @@ test('allows attach eligible questionnaire to a user', function () {
     $response->assertOk();
     \Illuminate\Support\Facades\Notification::assertSentTo([$user], QuestionnaireAttachedToUser::class);
 
-    $attachedQuestionnaire = \App\Models\UserQuestionnaire::where([
+    $attachedQuestionnaire = UserQuestionnaire::where([
         ['user_id', $user->id],
         ['questionnaire_id', $questionnaire->id],
     ])->first();
@@ -73,5 +75,5 @@ test('allows attach eligible questionnaire to a user', function () {
     $expectedExpiredAtTime = now()->addMinutes($questionnaire->allocated_time * 2);
 
     // Expired at time must be twice the allocated time from now
-    expect($expectedExpiredAtTime->diffInMinutes($attachedQuestionnaire->expires_at) >= 0)->toBeTrue();
+    expect((int) $expectedExpiredAtTime->diffInMinutes($attachedQuestionnaire->expires_at, true) === 0)->toBeTrue();
 })->group('administrative/users/questionnaires/attach');

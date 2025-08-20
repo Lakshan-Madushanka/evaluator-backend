@@ -7,10 +7,10 @@ use Vinkla\Hashids\Facades\Hashids;
 
 trait HasHashids
 {
-    public function hashId(): Attribute
+    protected function hashId(): Attribute
     {
-        return Attribute::make(
-            get: fn ($value) => Hashids::encode($this->getKey())
+        return Attribute::get(
+             fn () => Hashids::encode($this->getKey())
         );
     }
 }

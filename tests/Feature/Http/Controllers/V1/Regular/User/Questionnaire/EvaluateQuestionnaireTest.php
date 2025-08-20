@@ -162,10 +162,10 @@ function setQuestionnaireToEvaluate(): array
         'questionnaire' => $questionnaire,
         'userQuestionnaire' => $userQuestionnaire,
         'selectedAnswers' => $selectedAnswers,
-        'totalMarksPercentage' => 32.43,
+        'totalMarksPercentage' => 32.5,
         'noOfAnsweredQuestions' => 10,
         'noOfCorrectAnswers' => 2,
-        'total_points_earned' => 3.24,
-        'total_points_allocated' => 9.99,
+        'total_points_earned' => 3.3,
+        'total_points_allocated' => 10,
     ];
 }

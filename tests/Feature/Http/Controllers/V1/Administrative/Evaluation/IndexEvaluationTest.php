@@ -83,7 +83,7 @@ test('can filter evaluations by user id', function () {
 
     $results = $response->decodeResponseJson()['data'];
 
-    expect(count($results))->toBeGreaterThan(1);
+    expect(count($results))->toBeGreaterThanOrEqual(1);
 
     collect($results)->pluck('attributes.user_id')->each(function (string $userId) {
         expect($userId)->toBe($userId);

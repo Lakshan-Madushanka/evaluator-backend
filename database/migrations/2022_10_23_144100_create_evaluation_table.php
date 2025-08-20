@@ -14,16 +14,16 @@ return new class extends Migration
     public function up()
     {
         Schema::create('evaluations', function (Blueprint $table) {
-            $table->id();
+            $table->id()->primary();
 
             $table->unsignedBigInteger('user_questionnaire_id');
 
             $table->unsignedSmallInteger('time_taken');
             $table->smallInteger('correct_answers')->nullable();
             $table->smallInteger('no_of_answered_questions')->nullable();
-            $table->unsignedFloat('marks_percentage')->nullable();
-            $table->unsignedFloat('total_points_earned')->nullable();
-            $table->unsignedFloat('total_points_allocated')->nullable();
+            $table->float('marks_percentage')->nullable();
+            $table->float('total_points_earned')->nullable();
+            $table->float('total_points_allocated')->nullable();
 
             $table->timestamps();
 

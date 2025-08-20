@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('questions', function (Blueprint $table) {
-            $table->id();
+            $table->id()->primary();
             $table->string('pretty_id', 25);
 
             // if answers type is single only one answer is exist and users are allowed to pick one answer

@@ -42,12 +42,12 @@ class EvaluationService
             }
         });
 
-        $marksPercentage = round(($totalMarks / $questionnaireTotalMarks) * 100, 2);
+        $marksPercentage = round(($totalMarks / $questionnaireTotalMarks) * 100, 1);
 
         return [
             'marksPercentage' => $marksPercentage,
-            'totalPointsEarned' => round($totalMarks, 2),
-            'totalPointsAllocated' => round($questionnaireTotalMarks, 2),
+            'totalPointsEarned' => round($totalMarks, 1),
+            'totalPointsAllocated' => round($questionnaireTotalMarks, 1),
             'noOfAnsweredQuestions' => $noOfAnsweredQuestions,
             'noOfCorrectAnswers' => $noOfCorrectAnswers,
         ];

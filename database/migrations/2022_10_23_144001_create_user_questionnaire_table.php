@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('user_questionnaire', function (Blueprint $table) {
-            $table->id();
+            $table->id()->primary();
 
             $table->unsignedSmallInteger('questionnaire_id');
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
