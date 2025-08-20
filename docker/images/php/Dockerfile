@@ -1,4 +1,4 @@
-FROM devilbox/php-fpm-8.1:latest
+FROM devilbox/php-fpm-8.3:latest
 
 ARG user
 ARG uid
@@ -34,4 +34,4 @@ RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 # Set working directory
 WORKDIR /var/www/html
 
- 
+
