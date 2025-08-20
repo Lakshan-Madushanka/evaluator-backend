@@ -21,7 +21,7 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
 
 # install and enable xdebug
-RUN pecl install xdebug-3.1.3 \
+RUN pecl install xdebug-3.4.5 \
     && pecl install redis-5.3.7 \
 	&& docker-php-ext-enable xdebug redis
 
