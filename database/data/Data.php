@@ -363,7 +363,7 @@ class Data
             $q['text'] = $question['question'];
             $q['difficulty'] = $question['difficulty']->value;
             $q['no_of_answers'] = count($question['answers']);
-            $q['pretty_id'] = PrettyIdGenerator::generate('questions', 'quest_' . $index, 13);
+            $q['pretty_id'] = PrettyIdGenerator::generate('questions', 'quest_'.$index, 13);
             $questions[] = $q;
 
             $category = [];
@@ -380,7 +380,7 @@ class Data
             foreach ($question['answers'] as $aIndex => $answer) {
                 $qa = [];
                 $a = [];
-                $a['pretty_id'] = PrettyIdGenerator::generate('questions', 'ans_' . $lastAnsId, 12);
+                $a['pretty_id'] = PrettyIdGenerator::generate('questions', 'ans_'.$lastAnsId, 12);
                 $a['text'] = $answer;
                 $answers[] = $a;
 
