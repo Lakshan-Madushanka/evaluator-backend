@@ -18,3 +18,6 @@ yarn-error.log
 _ide_helper.php
 /public/null
 /.phpunit.cache
+/null
+/.github/copilot-instructions.md
+/.junie/mcp/mcp.json
