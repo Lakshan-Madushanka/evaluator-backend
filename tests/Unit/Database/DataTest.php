@@ -6,7 +6,6 @@ use App\Models\Question;
 use Database\Data\Data;
 
 use function Pest\Laravel\assertDatabaseCount;
-use function Pest\Laravel\withoutExceptionHandling;
 
 afterEach(function () {
     $this->seed = true;

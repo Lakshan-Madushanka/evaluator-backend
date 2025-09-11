@@ -19,7 +19,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
 use Route;
-use Spatie\Image\Image;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use TiMacDonald\JsonApi\JsonApiResource;
 use Vinkla\Hashids\Facades\Hashids as HashidsFacade;
@@ -116,6 +115,7 @@ class AppServiceProvider extends ServiceProvider
             if ($resource instanceof Media) {
                 return $resource->uuid;
             }
+
             return $resource->hash_id;
         });
     }
