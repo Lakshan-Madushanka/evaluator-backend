@@ -24,6 +24,7 @@ class IndexQuestionnaireController extends Controller
             ->select([
                 'questionnaires.id',
                 'user_questionnaire.id as userQuestionnaireId',
+                'user_questionnaire.code',
                 'user_questionnaire.started_at',
                 'user_questionnaire.finished_at',
                 'user_questionnaire.attempts',

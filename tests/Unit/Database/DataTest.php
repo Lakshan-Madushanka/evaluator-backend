@@ -16,13 +16,12 @@ afterEach(function () {
 });
 
 it('can build questions', function () {
-    withoutExceptionHandling();
     $this->seed = false;
 
     Data::seedQuestions();
 
-    assertDatabaseCount((new Question)->getTable(), 11);
-    assertDatabaseCount((new Answer)->getTable(), 44);
-    assertDatabaseCount((new Category)->getTable(), 1);
-    assertDatabaseCount('categorizables', 11);
+    assertDatabaseCount((new Question)->getTable(), 30);
+    assertDatabaseCount((new Answer)->getTable(), 120);
+    assertDatabaseCount((new Category)->getTable(), 2);
+    assertDatabaseCount('categorizables', 62);
 });

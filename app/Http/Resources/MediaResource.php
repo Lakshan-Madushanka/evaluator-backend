@@ -4,13 +4,14 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use TiMacDonald\JsonApi\JsonApiResource;
 
 /**
  * @mixin Media
  */
-class MediaResource extends JsonResource
+class MediaResource extends JsonApiResource
 {
-    public function toArray($request): array
+    public function toAttributes($request): array
     {
         return [
             'id' => $this->uuid,

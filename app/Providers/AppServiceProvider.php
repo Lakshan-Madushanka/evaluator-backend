@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
 use Route;
+use Spatie\Image\Image;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use TiMacDonald\JsonApi\JsonApiResource;
 use Vinkla\Hashids\Facades\Hashids as HashidsFacade;
 
@@ -110,7 +112,10 @@ class AppServiceProvider extends ServiceProvider
 
     public function customizeJsonApiId(): void
     {
-        JsonApiResource::resolveIdUsing(function (mixed $resource, Request $request): string {
+        JsonApiResource::resolveIdUsing(function (Model $resource, Request $request): string {
+            if ($resource instanceof Media) {
+                return $resource->uuid;
+            }
             return $resource->hash_id;
         });
     }

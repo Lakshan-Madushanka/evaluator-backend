@@ -16,6 +16,7 @@ class UserQuestionnaireResource extends JsonApiResource
     {
         $attributes = [
             'user_questionnaire_id' => Hashids::encode($this->userQuestionnaireId),
+            'code' => $this->when(isset($this->code), $this->code),
             'attempts' => $this->attempts,
             'expires_at' => $this->expires_at,
             'started_at' => $this->started_at,

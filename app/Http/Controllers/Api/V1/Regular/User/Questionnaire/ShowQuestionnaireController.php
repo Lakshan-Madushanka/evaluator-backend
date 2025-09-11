@@ -7,10 +7,11 @@ use App\Http\Resources\QuestionResource;
 use App\Models\Questionnaire;
 use App\Models\UserQuestionnaire;
 use Spatie\QueryBuilder\QueryBuilder;
+use TiMacDonald\JsonApi\JsonApiResourceCollection;
 
 class ShowQuestionnaireController extends Controller
 {
-    public function __invoke(string $code): \TiMacDonald\JsonApi\JsonApiResourceCollection
+    public function __invoke(string $code): JsonApiResourceCollection
     {
         $userQuestionnaire = UserQuestionnaire::query()
             ->available($code)
