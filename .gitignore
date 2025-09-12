@@ -21,3 +21,7 @@ _ide_helper.php
 /null
 /.github/copilot-instructions.md
 /.junie/mcp/mcp.json
+/.vercel
+/api
+/.vercelignore
+/vercel.json
