@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Hash;
 
 class LogInController extends Controller
 {
@@ -28,7 +29,7 @@ class LogInController extends Controller
 
         $user = User::whereEmail($credentials['email'])->first()?->makeVisible(['password']);
 
-        if (is_null($user) || ! \Hash::check($credentials['password'], $user->password)) {
+        if (is_null($user) || ! Hash::check($credentials['password'], $user->password)) {
             return $this->errorResponse();
         }
 

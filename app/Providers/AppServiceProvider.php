@@ -76,6 +76,7 @@ class AppServiceProvider extends ServiceProvider
         DB::listen(static function (QueryExecuted $event) {
             if ($event->time > 500) {
                 throw new QueryException(
+                    $event->connectionName,
                     $event->sql,
                     $event->bindings,
                     new Exception('Individual database query exceeded 500ms.')
