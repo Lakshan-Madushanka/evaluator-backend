@@ -61,17 +61,6 @@ class Data
             'correctAnswer' => 4,
         ],
         [
-            'question' => 'What is PHP?',
-            'difficulty' => Difficulty::EASY,
-            'answers' => [
-                'PHP is an open-source programming language',
-                'PHP is used to develop dynamic and interactive websites',
-                'PHP is a server-side scripting language',
-                'All of the mentioned',
-            ],
-            'correctAnswer' => 4,
-        ],
-        [
             'question' => 'Which of the following is the correct way to add a comment in PHP code?',
             'difficulty' => Difficulty::EASY,
             'answers' => [
@@ -364,12 +353,18 @@ class Data
             $q['difficulty'] = $question['difficulty']->value;
             $q['no_of_answers'] = count($question['answers']);
             $q['pretty_id'] = PrettyIdGenerator::generate('questions', 'quest_'.$index, 13);
+            $q['created_at'] = now();
+            $q['updated_at'] = now();
+
             $questions[] = $q;
 
             $category = [];
             $category['category_id'] = 1;
             $category['categorizable_id'] = $index + 1;
             $category['categorizable_type'] = (new Question)->getMorphClass();
+            $category['created_at'] = now();
+            $category['updated_at'] = now();
+
             $categorizables[] = $category;
 
             $category2 = $category;
@@ -382,16 +377,25 @@ class Data
                 $a = [];
                 $a['pretty_id'] = PrettyIdGenerator::generate('questions', 'ans_'.$lastAnsId, 12);
                 $a['text'] = $answer;
+                $a['created_at'] = now();
+                $a['updated_at'] = now();
+
                 $answers[] = $a;
 
                 $qa['question_id'] = $index + 1;
                 $qa['answer_id'] = ++$lastAnsId;
                 $qa['correct_answer'] = $aIndex + 1 === $question['correctAnswer'];
+                $qa['created_at'] = now();
+                $qa['updated_at'] = now();
+
                 $questionAnswers[] = $qa;
             }
         }
 
-        DB::table('categories')->insert([['name' => 'PHP'], ['name' => 'Programming']]);
+        DB::table('categories')->insert([
+            ['name' => 'PHP',  'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'Programming', 'created_at' => now(), 'updated_at' => now()]
+        ]);
         DB::table('categorizables')->insert($categorizables);
         DB::table('questions')->insert($questions);
         DB::table('answers')->insert($answers);
