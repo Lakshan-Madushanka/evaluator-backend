@@ -25,7 +25,7 @@ class IndexAnswerController extends Controller
                 AllowedFilter::exact('pretty_id'),
             ]);
 
-        if (!Arr::has($request->query(), 'filter.text')) {
+        if (! Arr::has($request->query(), 'filter.text')) {
             $answersQuery->defaultSort('-id');
         }
 

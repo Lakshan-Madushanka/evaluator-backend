@@ -45,12 +45,12 @@ class IndexQuestionController extends Controller
                 'categories.name',
             ]);
 
-            if (!Arr::has($request->query(), 'filter.content')) {
-                $questionsQuery->defaultSort('-id');
-            }
+        if (! Arr::has($request->query(), 'filter.content')) {
+            $questionsQuery->defaultSort('-id');
+        }
 
-            $questions = $questionsQuery->allowedSorts('created_at')
-                ->jsonPaginate();
+        $questions = $questionsQuery->allowedSorts('created_at')
+            ->jsonPaginate();
 
         return QuestionResource::collection($questions);
     }

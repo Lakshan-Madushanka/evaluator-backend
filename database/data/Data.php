@@ -394,7 +394,7 @@ class Data
 
         DB::table('categories')->insert([
             ['name' => 'PHP',  'created_at' => now(), 'updated_at' => now()],
-            ['name' => 'Programming', 'created_at' => now(), 'updated_at' => now()]
+            ['name' => 'Programming', 'created_at' => now(), 'updated_at' => now()],
         ]);
         DB::table('categorizables')->insert($categorizables);
         DB::table('questions')->insert($questions);
