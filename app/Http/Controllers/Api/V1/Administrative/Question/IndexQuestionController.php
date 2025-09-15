@@ -9,6 +9,7 @@ use App\Http\Resources\QuestionResource;
 use App\Models\Question;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use ReflectionEnumBackedCase;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -18,7 +19,7 @@ class IndexQuestionController extends Controller
 {
     public function __invoke(Request $request): JsonApiResourceCollection
     {
-        $questions = QueryBuilder::for(Question::class)
+        $questionsQuery = QueryBuilder::for(Question::class)
             ->withCount(['answers', 'images'])
             ->allowedIncludes(['categories'])
             ->allowedFilters([
@@ -42,10 +43,14 @@ class IndexQuestionController extends Controller
                 AllowedFilter::exact('pretty_id'),
                 AllowedFilter::exact('answers_type_single', 'is_answers_type_single'),
                 'categories.name',
-            ])
-            ->defaultSort('-id')
-            ->allowedSorts('created_at')
-            ->jsonPaginate();
+            ]);
+
+            if (!Arr::has($request->query(), 'filter.content')) {
+                $questionsQuery->defaultSort('-id');
+            }
+
+            $questions = $questionsQuery->allowedSorts('created_at')
+                ->jsonPaginate();
 
         return QuestionResource::collection($questions);
     }
