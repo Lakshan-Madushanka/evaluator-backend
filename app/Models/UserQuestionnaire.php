@@ -23,7 +23,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Evaluation|null $evaluation
- *
  * @method static Builder|UserQuestionnaire available(string $code)
  * @method static Builder|UserQuestionnaire checkAvailable()
  * @method static Builder|UserQuestionnaire expired($expired = false)
@@ -41,7 +40,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @method static Builder|UserQuestionnaire whereStartedAt($value)
  * @method static Builder|UserQuestionnaire whereUpdatedAt($value)
  * @method static Builder|UserQuestionnaire whereUserId($value)
- *
+ * @property-read mixed $hash_id
  * @mixin Eloquent
  */
 class UserQuestionnaire extends Model

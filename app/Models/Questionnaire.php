@@ -37,7 +37,6 @@ use Illuminate\Support\Carbon;
  * @property-read int|null $questions_count
  * @property-read Collection|User[] $users
  * @property-read int|null $users_count
- *
  * @method static QuestionnaireFactory factory(...$parameters)
  * @method static Builder|Questionnaire newModelQuery()
  * @method static Builder|Questionnaire newQuery()
@@ -52,19 +51,15 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Questionnaire whereNoOfMediumQuestions($value)
  * @method static Builder|Questionnaire whereNoOfQuestions($value)
  * @method static Builder|Questionnaire whereUpdatedAt($value)
- *
- * @mixin Eloquent
- *
  * @property string $name
- *
  * @method static Builder|Questionnaire whereName($value)
- *
  * @property bool $single_answers_type
  * @property-read Collection|\App\Models\Question[] $questionsWithPivotData
  * @property-read int|null $questions_with_pivot_data_count
- *
  * @method static Builder|Questionnaire completed($value)
  * @method static Builder|Questionnaire whereSingleAnswersType($value)
+ * @property-read mixed $hash_id
+ * @mixin Eloquent
  */
 class Questionnaire extends Model
 {

@@ -35,7 +35,6 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @property-read int|null $answers_count
  * @property-read Collection|Category[] $categories
  * @property-read int|null $categories_count
- *
  * @method static QuestionFactory factory(...$parameters)
  * @method static Builder|Question newModelQuery()
  * @method static Builder|Question newQuery()
@@ -46,24 +45,20 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @method static Builder|Question whereNoOfAnswers($value)
  * @method static Builder|Question whereText($value)
  * @method static Builder|Question whereUpdatedAt($value)
- *
- * @mixin Eloquent
- *
  * @property-read MediaCollection|Media[] $images
  * @property-read int|null $images_count
  * @property-read MediaCollection|Media[] $media
  * @property-read int|null $media_count
- *
  * @method static Builder|Question completed()
- *
  * @property string $pretty_id
  * @property bool $is_answers_type_single
  * @property-read Collection|\App\Models\Answer[] $onlyAnswers
  * @property-read int|null $only_answers_count
- *
  * @method static Builder|Question eligible(\App\Models\Questionnaire $questionnaire)
  * @method static Builder|Question whereIsAnswersTypeSingle($value)
  * @method static Builder|Question wherePrettyId($value)
+ * @property-read mixed $hash_id
+ * @mixin Eloquent
  */
 class Question extends Model implements HasMedia
 {

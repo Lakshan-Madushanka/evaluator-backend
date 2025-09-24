@@ -35,7 +35,6 @@ use Laravel\Sanctum\HasApiTokens;
  * @property-read int|null $questionnaires_count
  * @property-read Collection|Questionnaire[] $questionnairesWithAnswers
  * @property-read int|null $questionnaires_with_answers_count
- *
  * @method static UserFactory factory(...$parameters)
  * @method static Builder|User newModelQuery()
  * @method static Builder|User newQuery()
@@ -49,11 +48,12 @@ use Laravel\Sanctum\HasApiTokens;
  * @method static Builder|User whereRememberToken($value)
  * @method static Builder|User whereRole($value)
  * @method static Builder|User whereUpdatedAt($value)
- *
- * @mixin Eloquent
- *
  * @property-read Collection|Questionnaire[] $questionnairesWithPivotData
  * @property-read int|null $questionnaires_with_pivot_data_count
+ * @property-read Collection<int, \App\Models\Evaluation> $evaluations
+ * @property-read int|null $evaluations_count
+ * @property-read mixed $hash_id
+ * @mixin Eloquent
  */
 class User extends Authenticatable
 {
