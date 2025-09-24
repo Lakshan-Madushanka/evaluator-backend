@@ -67,7 +67,7 @@ Route::get('/test', function (Request $request) {});
 
 Route::prefix('super-admin')->name('super-admin.')->group(function () {
     /**
-     * Users (Authentication)
+     * Users
      */
     Route::middleware(['auth:sanctum', 'can:super-admin'])
         ->post('/users', CreateUserController::class)
