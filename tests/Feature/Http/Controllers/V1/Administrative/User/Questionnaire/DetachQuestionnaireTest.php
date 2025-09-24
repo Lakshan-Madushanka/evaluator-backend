@@ -3,7 +3,6 @@
 use App\Enums\Role;
 use App\Models\Questionnaire;
 use App\Models\UserQuestionnaire;
-use App\Notifications\QuestionnaireAttachedToUser;
 use Laravel\Sanctum\Sanctum;
 use Tests\Repositories\UserRepository;
 
@@ -26,7 +25,6 @@ it('return 404 response regular login users', function () {
         ['user' => $user->hash_id, 'userQuestionnaireId' => 'abc']));
     $response->assertNotFound();
 })->group('administrative/users/questionnaires/detach');
-
 
 test('it throws 422 error when trying to detach already attempted questionnaire', function () {
     // First we attach a questionnaire to a user
