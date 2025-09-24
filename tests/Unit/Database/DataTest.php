@@ -19,8 +19,8 @@ it('can build questions', function () {
 
     Data::seedQuestions();
 
-    assertDatabaseCount((new Question)->getTable(), 30);
-    assertDatabaseCount((new Answer)->getTable(), 120);
+    assertDatabaseCount((new Question)->getTable(), 29);
+    assertDatabaseCount((new Answer)->getTable(), 116);
     assertDatabaseCount((new Category)->getTable(), 2);
-    assertDatabaseCount('categorizables', 62);
+    assertDatabaseCount('categorizables', 60);
 });
