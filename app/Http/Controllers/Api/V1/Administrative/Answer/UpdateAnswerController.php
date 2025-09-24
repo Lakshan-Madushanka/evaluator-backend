@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api\V1\Administrative\Answer;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Answer\AnswerRequest;
-use App\Http\Requests\User\UserStoreRequest;
 use App\Http\Resources\AnswerResource;
 use App\Models\Answer;
 
@@ -13,7 +12,9 @@ class UpdateAnswerController extends Controller
     /**
      * Handle the incoming request.
      *
-     * @param  UserStoreRequest  $request
+     * @param Answer $answer
+     * @param AnswerRequest $request
+     * @return AnswerResource
      */
     public function __invoke(Answer $answer, AnswerRequest $request): AnswerResource
     {
