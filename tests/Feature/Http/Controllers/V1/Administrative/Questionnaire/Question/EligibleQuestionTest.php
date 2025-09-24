@@ -10,7 +10,9 @@ use Tests\Repositories\QuestionRepository;
 use Tests\Repositories\UserRepository;
 use Vinkla\Hashids\Facades\Hashids;
 
+use function Pest\Laravel\deleteJson;
 use function Pest\Laravel\getJson;
+use function Pest\Laravel\postJson;
 
 beforeEach(function () {
     $this->questionnaire = Questionnaire::whereHas('questions')->first();
@@ -138,6 +140,8 @@ it('returns the list of eligible questions', function () {
         ->pluck((new Category)->qualifyColumn('id'))
         ->map(fn (int $id) => Hashids::encode($id))
         ->toArray();
+
+    $response->assertOk();
 
     $data = $response->decodeResponseJson()['data'];
 
