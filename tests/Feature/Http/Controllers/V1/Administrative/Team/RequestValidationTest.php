@@ -3,8 +3,8 @@
 use App\Enums\Role;
 use Laravel\Sanctum\Sanctum;
 use Tests\Repositories\UserRepository;
-
 use Tests\RequestFactories\TeamRequest;
+
 use function Pest\Laravel\postJson;
 
 it('required name', function () {

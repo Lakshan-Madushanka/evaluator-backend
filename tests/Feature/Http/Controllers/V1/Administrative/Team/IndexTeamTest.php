@@ -96,9 +96,9 @@ it('can sorts all teams by created at column', function () {
     config(['json-api-paginate.max_results' => PHP_INT_MAX]);
 
     $query = '?'.http_build_query([
-            'sort' => '-created_at',
-            'page' => ['size' => PHP_INT_MAX],
-        ]);
+        'sort' => '-created_at',
+        'page' => ['size' => PHP_INT_MAX],
+    ]);
 
     $response = getJson($this->route.$query);
     $response->assertOk();

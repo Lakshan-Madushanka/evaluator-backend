@@ -132,7 +132,6 @@ Route::prefix('administrative')->name('administrative.')->group(function () {
         Route::middleware(['can:super-admin'])->delete('{team}', DeleteTeamController::class)->name('delete');
     });
 
-
     /*
      * Users
      *

@@ -11,9 +11,11 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property-read mixed $hash_id
+ *
  * @method static Builder<static>|Team newModelQuery()
  * @method static Builder<static>|Team newQuery()
  * @method static Builder<static>|Team query()
+ *
  * @mixin \Eloquent
  */
 class Team extends Model
@@ -26,11 +28,10 @@ class Team extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'name'
+        'name',
     ];
 
     // --------------------------Relationships----------------------------
-
 
     // -------------------------End of Relationships----------------------------
 }
