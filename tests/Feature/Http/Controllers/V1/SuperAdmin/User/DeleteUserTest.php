@@ -32,7 +32,7 @@ it('return 404 when try to delete record using primary id', function () {
     $superAdmin = UserRepository::getRandomUser(Role::SUPER_ADMIN);
     Sanctum::actingAs($superAdmin);
 
-    $route = route('api.v1.super-admin.users.delete', UserRepository::getRandomUser(Role::REGULAR)->id);
+    $route = route('api.v1.super-admin.users.delete', UserRepository::getRandomUser()->id);
     $response = deleteJson($route);
     $response->assertNotFound();
 })->group('SuperAdmin/User/Delete');

@@ -38,6 +38,7 @@ use App\Http\Controllers\Api\V1\Administrative\Questionnaire\StoreQuestionnaireC
 use App\Http\Controllers\Api\V1\Administrative\Questionnaire\UpdateQuestionnaireController;
 use App\Http\Controllers\Api\V1\Administrative\User\IndexUserController;
 use App\Http\Controllers\Api\V1\Administrative\User\Questionnaire\AttachQuestionnaireController;
+use App\Http\Controllers\Api\V1\Administrative\User\Questionnaire\DetachQuestionnaireController;
 use App\Http\Controllers\Api\V1\Administrative\User\Questionnaire\ResendQuestionnaireAttachedNotificationController;
 use App\Http\Controllers\Api\V1\Administrative\User\ShowUserController;
 use App\Http\Controllers\Api\V1\FileUploadController;
@@ -66,7 +67,7 @@ Route::get('/test', function (Request $request) {});
 
 Route::prefix('super-admin')->name('super-admin.')->group(function () {
     /**
-     * Users
+     * Users (Authentication)
      */
     Route::middleware(['auth:sanctum', 'can:super-admin'])
         ->post('/users', CreateUserController::class)
@@ -130,6 +131,8 @@ Route::prefix('administrative')->name('administrative.')->group(function () {
             ->name('questionnaires.index');
         Route::post('{user}/questionnaires/{questionnaireId}/attach', AttachQuestionnaireController::class)
             ->name('questionnaires.attach');
+        Route::delete('{user}/questionnaires/{userQuestionnaireId}/detach', DetachQuestionnaireController::class)
+            ->name('questionnaires.detach');
         Route::get('{user}/questionnaire/{userQuestionnaireId}/resend-notification',
             ResendQuestionnaireAttachedNotificationController::class)
             ->name('questionnaires.resendNotification');
