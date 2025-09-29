@@ -15,7 +15,7 @@ it('return 401 response non-login users ', function () {
     $response = postJson(route('api.v1.administrative.users.questionnaires.attach',
         ['user' => $user->hash_id, 'questionnaireId' => 'abc']));
     $response->assertUnauthorized();
-})->group('administrative/users/questionnaires/index');
+})->group('administrative/user/questionnaire/index');
 
 it('return 404 response regular login users', function () {
     $user = UserRepository::getRandomUser();
@@ -24,7 +24,7 @@ it('return 404 response regular login users', function () {
     $response = postJson(route('api.v1.administrative.users.questionnaires.attach',
         ['user' => $user->hash_id, 'questionnaireId' => 'abc']));
     $response->assertNotFound();
-})->group('administrative/users/questionnaires/index');
+})->group('administrative/user/questionnaire/index');
 
 test('return eligible false for uncompleted questionnaire', function () {
     $user = UserRepository::getRandomUser(Role::ADMIN);
@@ -42,7 +42,7 @@ test('return eligible false for uncompleted questionnaire', function () {
     );
 
     $response->assertJsonPath('eligible', false);
-})->group('administrative/users/questionnaires/attach');
+})->group('administrative/user/questionnaire/attach');
 
 test('allows attach eligible questionnaire to a user', function () {
     \Illuminate\Support\Facades\Notification::fake();
@@ -75,4 +75,4 @@ test('allows attach eligible questionnaire to a user', function () {
 
     // Expired at time must be twice the allocated time from now
     expect((int) $expectedExpiredAtTime->diffInMinutes($attachedQuestionnaire->expires_at, true) === 0)->toBeTrue();
-})->group('administrative/users/questionnaires/attach');
+})->group('administrative/user/questionnaire/attach');
