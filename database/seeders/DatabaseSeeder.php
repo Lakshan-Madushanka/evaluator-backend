@@ -37,6 +37,10 @@ class DatabaseSeeder extends Seeder
 
         if (App::environment('local')) {
             Data::seedQuestions();
+			
+			$this->call([
+                TeamSeeder::class,
+            ]);
         }
     }
 

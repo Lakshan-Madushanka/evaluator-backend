@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\V1\Administrative\Answer\DeleteAnswerController;
 use App\Http\Controllers\Api\V1\Administrative\Answer\IndexAnswerController;
 use App\Http\Controllers\Api\V1\Administrative\Answer\MassDeleteAnswerController;
 use App\Http\Controllers\Api\V1\Administrative\Answer\ShowAnswerController;
+use App\Http\Controllers\Api\V1\Administrative\Answer\StoreAnswerController;
 use App\Http\Controllers\Api\V1\Administrative\Answer\UpdateAnswerController;
 use App\Http\Controllers\Api\V1\Administrative\Auth\LogInController;
 use App\Http\Controllers\Api\V1\Administrative\Auth\LogOutController;
@@ -40,11 +41,15 @@ use App\Http\Controllers\Api\V1\Administrative\Team\IndexTeamController;
 use App\Http\Controllers\Api\V1\Administrative\Team\ShowTeamController;
 use App\Http\Controllers\Api\V1\Administrative\Team\StoreTeamController;
 use App\Http\Controllers\Api\V1\Administrative\Team\UpdateTeamController;
+use App\Http\Controllers\Api\V1\Administrative\Team\User\DetachUserController;
 use App\Http\Controllers\Api\V1\Administrative\User\IndexUserController;
 use App\Http\Controllers\Api\V1\Administrative\User\Questionnaire\AttachQuestionnaireController;
 use App\Http\Controllers\Api\V1\Administrative\User\Questionnaire\DetachQuestionnaireController;
+use App\Http\Controllers\Api\V1\Administrative\User\Questionnaire\IndexQuestionnaireController as UserQuestionnaireIndexController;
 use App\Http\Controllers\Api\V1\Administrative\User\Questionnaire\ResendQuestionnaireAttachedNotificationController;
 use App\Http\Controllers\Api\V1\Administrative\User\ShowUserController;
+use App\Http\Controllers\Api\V1\Administrative\User\Team\AttachTeamController;
+use App\Http\Controllers\Api\V1\Administrative\User\Team\IndexTeamController as IndexUserTeamControllerAlias;
 use App\Http\Controllers\Api\V1\FileUploadController;
 use App\Http\Controllers\Api\V1\Regular\User\Questionnaire\CheckQuestionnaireAvailableController;
 use App\Http\Controllers\Api\V1\Regular\User\Questionnaire\EvaluateQuestionnaireController;
@@ -52,6 +57,7 @@ use App\Http\Controllers\Api\V1\SuperAdmin\User\CreateUserController;
 use App\Http\Controllers\Api\V1\SuperAdmin\User\DeleteUserController;
 use App\Http\Controllers\Api\V1\SuperAdmin\User\MassDeleteUserController;
 use App\Http\Controllers\Api\V1\SuperAdmin\User\UpdateUserController;
+use App\Http\Controllers\Api\V1\Administrative\Team\User\IndexUserController as TeamUserIndexController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -128,8 +134,11 @@ Route::prefix('administrative')->name('administrative.')->group(function () {
         Route::get('{team}', ShowTeamController::class)->name('show');
         Route::post('/', StoreTeamController::class)->name('store');
         Route::put('{team}', UpdateTeamController::class)->name('update');
-
         Route::middleware(['can:super-admin'])->delete('{team}', DeleteTeamController::class)->name('delete');
+
+        // Users
+        Route::get('{team}/users', TeamUserIndexController::class)->name('users.index');
+        Route::post('{team}/users/detach', DetachUserController::class)->name('users.detach');
     });
 
     /*
@@ -143,8 +152,7 @@ Route::prefix('administrative')->name('administrative.')->group(function () {
             ->name('show');
 
         // Questionnaires
-        Route::get('{user}/questionnaires',
-            \App\Http\Controllers\Api\V1\Administrative\User\Questionnaire\IndexQuestionnaireController::class)
+        Route::get('{user}/questionnaires', UserQuestionnaireIndexController::class)
             ->name('questionnaires.index');
         Route::post('{user}/questionnaires/{questionnaireId}/attach', AttachQuestionnaireController::class)
             ->name('questionnaires.attach');
@@ -153,6 +161,10 @@ Route::prefix('administrative')->name('administrative.')->group(function () {
         Route::get('{user}/questionnaire/{userQuestionnaireId}/resend-notification',
             ResendQuestionnaireAttachedNotificationController::class)
             ->name('questionnaires.resendNotification');
+
+        // Teams
+        Route::get('{user}/teams', IndexUserTeamControllerAlias::class)->name('teams.index');
+        Route::post('{user}/teams/attach', AttachTeamController::class)->name('teams.attach');
     });
 
     /*
@@ -201,7 +213,7 @@ Route::prefix('administrative')->name('administrative.')->group(function () {
             Route::get('/{id}/exists', CheckAnswerExistsController::class)->name('checkExists');
             Route::get('/', IndexAnswerController::class)->name('index');
             Route::get('/{answer}', ShowAnswerController::class)->name('show');
-            Route::middleware(['xss-protect'])->post('/', StoreTeamController::class)->name('store');
+            Route::middleware(['xss-protect'])->post('/', StoreAnswerController::class)->name('store');
             Route::middleware(['xss-protect'])->put('/{answer}', UpdateAnswerController::class)->name('update');
             Route::delete('/{answer}', DeleteAnswerController::class)->name('delete');
             Route::post('/mass-delete', MassDeleteAnswerController::class)->name('mass-delete');

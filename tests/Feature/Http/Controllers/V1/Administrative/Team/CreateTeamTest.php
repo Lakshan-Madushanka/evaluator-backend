@@ -18,7 +18,7 @@ beforeEach(function () {
 it('return 401 unauthorized response for non-login users', function () {
     $response = postJson(route('api.v1.administrative.teams.store'));
     $response->assertUnauthorized();
-})->group('api/v1/administrative/teams/store');
+})->group('api/v1/administrative/team/store');
 
 it('requires name field to create a team', function () {
     $admin = User::factory()->create(['role' => Role::ADMIN]);
@@ -28,8 +28,9 @@ it('requires name field to create a team', function () {
     $response->assertUnprocessable();
     $response->assertInvalid(['name']);
 
-})->fakeRequest(fn () => TeamRequest::new()->without('name'))
-    ->group('api/v1/administrative/teams/store');
+})->fakeRequest(fn() => TeamRequest::new()->without('name'))
+    ->group('api/v1/administrative/team/store');
+
 
 it('can create a team', function () {
     $admin = User::factory()->create(['role' => Role::ADMIN]);
@@ -42,9 +43,10 @@ it('can create a team', function () {
 
     assertDatabaseCount('teams', $teamsCount + 1);
 
-    $response->assertJson(fn (AssertableJson $json) => $json->hasAll('data.id', 'data.type',
+    $response->assertJson(fn(AssertableJson $json) => $json->hasAll('data.id', 'data.type',
         'data.attributes')
         ->etc()
     );
-})->fakeRequest(fn () => TeamRequest::new())
-    ->group('api/v1/administrative/teams/store');
+})->fakeRequest(fn() => TeamRequest::new())
+    ->group('api/v1/administrative/team/store');
+

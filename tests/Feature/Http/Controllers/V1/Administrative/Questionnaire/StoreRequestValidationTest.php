@@ -3,6 +3,7 @@
 use App\Enums\Role;
 use Laravel\Sanctum\Sanctum;
 use Tests\Repositories\UserRepository;
+use Tests\RequestFactories\QuestionnaireRequest;
 use Tests\RequestFactories\QuestionRequest;
 
 use function Pest\Laravel\postJson;
@@ -17,7 +18,7 @@ it('required name', function () {
     $response = postJson($this->route);
     $response->assertStatus(422);
     $response->assertInvalid(['name']);
-})->fakeRequest(fn () => \Tests\RequestFactories\QuestionnaireRequest::new()->without('name'))
+})->fakeRequest(fn () => QuestionnaireRequest::new()->without('name'))
     ->group('api/v1/administrative/questionnaire/validation');
 
 it('required name to be minimum 3 characters', function () {
@@ -26,7 +27,7 @@ it('required name to be minimum 3 characters', function () {
     $response = postJson($this->route);
     $response->assertStatus(422);
     $response->assertInvalid(['name']);
-})->fakeRequest(fn () => \Tests\RequestFactories\QuestionnaireRequest::new(['name' => '#1']))
+})->fakeRequest(fn () => QuestionnaireRequest::new(['name' => '#1']))
     ->group('api/v1/administrative/questionnaire/validation');
 
 it('required name to be maximum 50 characters', function () {
@@ -35,7 +36,7 @@ it('required name to be maximum 50 characters', function () {
     $response = postJson($this->route);
     $response->assertStatus(422);
     $response->assertInvalid(['name']);
-})->fakeRequest(fn () => \Tests\RequestFactories\QuestionnaireRequest::new([
+})->fakeRequest(fn () => QuestionnaireRequest::new([
     'name' => \Illuminate\Support\Str::random().str_repeat('0', 50),
 ]))->group('api/v1/administrative/questionnaire/validation');
 

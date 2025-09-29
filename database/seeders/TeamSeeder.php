@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Database\Seeders;
 
 use App\Models\Team;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class TeamSeeder extends Seeder
@@ -14,8 +15,11 @@ class TeamSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
-        Team::factory()->count(5)->create();
+        Team::factory()
+            ->has(User::factory()->count(18))
+            ->count(3)
+            ->create();
     }
 }

@@ -327,4 +327,4 @@ it('can filter all questionnaires by its completeness', function (bool $complete
             expect($isCcompleted)->toBe($completed);
         });
 })->with([true, false])
-    ->group('api/v1/administrative/questionnaire/index1');
+    ->group('api/v1/administrative/questionnaire/index');
