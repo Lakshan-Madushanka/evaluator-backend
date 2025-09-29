@@ -32,7 +32,7 @@ it('allows administrative users to retrieve all teams of a user', function () {
         ->assertJson(fn(AssertableJson $json) =>
             $json->has('data', 4)
                 ->has('data.0', fn(AssertableJson $json) =>
-                    $json->where('attributes.name', ['aaaaaa'])
+                    $json->where('attributes.name', 'aaaaaa')
                     ->etc()
                 )
                 ->etc()
