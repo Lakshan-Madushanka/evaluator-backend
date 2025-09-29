@@ -27,13 +27,12 @@ test('it throws 422 error when trying to detach non existing user', function () 
     $team = TeamRepository::getRandomTeam();
 
     $response = postJson(
-        route('api.v1.administrative.teams.users.detach', ['team' => $team?->hash_id,]),
+        route('api.v1.administrative.teams.users.detach', ['team' => $team?->hash_id]),
         ['userIds' => [-12]]
     );
 
     $response->assertInvalid('userIds.0');
 })->group('administrative/team/user/detach');
-
 
 test('it detach existing user', function () {
     Sanctum::actingAs(UserRepository::getRandomUser(Role::SUPER_ADMIN));
@@ -44,7 +43,7 @@ test('it detach existing user', function () {
     $detachUserIds = [$teamUsers[0]->hash_id, $teamUsers[1]->hash_id];
 
     $response = postJson(
-        route('api.v1.administrative.teams.users.detach', ['team' => $team?->hash_id,]),
+        route('api.v1.administrative.teams.users.detach', ['team' => $team?->hash_id]),
         ['userIds' => $detachUserIds]
     );
 

@@ -30,13 +30,12 @@ test('it throws 422 error when trying to attach non existing team', function () 
     $user = UserRepository::getRandomUser();
 
     $response = postJson(
-        route('api.v1.administrative.users.teams.attach', ['user' => $user?->hash_id,]),
+        route('api.v1.administrative.users.teams.attach', ['user' => $user?->hash_id]),
         ['teamIds' => [-12]]
     );
 
     $response->assertInvalid('teamIds.0');
 })->group('administrative/user/team/detach');
-
 
 test('it can attach users', function () {
     Sanctum::actingAs(UserRepository::getRandomUser(Role::SUPER_ADMIN));
@@ -51,11 +50,11 @@ test('it can attach users', function () {
     $newTeamId = $newTeam->id;
 
     $attachTeamIds = collect([$newTeamId, $newTeamId, ...$teamIds, ...$teamIds])
-        ->transform(fn(int $id) => Hashids::encode($id))
+        ->transform(fn (int $id) => Hashids::encode($id))
         ->toArray();
 
     $response = postJson(
-        route('api.v1.administrative.users.teams.attach', ['user' => $user?->hash_id,]),
+        route('api.v1.administrative.users.teams.attach', ['user' => $user?->hash_id]),
         ['teamIds' => $attachTeamIds]
     );
 

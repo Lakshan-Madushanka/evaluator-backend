@@ -42,6 +42,7 @@ use App\Http\Controllers\Api\V1\Administrative\Team\ShowTeamController;
 use App\Http\Controllers\Api\V1\Administrative\Team\StoreTeamController;
 use App\Http\Controllers\Api\V1\Administrative\Team\UpdateTeamController;
 use App\Http\Controllers\Api\V1\Administrative\Team\User\DetachUserController;
+use App\Http\Controllers\Api\V1\Administrative\Team\User\IndexUserController as TeamUserIndexController;
 use App\Http\Controllers\Api\V1\Administrative\User\IndexUserController;
 use App\Http\Controllers\Api\V1\Administrative\User\Questionnaire\AttachQuestionnaireController;
 use App\Http\Controllers\Api\V1\Administrative\User\Questionnaire\DetachQuestionnaireController;
@@ -57,7 +58,6 @@ use App\Http\Controllers\Api\V1\SuperAdmin\User\CreateUserController;
 use App\Http\Controllers\Api\V1\SuperAdmin\User\DeleteUserController;
 use App\Http\Controllers\Api\V1\SuperAdmin\User\MassDeleteUserController;
 use App\Http\Controllers\Api\V1\SuperAdmin\User\UpdateUserController;
-use App\Http\Controllers\Api\V1\Administrative\Team\User\IndexUserController as TeamUserIndexController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 

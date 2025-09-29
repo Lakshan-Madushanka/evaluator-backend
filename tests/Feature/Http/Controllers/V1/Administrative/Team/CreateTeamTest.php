@@ -28,9 +28,8 @@ it('requires name field to create a team', function () {
     $response->assertUnprocessable();
     $response->assertInvalid(['name']);
 
-})->fakeRequest(fn() => TeamRequest::new()->without('name'))
+})->fakeRequest(fn () => TeamRequest::new()->without('name'))
     ->group('api/v1/administrative/team/store');
-
 
 it('can create a team', function () {
     $admin = User::factory()->create(['role' => Role::ADMIN]);
@@ -43,10 +42,9 @@ it('can create a team', function () {
 
     assertDatabaseCount('teams', $teamsCount + 1);
 
-    $response->assertJson(fn(AssertableJson $json) => $json->hasAll('data.id', 'data.type',
+    $response->assertJson(fn (AssertableJson $json) => $json->hasAll('data.id', 'data.type',
         'data.attributes')
         ->etc()
     );
-})->fakeRequest(fn() => TeamRequest::new())
+})->fakeRequest(fn () => TeamRequest::new())
     ->group('api/v1/administrative/team/store');
-
