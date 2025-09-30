@@ -17,13 +17,14 @@ class AttachQuestionnaireController extends Controller
      * Handle the incoming request.
      *
      * @return JsonResponse|void
+     *
      * @throws \Throwable
      */
     public function __invoke(Team $team, string $questionnaireId, Request $request, QuestionnaireService $questionnaireService)
     {
 
         return DB::transaction(function () use ($team, $questionnaireId, $request, $questionnaireService) {
-            if (!($questionnaire = $questionnaireService->checkAvailability($questionnaireId))) {
+            if (! ($questionnaire = $questionnaireService->checkAvailability($questionnaireId))) {
                 return $questionnaireService->ineligibleResponse();
             }
 

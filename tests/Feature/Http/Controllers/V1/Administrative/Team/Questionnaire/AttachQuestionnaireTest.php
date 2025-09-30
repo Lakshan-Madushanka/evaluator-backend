@@ -15,7 +15,7 @@ it('return 401 response non-login users ', function () {
     $response = postJson(route('api.v1.administrative.teams.questionnaires.attach',
         [
             'team' => 'abc',
-            'questionnaireId' => 'abc'
+            'questionnaireId' => 'abc',
         ],
     ));
     $response->assertUnauthorized();
@@ -28,7 +28,7 @@ it('return 404 response regular login users', function () {
     $response = postJson(route('api.v1.administrative.teams.questionnaires.attach',
         [
             'team' => 'abc',
-            'questionnaireId' => 'abc'
+            'questionnaireId' => 'abc',
         ],
     ));
     $response->assertNotFound();
@@ -43,7 +43,7 @@ test('return eligible false for uncompleted questionnaire', function () {
     $questionnaire = Questionnaire::factory()->create();
 
     $response = postJson(route(
-            'api.v1.administrative.teams.questionnaires.attach', [
+        'api.v1.administrative.teams.questionnaires.attach', [
             'team' => $team->hash_id,
             'questionnaireId' => $questionnaire->hash_id,
         ])

@@ -15,7 +15,7 @@ class TeamResource extends JsonApiResource
     {
         return [
             'name' => $this->name,
-            'users_count' => $this->when(isset($this->users_count), fn() => $this->users_count),
+            'users_count' => $this->when(isset($this->users_count), fn () => $this->users_count),
             'created_at' => $this->created_at,
         ];
     }

@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Questionnaire;
 use App\Models\Team;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;

@@ -20,7 +20,7 @@ class AttachQuestionnaireController extends Controller
     {
         $questionnaire = $questionnaireService->checkAvailability($questionnaireId);
 
-        if (!$questionnaire) {
+        if (! $questionnaire) {
             return $questionnaireService->ineligibleResponse();
         }
 

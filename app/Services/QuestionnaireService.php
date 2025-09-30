@@ -39,7 +39,7 @@ class QuestionnaireService
     {
         return [
             'code' => Str::uuid(),
-            'expires_at' => now()->addMinutes($questionnaire->allocated_time * 2)
+            'expires_at' => now()->addMinutes($questionnaire->allocated_time * 2),
         ];
     }
 
