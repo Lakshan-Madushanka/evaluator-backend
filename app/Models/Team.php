@@ -52,5 +52,12 @@ class Team extends Model
         return $this->belongsToMany(User::class);
     }
 
+    public function questionnaires(): BelongsToMany
+    {
+        return $this
+            ->belongsToMany(Questionnaire::class)
+            ->withTimestamps();
+    }
+
     // -------------------------End of Relationships----------------------------
 }

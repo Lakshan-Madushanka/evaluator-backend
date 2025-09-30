@@ -115,7 +115,9 @@ class User extends Authenticatable
             table: 'user_questionnaire',
             foreignPivotKey: 'user_id',
             relatedPivotKey: 'questionnaire_id'
-        )->withTimestamps();
+        )
+            ->withPivot('questionnaire_team_id')
+            ->withTimestamps();
     }
 
     public function questionnairesWithPivotData(): BelongsToMany

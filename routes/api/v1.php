@@ -38,6 +38,7 @@ use App\Http\Controllers\Api\V1\Administrative\Questionnaire\StoreQuestionnaireC
 use App\Http\Controllers\Api\V1\Administrative\Questionnaire\UpdateQuestionnaireController;
 use App\Http\Controllers\Api\V1\Administrative\Team\DeleteTeamController;
 use App\Http\Controllers\Api\V1\Administrative\Team\IndexTeamController;
+use App\Http\Controllers\Api\V1\Administrative\Team\Questionnaire\AttachQuestionnaireController as AttachTeamQuestionnaireController;
 use App\Http\Controllers\Api\V1\Administrative\Team\ShowTeamController;
 use App\Http\Controllers\Api\V1\Administrative\Team\StoreTeamController;
 use App\Http\Controllers\Api\V1\Administrative\Team\UpdateTeamController;
@@ -139,6 +140,9 @@ Route::prefix('administrative')->name('administrative.')->group(function () {
         // Users
         Route::get('{team}/users', TeamUserIndexController::class)->name('users.index');
         Route::post('{team}/users/detach', DetachUserController::class)->name('users.detach');
+
+        // Questionnaires
+        Route::post('{team}/questionnaires/{questionnaireId}/attach', AttachTeamQuestionnaireController::class)->name('questionnaires.attach');
     });
 
     /*
