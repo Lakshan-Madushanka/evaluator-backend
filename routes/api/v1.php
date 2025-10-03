@@ -39,6 +39,7 @@ use App\Http\Controllers\Api\V1\Administrative\Questionnaire\UpdateQuestionnaire
 use App\Http\Controllers\Api\V1\Administrative\Team\DeleteTeamController;
 use App\Http\Controllers\Api\V1\Administrative\Team\IndexTeamController;
 use App\Http\Controllers\Api\V1\Administrative\Team\Questionnaire\AttachQuestionnaireController as AttachTeamQuestionnaireController;
+use App\Http\Controllers\Api\V1\Administrative\Team\Questionnaire\User\IndexUserController as IndexTeamQuestionnaireUserController;
 use App\Http\Controllers\Api\V1\Administrative\Team\ShowTeamController;
 use App\Http\Controllers\Api\V1\Administrative\Team\StoreTeamController;
 use App\Http\Controllers\Api\V1\Administrative\Team\UpdateTeamController;
@@ -141,8 +142,15 @@ Route::prefix('administrative')->name('administrative.')->group(function () {
         Route::get('{team}/users', TeamUserIndexController::class)->name('users.index');
         Route::post('{team}/users/detach', DetachUserController::class)->name('users.detach');
 
-        // Questionnaires
+        /**
+         * Questionnaires
+         */
+       // Route::get('{team}/questionnaires', IndexTeamQuestionnaireController::class)->name('questionnaires.index');
         Route::post('{team}/questionnaires/{questionnaireId}/attach', AttachTeamQuestionnaireController::class)->name('questionnaires.attach');
+
+        //Users
+        Route::get('team-questionnaires/{questionnaireTeam}/users', IndexTeamQuestionnaireUserController::class)->name('questionnaires.users.index');
+
     });
 
     /*
@@ -252,7 +260,9 @@ Route::prefix('administrative')->name('administrative.')->group(function () {
                 SyncQuestionController::class);
         });
 
-    // Evaluations
+    /**
+     * Evaluations
+     */
     Route::middleware(['auth:sanctum', 'can:administrative'])
         ->prefix('evaluations')
         ->name('evaluations.')

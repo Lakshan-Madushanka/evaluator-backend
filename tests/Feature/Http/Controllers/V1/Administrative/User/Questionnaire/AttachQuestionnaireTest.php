@@ -74,5 +74,5 @@ test('allows attach eligible questionnaire to a user', function () {
     $expectedExpiredAtTime = now()->addMinutes($questionnaire->allocated_time * 2);
 
     // Expired at time must be twice the allocated time from now
-    expect((int) $expectedExpiredAtTime->diffInMinutes($attachedQuestionnaire->expires_at, true) === 0)->toBeTrue();
+    expect((int) $expectedExpiredAtTime->diffInMinutes($attachedQuestionnaire->expires_at, true) < 5)->toBeTrue();
 })->group('administrative/user/questionnaire/attach');

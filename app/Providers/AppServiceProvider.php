@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Evaluation;
 use App\Models\Question;
 use App\Models\Questionnaire;
+use App\Models\QuestionnaireTeam;
 use App\Models\Team;
 use App\Models\User;
 use Exception;
@@ -164,6 +165,12 @@ class AppServiceProvider extends ServiceProvider
             $id = HashidsFacade::decode($value)[0] ?? PHP_INT_MIN;
 
             return Team::findOrFail($id);
+        });
+
+        Route::bind('questionnaireTeam', function ($value) {
+            $id = HashidsFacade::decode($value)[0] ?? PHP_INT_MIN;
+
+            return QuestionnaireTeam::findOrFail($id);
         });
     }
 

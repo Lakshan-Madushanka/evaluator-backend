@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\Role;
+use App\Models\Questionnaire;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Laravel\Sanctum\Sanctum;
 use Tests\Repositories\UserRepository;
@@ -42,7 +43,7 @@ it('allows administrative users to retrieve a question by hash id', function () 
 it('allows administrative users to include categories with a question by hash id', function () {
     Sanctum::actingAs(UserRepository::getRandomUser(Role::ADMIN));
 
-    $questionHashId = \App\Models\Questionnaire::whereHas('categories')->first()->hash_id;
+    $questionHashId = Questionnaire::whereHas('categories')->first()->hash_id;
 
     $query = '?'.http_build_query([
         'include' => 'categories',
