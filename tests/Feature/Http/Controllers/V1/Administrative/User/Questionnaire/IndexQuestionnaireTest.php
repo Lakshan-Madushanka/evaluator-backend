@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\Role;
+use App\Models\User;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Laravel\Sanctum\Sanctum;
 use Tests\Repositories\UserRepository;
@@ -35,7 +36,7 @@ test('admin can obtain all user questionnaires', function () {
 test('can paginate user records', function () {
     Sanctum::actingAs(UserRepository::getRandomUser(Role::SUPER_ADMIN));
 
-    $user = \App\Models\User::whereHas('questionnaires')->first();
+    $user = User::whereHas('questionnaires')->first();
 
     $query = '?'.http_build_query(['page' => ['size' => 1]]);
 
@@ -56,7 +57,7 @@ test('can filter records by expired status', function () {
 
     config(['json-api-paginate.max_results' => PHP_INT_MAX]);
 
-    $user = \App\Models\User::whereHas('questionnaires')->first();
+    $user = User::whereHas('questionnaires')->first();
 
     $query = '?'.http_build_query([
         'filter' => ['expired' => false],
