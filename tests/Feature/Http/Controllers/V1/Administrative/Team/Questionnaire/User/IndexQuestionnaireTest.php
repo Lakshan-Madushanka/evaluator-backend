@@ -65,10 +65,10 @@ test('admin can obtain all team questionnaires with evaluations', function () {
     ]);
 
     $query = '?'.http_build_query([
-            'include' => 'evaluation',
-        ]);
+        'include' => 'evaluation',
+    ]);
 
-    $response = getJson(route('api.v1.administrative.teams.questionnaires.users.index', ['questionnaireTeam' => $hashedTeamQuestionnaireId]) . $query);
+    $response = getJson(route('api.v1.administrative.teams.questionnaires.users.index', ['questionnaireTeam' => $hashedTeamQuestionnaireId]).$query);
     $response->assertOk();
 
     $evaluationId = $response->json('data')[0]['relationships']['evaluation']['data']['id'];
@@ -77,7 +77,6 @@ test('admin can obtain all team questionnaires with evaluations', function () {
         ->and($response->json('included')[0]['type'])->toBe('evaluations')
         ->and($response->json('included')[0]['attributes']['marks_percentage'])->toBe(100);
 })->group('administrative/team/questionnaire/user/index');
-
 
 test('it sorts data by marks by default', function () {
     $user = UserRepository::getRandomUser(Role::ADMIN);
@@ -119,10 +118,10 @@ test('it sorts data by marks by default', function () {
     ]);
 
     $query = '?'.http_build_query([
-            'include' => 'evaluation',
-        ]);
+        'include' => 'evaluation',
+    ]);
 
-    $response = getJson(route('api.v1.administrative.teams.questionnaires.users.index', ['questionnaireTeam' => $hashedTeamQuestionnaireId]) . $query);
+    $response = getJson(route('api.v1.administrative.teams.questionnaires.users.index', ['questionnaireTeam' => $hashedTeamQuestionnaireId]).$query);
     $response->assertOk();
 
     $data = $response->json('data');
@@ -143,7 +142,7 @@ test('can paginate user records', function () {
 
     $query = '?'.http_build_query(['page' => ['size' => 3]]);
 
-    $route = route('api.v1.administrative.teams.questionnaires.users.index', ['questionnaireTeam' => $hashedTeamQuestionnaireId]) . $query;
+    $route = route('api.v1.administrative.teams.questionnaires.users.index', ['questionnaireTeam' => $hashedTeamQuestionnaireId]).$query;
     $response = getJson($route);
     $response->assertOk();
 
@@ -169,7 +168,7 @@ test('can filter records by expired status', function () {
         'page' => ['size' => PHP_INT_MAX],
     ]);
 
-    $route = route('api.v1.administrative.teams.questionnaires.users.index', ['questionnaireTeam' => $hashedTeamQuestionnaireId]) . $query;
+    $route = route('api.v1.administrative.teams.questionnaires.users.index', ['questionnaireTeam' => $hashedTeamQuestionnaireId]).$query;
     $response = getJson($route);
 
     $results = $response->decodeResponseJson()['data'];

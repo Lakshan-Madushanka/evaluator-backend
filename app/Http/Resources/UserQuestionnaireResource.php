@@ -15,10 +15,10 @@ class UserQuestionnaireResource extends JsonApiResource
     public function toAttributes(Request $request): array
     {
         $attributes = [
-            'user_questionnaire_id' => $this->when(isset($this->userQuestionnaireId), fn() => Hashids::encode($this->userQuestionnaireId)),
-            'user_questionnaire_team_id' => $this->when(isset($this->questionnaire_team_id), fn() => Hashids::encode($this->questionnaire_team_id)),
-            'is_team_attached'=> !is_null($this->questionnaire_team_id),
-            'code' => $this->when(isset($this->code), fn() => $this->code),
+            'user_questionnaire_id' => $this->when(isset($this->userQuestionnaireId), fn () => Hashids::encode($this->userQuestionnaireId)),
+            'user_questionnaire_team_id' => $this->when(isset($this->questionnaire_team_id), fn () => Hashids::encode($this->questionnaire_team_id)),
+            'is_team_attached' => ! is_null($this->questionnaire_team_id),
+            'code' => $this->when(isset($this->code), fn () => $this->code),
             'attempts' => $this->attempts,
             'expires_at' => $this->expires_at,
             'started_at' => $this->started_at,
@@ -38,7 +38,7 @@ class UserQuestionnaireResource extends JsonApiResource
     {
         return [
             'categories' => fn () => CategoryResource::collection($this->categories),
-            'evaluation' => fn() => new EvaluationResource($this->evaluation),
+            'evaluation' => fn () => new EvaluationResource($this->evaluation),
         ];
     }
 }

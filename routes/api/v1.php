@@ -145,10 +145,10 @@ Route::prefix('administrative')->name('administrative.')->group(function () {
         /**
          * Questionnaires
          */
-       // Route::get('{team}/questionnaires', IndexTeamQuestionnaireController::class)->name('questionnaires.index');
+        // Route::get('{team}/questionnaires', IndexTeamQuestionnaireController::class)->name('questionnaires.index');
         Route::post('{team}/questionnaires/{questionnaireId}/attach', AttachTeamQuestionnaireController::class)->name('questionnaires.attach');
 
-        //Users
+        // Users
         Route::get('team-questionnaires/{questionnaireTeam}/users', IndexTeamQuestionnaireUserController::class)->name('questionnaires.users.index');
 
     });

@@ -22,6 +22,7 @@ use Vinkla\Hashids\Facades\Hashids;
  * @property int $marks
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ *
  * @method static Builder|Evaluation newModelQuery()
  * @method static Builder|Evaluation newQuery()
  * @method static Builder|Evaluation query()
@@ -33,6 +34,7 @@ use Vinkla\Hashids\Facades\Hashids;
  * @method static Builder|Evaluation whereTimeTaken($value)
  * @method static Builder|Evaluation whereUpdatedAt($value)
  * @method static Builder|Evaluation whereUserQuestionnaireId($value)
+ *
  * @property float|null $marks_percentage
  * @property float|null $total_points_earned
  * @property float|null $total_points_allocated
@@ -40,14 +42,18 @@ use Vinkla\Hashids\Facades\Hashids;
  * @property-read \App\Models\Questionnaire|null $questionnaire
  * @property-read \App\Models\User|null $user
  * @property-read \App\Models\UserQuestionnaire $userQuestionnaire
+ *
  * @method static Builder<static>|Evaluation filterByQuestionnaireId(string $value)
  * @method static Builder<static>|Evaluation filterByUserId(string $value)
  * @method static Builder<static>|Evaluation filterByUserQuestionnaire(...$value)
  * @method static Builder<static>|Evaluation whereMarksPercentage($value)
  * @method static Builder<static>|Evaluation whereTotalPointsAllocated($value)
  * @method static Builder<static>|Evaluation whereTotalPointsEarned($value)
+ *
  * @property int $questionnaireable_id
+ *
  * @method static Builder<static>|Evaluation whereQuestionnaireableId($value)
+ *
  * @mixin Eloquent
  */
 class Evaluation extends Model

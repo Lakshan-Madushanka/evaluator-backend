@@ -42,6 +42,7 @@ class IndexUserController extends Controller
                     if (Helpers::checkValueIsTrue($value)) {
                         return $query->where('user_questionnaire.attempts', '>', 0);
                     }
+
                     return $query->where('user_questionnaire.attempts', 0);
                 }),
                 AllowedFilter::callback('expired', function (Builder $query, $value) {

@@ -15,7 +15,7 @@ class MarkSort implements Sort
 
         $query->orderBy(
             Evaluation::select('marks_percentage')
-                ->whereColumn((new UserQuestionnaire())->qualifyColumn('id'), (new Evaluation())->qualifyColumn('user_questionnaire_id'))
+                ->whereColumn((new UserQuestionnaire)->qualifyColumn('id'), (new Evaluation)->qualifyColumn('user_questionnaire_id'))
                 ->limit(1),
             $direction
         );

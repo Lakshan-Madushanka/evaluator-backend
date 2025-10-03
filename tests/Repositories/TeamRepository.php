@@ -36,7 +36,7 @@ class TeamRepository
 
         $team = Team::factory()
             ->has(User::factory()->count($noOfUsers))
-             ->create();
+            ->create();
 
         $team->questionnaires()->attach($questionnaire);
 

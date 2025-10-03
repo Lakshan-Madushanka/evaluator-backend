@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  * @property-read int|null $questionnaires_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Question[] $questions
  * @property-read int|null $questions_count
+ *
  * @method static \Database\Factories\CategoryFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Category newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Category newQuery()
@@ -28,7 +29,9 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  * @method static \Illuminate\Database\Eloquent\Builder|Category whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Category whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Category whereUpdatedAt($value)
+ *
  * @property-read mixed $hash_id
+ *
  * @mixin \Eloquent
  */
 class Category extends Model
