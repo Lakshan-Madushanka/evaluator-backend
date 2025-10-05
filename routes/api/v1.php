@@ -145,7 +145,7 @@ Route::prefix('administrative')->name('administrative.')->group(function () {
         /**
          * Questionnaires
          */
-        // Route::get('{team}/questionnaires', IndexTeamQuestionnaireController::class)->name('questionnaires.index');
+        Route::get('{team}/questionnaires', IndexTeamQuestionnaireController::class)->name('questionnaires.index');
         Route::post('{team}/questionnaires/{questionnaireId}/attach', AttachTeamQuestionnaireController::class)->name('questionnaires.attach');
 
         // Users
