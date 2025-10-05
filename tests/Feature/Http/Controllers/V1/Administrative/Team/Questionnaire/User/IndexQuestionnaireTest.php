@@ -2,12 +2,15 @@
 
 use App\Enums\Role;
 use App\Models\Evaluation;
+use App\Models\User;
+use App\Models\UserQuestionnaire;
 use Carbon\Carbon;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Laravel\Sanctum\Sanctum;
 use Tests\Repositories\TeamRepository;
 use Tests\Repositories\UserRepository;
 use Vinkla\Hashids\Facades\Hashids;
+use Illuminate\Support\Str;
 
 use function Pest\Laravel\getJson;
 
@@ -178,4 +181,66 @@ test('can filter records by expired status', function () {
         expect(Carbon::parse($expiredAt)->gte(now()))->toBeTrue();
     });
     $response->assertOk();
+})->group('administrative/team/questionnaire/user/index');
+
+test('can filter records by user name', function () {
+    Sanctum::actingAs(UserRepository::getRandomUser(Role::SUPER_ADMIN));
+
+    config(['json-api-paginate.max_results' => PHP_INT_MAX]);
+
+    $team = TeamRepository::createTeamsWithQuestionnaires(4);
+
+    $teamQuestionnaireId = $team->questionnaires->first()->pivot->id;
+    $hashedTeamQuestionnaireId = Hashids::encode($teamQuestionnaireId);
+
+    $name = $team->users->first()->name;
+
+    $query = '?'.http_build_query([
+            'filter' => ['name' => $name],
+            'page' => ['size' => PHP_INT_MAX],
+        ]);
+
+    $route = route('api.v1.administrative.teams.questionnaires.users.index', ['questionnaireTeam' => $hashedTeamQuestionnaireId]).$query;
+    $response = getJson($route);
+    $response->assertOk();
+
+    $results = $response->decodeResponseJson()['data'];
+
+    foreach ($results as $result) {
+        $userId = UserQuestionnaire::find(Hashids::decode($result['id'])[0])->user_id;
+        $uName = User::find($userId)->name;
+
+        expect(Str::contains($uName, $uName))->toBeTrue();
+    }
+})->group('administrative/team/questionnaire/user/index');
+
+test('can filter records by user email', function () {
+    Sanctum::actingAs(UserRepository::getRandomUser(Role::SUPER_ADMIN));
+
+    config(['json-api-paginate.max_results' => PHP_INT_MAX]);
+
+    $team = TeamRepository::createTeamsWithQuestionnaires(4);
+
+    $teamQuestionnaireId = $team->questionnaires->first()->pivot->id;
+    $hashedTeamQuestionnaireId = Hashids::encode($teamQuestionnaireId);
+
+    $email = $team->users->first()->email;
+
+    $query = '?'.http_build_query([
+            'filter' => ['name' => $email],
+            'page' => ['size' => PHP_INT_MAX],
+        ]);
+
+    $route = route('api.v1.administrative.teams.questionnaires.users.index', ['questionnaireTeam' => $hashedTeamQuestionnaireId]).$query;
+    $response = getJson($route);
+    $response->assertOk();
+
+    $results = $response->decodeResponseJson()['data'];
+
+    foreach ($results as $result) {
+        $userId = UserQuestionnaire::find(Hashids::decode($result['id'])[0])->user_id;
+        $uEmail = User::find($userId)->email;
+
+        expect(Str::contains($uEmail, $email))->toBeTrue();
+    }
 })->group('administrative/team/questionnaire/user/index');

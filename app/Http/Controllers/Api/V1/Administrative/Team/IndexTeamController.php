@@ -13,7 +13,7 @@ class IndexTeamController extends Controller
     public function __invoke(): JsonApiResourceCollection
     {
         $teams = QueryBuilder::for(Team::class)
-            ->withCount('users')
+            ->withCount(['users', 'questionnaires'])
             ->allowedFilters(['name'])
             ->defaultSort('name')
             ->allowedSorts(['name', 'created_at'])
