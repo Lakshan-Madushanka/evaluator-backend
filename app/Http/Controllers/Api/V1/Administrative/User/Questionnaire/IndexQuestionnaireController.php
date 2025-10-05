@@ -59,7 +59,7 @@ class IndexQuestionnaireController extends Controller
                 AllowedFilter::callback('id', function (Builder $query, $value) {
                     $id = Hashids::decode($value)[0] ?? null;
 
-                    return $query->where((new Questionnaire())->qualifyColumn('id'), $id);
+                    return $query->where((new Questionnaire)->qualifyColumn('id'), $id);
                 }),
             ])
             ->defaultSort('-user_questionnaire.id')

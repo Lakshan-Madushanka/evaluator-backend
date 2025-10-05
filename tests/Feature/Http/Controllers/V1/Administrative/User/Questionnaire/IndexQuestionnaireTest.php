@@ -6,7 +6,6 @@ use App\Models\UserQuestionnaire;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Laravel\Sanctum\Sanctum;
 use Tests\Repositories\UserRepository;
-use Vinkla\Hashids\Facades\Hashids;
 
 use function Pest\Laravel\getJson;
 
@@ -95,9 +94,9 @@ test('can filter records by user_questionnaire_id', function () {
     $hashedUqId = $uq->hash_id;
 
     $query = '?'.http_build_query([
-            'filter' => ['uq_id' => $hashedUqId],
-            'page' => ['size' => PHP_INT_MAX],
-        ]);
+        'filter' => ['uq_id' => $hashedUqId],
+        'page' => ['size' => PHP_INT_MAX],
+    ]);
 
     $route = route('api.v1.administrative.users.questionnaires.index', ['user' => $user?->hash_id]).$query;
     $response = getJson($route);
@@ -105,7 +104,7 @@ test('can filter records by user_questionnaire_id', function () {
     $results = $response->decodeResponseJson()['data'];
     $attributes = collect($results)->pluck('attributes');
 
-    $attributes->each(function ($attr) use($hashedUqId) {
+    $attributes->each(function ($attr) use ($hashedUqId) {
         expect($attr['user_questionnaire_id'])->toBe($hashedUqId);
     });
     $response->assertOk();
@@ -121,9 +120,9 @@ test('can filter records by questionnaire id', function () {
     $questionnaire = $user->questionnaires->first();
 
     $query = '?'.http_build_query([
-            'filter' => ['id' => $questionnaire->hash_id],
-            'page' => ['size' => PHP_INT_MAX],
-        ]);
+        'filter' => ['id' => $questionnaire->hash_id],
+        'page' => ['size' => PHP_INT_MAX],
+    ]);
 
     $route = route('api.v1.administrative.users.questionnaires.index', ['user' => $user?->hash_id]).$query;
     $response = getJson($route);

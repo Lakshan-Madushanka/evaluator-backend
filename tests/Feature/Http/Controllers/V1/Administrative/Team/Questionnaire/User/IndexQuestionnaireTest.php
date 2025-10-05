@@ -5,12 +5,12 @@ use App\Models\Evaluation;
 use App\Models\User;
 use App\Models\UserQuestionnaire;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Laravel\Sanctum\Sanctum;
 use Tests\Repositories\TeamRepository;
 use Tests\Repositories\UserRepository;
 use Vinkla\Hashids\Facades\Hashids;
-use Illuminate\Support\Str;
 
 use function Pest\Laravel\getJson;
 
@@ -196,9 +196,9 @@ test('can filter records by user name', function () {
     $name = $team->users->first()->name;
 
     $query = '?'.http_build_query([
-            'filter' => ['name' => $name],
-            'page' => ['size' => PHP_INT_MAX],
-        ]);
+        'filter' => ['name' => $name],
+        'page' => ['size' => PHP_INT_MAX],
+    ]);
 
     $route = route('api.v1.administrative.teams.questionnaires.users.index', ['questionnaireTeam' => $hashedTeamQuestionnaireId]).$query;
     $response = getJson($route);
@@ -227,9 +227,9 @@ test('can filter records by user email', function () {
     $email = $team->users->first()->email;
 
     $query = '?'.http_build_query([
-            'filter' => ['name' => $email],
-            'page' => ['size' => PHP_INT_MAX],
-        ]);
+        'filter' => ['name' => $email],
+        'page' => ['size' => PHP_INT_MAX],
+    ]);
 
     $route = route('api.v1.administrative.teams.questionnaires.users.index', ['questionnaireTeam' => $hashedTeamQuestionnaireId]).$query;
     $response = getJson($route);

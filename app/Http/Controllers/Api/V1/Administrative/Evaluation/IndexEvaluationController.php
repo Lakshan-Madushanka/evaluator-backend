@@ -25,6 +25,7 @@ class IndexEvaluationController
                 AllowedFilter::custom('marks_percentage', new BetweenFilter),
                 AllowedFilter::callback('uq_id', function (Builder $query, $value) {
                     $id = Hashids::decode($value)[0] ?? null;
+
                     return $query->where('user_questionnaire_id', $id);
                 }),
             ])

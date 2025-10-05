@@ -43,9 +43,9 @@ class IndexUserController extends Controller
             ])
             ->allowedFilters([
                 AllowedFilter::callback('name', function (Builder $query, $value) {
-                   return $query->whereHas('user', function (Builder $query) use ($value) {
-                     return $query->where('name', 'LIKE', "%{$value}%");
-                   });
+                    return $query->whereHas('user', function (Builder $query) use ($value) {
+                        return $query->where('name', 'LIKE', "%{$value}%");
+                    });
                 }),
                 AllowedFilter::callback('email', function (Builder $query, $value) {
                     return $query->whereHas('user', function (Builder $query) use ($value) {
