@@ -62,7 +62,7 @@ class Team extends Model
     {
         return $this
             ->belongsToMany(Questionnaire::class)
-            ->withPivot('id')
+            ->withPivot(['id'])
             ->withTimestamps();
     }
 
