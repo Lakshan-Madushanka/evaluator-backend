@@ -163,6 +163,28 @@ test('can filter evaluations by marks percentage', function () {
         });
 })->group('administrative/evaluations/index');
 
+test('can filter evaluations by user_questionnaire_id', function () {
+    Sanctum::actingAs(UserRepository::getRandomUser(Role::SUPER_ADMIN));
+
+    $evaluation = Evaluation::query()->inRandomOrder()->first();
+
+    $hashedUqId = \Vinkla\Hashids\Facades\Hashids::encode($evaluation->user_questionnaire_id);
+
+    $query = http_build_query([
+        'filter[uq_id]' => $hashedUqId,
+    ]);
+
+    $response = json('GET', $this->route.'?'.$query);
+    $response->assertOk();
+
+    $results = $response->decodeResponseJson()['data'];
+
+    collect($results)->pluck('attributes.user_questionnaire_id')
+        ->each(function (string $id) use ($hashedUqId) {
+            expect($id)->toBe($hashedUqId);
+        });
+})->group('administrative/evaluations/index');
+
 test('can sort evaluations by time taken', function () {
     Sanctum::actingAs(UserRepository::getRandomUser(Role::SUPER_ADMIN));
 

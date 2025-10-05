@@ -6,10 +6,12 @@ use App\Http\Filters\BetweenFilter;
 use App\Http\Resources\EvaluationResource;
 use App\Models\Evaluation;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\AllowedSort;
 use Spatie\QueryBuilder\QueryBuilder;
 use TiMacDonald\JsonApi\JsonApiResourceCollection;
+use Vinkla\Hashids\Facades\Hashids;
 
 class IndexEvaluationController
 {
@@ -21,6 +23,10 @@ class IndexEvaluationController
                 AllowedFilter::scope('questionnaire', 'filterByQuestionnaireId'),
                 AllowedFilter::scope('user_questionnaire', 'filterByUserQuestionnaire'),
                 AllowedFilter::custom('marks_percentage', new BetweenFilter),
+                AllowedFilter::callback('uq_id', function (Builder $query, $value) {
+                    $id = Hashids::decode($value)[0] ?? null;
+                    return $query->where('user_questionnaire_id', $id);
+                }),
             ])
             ->defaultSort('-id')
             ->allowedSorts(

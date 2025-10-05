@@ -7,6 +7,7 @@ use Hashids;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use TiMacDonald\JsonApi\JsonApiResource;
+use Vinkla\Hashids\Facades\Hashids;
 
 /**
  * @mixin Evaluation
@@ -18,6 +19,7 @@ class EvaluationResource extends JsonApiResource
         $marksPercentage = round($this->marks_percentage, 2);
 
         $attributes = [
+            'user_questionnaire_id' => Hashids::encode($this->user_questionnaire_id),
             'marks_percentage' => $marksPercentage,
             'total_points_earned' => $this->total_points_earned,
             'total_points_allocated' => $this->total_points_allocated,
