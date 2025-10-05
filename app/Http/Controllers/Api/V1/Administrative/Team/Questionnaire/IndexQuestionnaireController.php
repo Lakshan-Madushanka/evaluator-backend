@@ -27,19 +27,20 @@ class IndexQuestionnaireController extends Controller
                 ->addSelect(['total_users' => UserQuestionnaire::query()
                     ->selectRaw('COUNT(1)')
                     ->whereColumn('questionnaire_team.id', 'user_questionnaire.questionnaire_team_id')
-                    ->limit(1)
+                    ->limit(1),
                 ])
                 ->addSelect(['attempted_users_count' => UserQuestionnaire::query()
                     ->selectRaw('COUNT(1)')
                     ->whereColumn('questionnaire_team.id', 'user_questionnaire.questionnaire_team_id')
                     ->where('attempts', '>', 0)
-                    ->limit(1)
+                    ->limit(1),
                 ])
         )
             ->allowedFilters([
                 AllowedFilter::callback('id', function (Builder $query, $value) {
                     $id = Hashids::decode($value)[0] ?? null;
-                    return $query->where((new Questionnaire())->qualifyColumn('id'), $id);
+
+                    return $query->where((new Questionnaire)->qualifyColumn('id'), $id);
                 }),
                 'name',
             ])

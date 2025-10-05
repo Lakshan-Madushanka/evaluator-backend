@@ -55,12 +55,12 @@ test('can paginate user records', function () {
 
     $team = TeamRepository::createTeamsWithQuestionnaires(5);
 
-    $query = '?' . http_build_query(['page' => ['size' => 1]]);
+    $query = '?'.http_build_query(['page' => ['size' => 1]]);
 
-    $response = getJson(route('api.v1.administrative.teams.questionnaires.index', ['team' => $team->hash_id]) . $query);
+    $response = getJson(route('api.v1.administrative.teams.questionnaires.index', ['team' => $team->hash_id]).$query);
     $response->assertOk();
 
-    $response->assertJson(fn(AssertableJson $json) => $json->has('data', 1)
+    $response->assertJson(fn (AssertableJson $json) => $json->has('data', 1)
         ->hasAll(['links', 'meta', 'meta.current_page'])
         ->etc());
 
@@ -77,13 +77,13 @@ test('can filter questionnaires by name', function () {
     $questionnaire = Questionnaire::factory()->create(['name' => $name]);
     $team->questionnaires()->attach([$questionnaire->id]);
 
-    $query = '?' . http_build_query([
-            'filter' => ['name' => 'test'],
-            'sort' => 'created_at',
-            'page' => ['size' => PHP_INT_MAX],
-        ]);
+    $query = '?'.http_build_query([
+        'filter' => ['name' => 'test'],
+        'sort' => 'created_at',
+        'page' => ['size' => PHP_INT_MAX],
+    ]);
 
-    $response = getJson(route('api.v1.administrative.teams.questionnaires.index', ['team' => $team->hash_id]) . $query);
+    $response = getJson(route('api.v1.administrative.teams.questionnaires.index', ['team' => $team->hash_id]).$query);
     $response->assertOk();
 
     $data = $response->json('data');
