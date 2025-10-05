@@ -24,9 +24,13 @@ class IndexUserController extends Controller
     {
         $markSort = AllowedSort::custom('marks', new MarkSort)->defaultDirection(SortDirection::DESCENDING);
 
-        $questionnaires = QueryBuilder::for($questionnaireTeam->users()->with('evaluation'))
+        $questionnaires = QueryBuilder::for($questionnaireTeam
+            ->users()
+            ->with(['evaluation', 'user'])
+        )
             ->select([
                 'user_questionnaire.id',
+                'user_questionnaire.user_id',
                 'user_questionnaire.questionnaire_team_id',
                 'user_questionnaire.id as userQuestionnaireId',
                 'user_questionnaire.code',
@@ -38,6 +42,16 @@ class IndexUserController extends Controller
                 'user_questionnaire.created_at',
             ])
             ->allowedFilters([
+                AllowedFilter::callback('name', function (Builder $query, $value) {
+                   return $query->whereHas('user', function (Builder $query) use ($value) {
+                     return $query->where('name', 'LIKE', "%{$value}%");
+                   });
+                }),
+                AllowedFilter::callback('email', function (Builder $query, $value) {
+                    return $query->whereHas('user', function (Builder $query) use ($value) {
+                        return $query->where('email', 'LIKE', "%{$value}%");
+                    });
+                }),
                 AllowedFilter::callback('attempted', function (Builder $query, $value) {
                     if (Helpers::checkValueIsTrue($value)) {
                         return $query->where('user_questionnaire.attempts', '>', 0);

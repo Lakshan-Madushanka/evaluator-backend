@@ -6,6 +6,7 @@ use App\Models\Concerns\HasHashids;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
@@ -109,6 +110,11 @@ class UserQuestionnaire extends Model
     public function evaluation(): HasOne
     {
         return $this->hasOne(Evaluation::class, foreignKey: 'user_questionnaire_id');
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 
     // -------------------------End of Relationships----------------------------
