@@ -2,9 +2,11 @@
 
 use App\Enums\Role;
 use App\Models\User;
+use App\Models\UserQuestionnaire;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Laravel\Sanctum\Sanctum;
 use Tests\Repositories\UserRepository;
+use Vinkla\Hashids\Facades\Hashids;
 
 use function Pest\Laravel\getJson;
 
@@ -74,4 +76,62 @@ test('can filter records by expired status', function () {
         expect(\Carbon\Carbon::parse($expiredAt)->gte(now()))->toBeTrue();
     });
     $response->assertOk();
+})->group('administrative/users/questionnaires/index');
+
+test('can filter records by user_questionnaire_id', function () {
+    Sanctum::actingAs(UserRepository::getRandomUser(Role::SUPER_ADMIN));
+
+    config(['json-api-paginate.max_results' => PHP_INT_MAX]);
+
+    $user = User::whereHas('questionnaires')->first();
+
+    $questionnaire = $user->questionnaires->first();
+
+    $uq = UserQuestionnaire::query()
+        ->where('user_id', $questionnaire->pivot['user_id'])
+        ->where('questionnaire_id', $questionnaire->pivot['questionnaire_id'])
+        ->first();
+
+    $hashedUqId = $uq->hash_id;
+
+    $query = '?'.http_build_query([
+            'filter' => ['uq_id' => $hashedUqId],
+            'page' => ['size' => PHP_INT_MAX],
+        ]);
+
+    $route = route('api.v1.administrative.users.questionnaires.index', ['user' => $user?->hash_id]).$query;
+    $response = getJson($route);
+
+    $results = $response->decodeResponseJson()['data'];
+    $attributes = collect($results)->pluck('attributes');
+
+    $attributes->each(function ($attr) use($hashedUqId) {
+        expect($attr['user_questionnaire_id'])->toBe($hashedUqId);
+    });
+    $response->assertOk();
+})->group('administrative/users/questionnaires/index');
+
+test('can filter records by questionnaire id', function () {
+    Sanctum::actingAs(UserRepository::getRandomUser(Role::SUPER_ADMIN));
+
+    config(['json-api-paginate.max_results' => PHP_INT_MAX]);
+
+    $user = User::whereHas('questionnaires')->first();
+
+    $questionnaire = $user->questionnaires->first();
+
+    $query = '?'.http_build_query([
+            'filter' => ['id' => $questionnaire->hash_id],
+            'page' => ['size' => PHP_INT_MAX],
+        ]);
+
+    $route = route('api.v1.administrative.users.questionnaires.index', ['user' => $user?->hash_id]).$query;
+    $response = getJson($route);
+    $response->assertOk();
+
+    $results = $response->decodeResponseJson()['data'];
+
+    foreach ($results as $result) {
+        expect($result['id'])->toBe($questionnaire->hash_id);
+    }
 })->group('administrative/users/questionnaires/index');
