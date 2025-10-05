@@ -3,7 +3,6 @@
 namespace App\Http\Resources;
 
 use App\Models\Evaluation;
-use Hashids;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use TiMacDonald\JsonApi\JsonApiResource;
