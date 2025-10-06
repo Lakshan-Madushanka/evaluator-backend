@@ -401,17 +401,18 @@ class Data
         DB::table('answers')->insert($answers);
         DB::table('question_answer')->insert($questionAnswers);
 
-        self::createQuestionnaire();
+        self::createQuestionnaire('PHP Advance', 20);
+        self::createQuestionnaire('PHP Medium', 10);
     }
 
-    private static function createQuestionnaire(): void
+    private static function createQuestionnaire(string $name, int $noOfQuestions): void
     {
         $questionnaire = Questionnaire::create([
-            'name' => 'PHP Random MCQ',
+            'name' => $name,
             'difficulty' => 1, // Easy
             'single_answers_type' => true,
-            'no_of_questions' => 20,
-            'no_of_easy_questions' => 20,
+            'no_of_questions' => $noOfQuestions,
+            'no_of_easy_questions' => $noOfQuestions,
             'no_of_medium_questions' => 0,
             'no_of_hard_questions' => 0,
             'allocated_time' => 30, // 30 minutes
@@ -421,7 +422,7 @@ class Data
 
         $questionnaire->categories()->attach($categories);
 
-        $randomQuestions = Arr::random(Data::$questions, 20);
+        $randomQuestions = Arr::random(Data::$questions, $noOfQuestions);
 
         foreach ($randomQuestions as $index => $questionData) {
             $question = Question::where('text', $questionData['question'])->first();
