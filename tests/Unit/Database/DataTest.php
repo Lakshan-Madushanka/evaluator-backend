@@ -22,5 +22,5 @@ it('can build questions', function () {
     assertDatabaseCount((new Question)->getTable(), 29);
     assertDatabaseCount((new Answer)->getTable(), 116);
     assertDatabaseCount((new Category)->getTable(), 2);
-    assertDatabaseCount('categorizables', 60);
+    assertDatabaseCount('categorizables', 62);
 });

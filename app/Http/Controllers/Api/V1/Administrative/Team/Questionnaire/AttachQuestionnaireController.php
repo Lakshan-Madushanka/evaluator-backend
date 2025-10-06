@@ -30,8 +30,6 @@ class AttachQuestionnaireController extends Controller
 
             $questionnaireId = $questionnaireService->decodeId($questionnaireId);
 
-            ['code' => $code, 'expires_at' => $expiresAt] = $questionnaireService->getAttributes($questionnaire);
-
             $team->questionnaires()->attach($questionnaire);
 
             $teamQuestionnaire = \DB::table('questionnaire_team')
@@ -49,6 +47,8 @@ class AttachQuestionnaireController extends Controller
             $userQuestionnaireRecords = [];
 
             foreach ($users as $user) {
+                ['code' => $code, 'expires_at' => $expiresAt] = $questionnaireService->getAttributes($questionnaire);
+
                 $userQuestionnaireRecords[] = [
                     'questionnaire_team_id' => $teamQuestionnaire->id,
                     'user_id' => $user->id,

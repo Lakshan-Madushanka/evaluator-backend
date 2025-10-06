@@ -46,9 +46,9 @@ class TeamRepository
 
         $questionnaireService = app(QuestionnaireService::class);
 
-        ['code' => $code, 'expires_at' => $expiresAt] = $questionnaireService->getAttributes($questionnaire);
-
         foreach ($users as $user) {
+            ['code' => $code, 'expires_at' => $expiresAt] = $questionnaireService->getAttributes($questionnaire);
+
             UserQuestionnaire::create([
                 'questionnaire_team_id' => $teamQuestionnaire->id,
                 'user_id' => $user->id,

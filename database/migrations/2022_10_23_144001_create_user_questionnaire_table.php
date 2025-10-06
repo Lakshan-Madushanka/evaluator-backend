@@ -20,7 +20,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
 
             $table->tinyInteger('attempts')->default(0);
-            $table->string('code', 50)->nullable();
+            $table->string('code')->unique();
             $table->timestamp('started_at')->nullable();
             $table->timestamp('finished_at')->nullable();
             $table->timestamp('expires_at');
