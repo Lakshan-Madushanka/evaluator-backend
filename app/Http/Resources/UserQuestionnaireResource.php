@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use App\Models\Question;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use TiMacDonald\JsonApi\JsonApiResource;
 use Vinkla\Hashids\Facades\Hashids;
 
@@ -24,7 +25,7 @@ class UserQuestionnaireResource extends JsonApiResource
             'expires_at' => $this->expires_at,
             'started_at' => $this->started_at,
             'finished_at' => $this->finished_at,
-            'created_at' => $this->created_at,
+            'created_at' => Carbon::parse($this->user_questionnaire_created_at),
         ];
 
         if (isset($this->answers)) {

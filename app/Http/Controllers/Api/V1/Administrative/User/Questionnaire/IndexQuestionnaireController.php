@@ -33,8 +33,8 @@ class IndexQuestionnaireController extends Controller
                 'user_questionnaire.finished_at',
                 'user_questionnaire.attempts',
                 'user_questionnaire.expires_at',
-                'user_questionnaire.updated_at',
-                'user_questionnaire.created_at',
+                'user_questionnaire.updated_at as user_questionnaire_updated_at',
+                'user_questionnaire.created_at as user_questionnaire_created_at',
             ])
             ->allowedFilters([
                 AllowedFilter::callback('uq_id', function (Builder $query, $value) {
@@ -67,7 +67,7 @@ class IndexQuestionnaireController extends Controller
                 AllowedSort::field('created_at', 'user_questionnaire.created_at'),
             ])
             ->jsonPaginate();
-
+        
         return UserQuestionnaireResource::collection($questionnaires);
     }
 }

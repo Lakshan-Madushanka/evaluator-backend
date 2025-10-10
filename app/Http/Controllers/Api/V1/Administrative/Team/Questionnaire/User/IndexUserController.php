@@ -38,8 +38,8 @@ class IndexUserController extends Controller
                 'user_questionnaire.finished_at',
                 'user_questionnaire.attempts',
                 'user_questionnaire.expires_at',
-                'user_questionnaire.updated_at',
-                'user_questionnaire.created_at',
+                'user_questionnaire.updated_at as user_questionnaire_updated_at',
+                'user_questionnaire.created_at as user_questionnaire_created_at',
             ])
             ->allowedFilters([
                 AllowedFilter::callback('name', function (Builder $query, $value) {
