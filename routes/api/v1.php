@@ -39,6 +39,7 @@ use App\Http\Controllers\Api\V1\Administrative\Questionnaire\UpdateQuestionnaire
 use App\Http\Controllers\Api\V1\Administrative\Team\DeleteTeamController;
 use App\Http\Controllers\Api\V1\Administrative\Team\IndexTeamController;
 use App\Http\Controllers\Api\V1\Administrative\Team\Questionnaire\AttachQuestionnaireController as AttachTeamQuestionnaireController;
+use App\Http\Controllers\Api\V1\Administrative\Team\Questionnaire\DetachQuestionnaireController as DetachTeamQuestionnaireController;
 use App\Http\Controllers\Api\V1\Administrative\Team\Questionnaire\IndexQuestionnaireController as IndexTeamQuestionnaireController;
 use App\Http\Controllers\Api\V1\Administrative\Team\Questionnaire\User\IndexUserController as IndexTeamQuestionnaireUserController;
 use App\Http\Controllers\Api\V1\Administrative\Team\ShowTeamController;
@@ -148,6 +149,7 @@ Route::prefix('administrative')->name('administrative.')->group(function () {
          */
         Route::get('{team}/questionnaires', IndexTeamQuestionnaireController::class)->name('questionnaires.index');
         Route::post('{team}/questionnaires/{questionnaireId}/attach', AttachTeamQuestionnaireController::class)->name('questionnaires.attach');
+        Route::delete('{team}/questionnaires/{questionnaire}/detach', DetachTeamQuestionnaireController::class)->name('questionnaires.detach');
 
         // Users
         Route::get('questionnaires/{questionnaireTeam}/users', IndexTeamQuestionnaireUserController::class)->name('questionnaires.users.index');
