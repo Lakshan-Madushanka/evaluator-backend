@@ -29,7 +29,6 @@ class DetachQuestionnaireController extends Controller
                 ['user_id', '=', $user->id],
             ])->firstOrFail();
 
-        //        dd($questionnaire->toArray());
         if ($questionnaire->attempts > 0) {
             throw ValidationException::withMessages(['user_questionnaire' => __('can not detach already attempted questionnaire')]);
         }
