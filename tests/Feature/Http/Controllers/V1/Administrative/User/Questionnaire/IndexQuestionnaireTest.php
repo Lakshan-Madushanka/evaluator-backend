@@ -31,6 +31,7 @@ test('admin can obtain all user questionnaires', function () {
     $user = UserRepository::getRandomUser();
 
     $response = getJson(route('api.v1.administrative.users.questionnaires.index', ['user' => $user->hash_id]));
+
     $response->assertOk();
 })->group('administrative/users/questionnaires/index');
 
